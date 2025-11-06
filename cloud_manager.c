@@ -47,7 +47,7 @@ void *cloud_manager_thread(void *arg){
             }
             cur = cur->next;
             sbuffer_node_t *node;
-            while((node = sbuffer_find_for_cloud(&sbuffer)) != NULL) {
+            while((node = sbuffer_find_for_cloud(&sbuffer)) != NULL){
                 sbuffer_mark_upcloud_done(&sbuffer, node);
             }
         }

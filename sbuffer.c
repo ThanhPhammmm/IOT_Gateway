@@ -29,7 +29,7 @@ static inline int sbuffer_wait_until_data(sbuffer_t *b){
 
 void sbuffer_insert(sbuffer_t *b, sensor_packet_t *pkt){
     sbuffer_node_t *n = calloc(1, sizeof(*n));
-    if (!n) return;
+    if(!n) return;
 
     n->pkt = *pkt;
     n->pkt.ts = time(NULL);
@@ -37,7 +37,7 @@ void sbuffer_insert(sbuffer_t *b, sensor_packet_t *pkt){
     n->next = NULL;
 
     pthread_mutex_lock(&b->mutex);
-    if (b->tail)
+    if(b->tail)
         b->tail->next = n;
     else
         b->head = n;
@@ -51,7 +51,7 @@ void sbuffer_insert(sbuffer_t *b, sensor_packet_t *pkt){
  * =========================== */
 
 static sbuffer_node_t *sbuffer_find_generic(sbuffer_t *b,
-        int (*predicate)(sbuffer_node_t *)){
+        int(*predicate)(sbuffer_node_t *)){
 
     pthread_mutex_lock(&b->mutex);
 
@@ -133,10 +133,11 @@ void sbuffer_mark_upcloud_done(sbuffer_t *b, sbuffer_node_t *node){
         sbuffer_node_t *prev = NULL, *cur = b->head;
         while(cur){
             if(cur == node){
-                if (prev) prev->next = cur->next;
+                if(prev) prev->next = cur->next;
                 else b->head = cur->next;
-                if (b->tail == cur) b->tail = prev;
+                if(b->tail == cur) b->tail = prev;
                 free(cur);
+                printf("FREE\n");
                 break;
             }
             prev = cur;
