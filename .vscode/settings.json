@@ -1,0 +1,31 @@
+{
+    "files.associations": {
+        "in.h": "c",
+        "stdlib.h": "c",
+        "pthread.h": "c",
+        "stdint.h": "c",
+        "types.h": "c",
+        "time.h": "c",
+        "connection_manager.h": "c",
+        "fcntl.h": "c",
+        "socket.h": "c",
+        "errno.h": "c",
+        "utilities.h": "c",
+        "stdio.h": "c",
+        "client_thread.h": "c",
+        "sbuffer.h": "c",
+        "unistd.h": "c",
+        "stat.h": "c",
+        "main.h": "c",
+        "wait.h": "c",
+        "data_manager.h": "c",
+        "inet.h": "c",
+        "signal.h": "c",
+        "sqlite3.h": "c",
+        "storage_manager.h": "c",
+        "logger.h": "c",
+        "database.h": "c",
+        "mosquitto.h": "c",
+        "cloud_manager.h": "c"
+    }
+}
