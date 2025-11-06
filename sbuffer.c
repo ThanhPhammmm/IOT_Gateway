@@ -41,8 +41,7 @@ void sbuffer_insert(sbuffer_t *b, sensor_packet_t *pkt){
     pthread_mutex_unlock(&b->mutex);
 }
 
-// find first node not yet processed by storage; returns pointer (do NOT remove).
-// Blocks until such node exists or stop_flag set.
+
 sbuffer_node_t* sbuffer_find_for_storage(sbuffer_t *b){
     pthread_mutex_lock(&b->mutex);
     while(!stop_flag){
@@ -94,7 +93,6 @@ void sbuffer_mark_data_done(sbuffer_t *b, sbuffer_node_t *node){
         node->refcount--;   
         // if refcount==0 -> remove & free
         if(node->refcount <= 0){
-            printf("2.DATA\n");
             sbuffer_node_t *prev = NULL, *cur = b->head;
             while(cur){
                 if(cur == node){
