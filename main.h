@@ -26,6 +26,7 @@
 #include <sys/wait.h>
 #include <sqlite3.h>
 #include <mosquitto.h>
+#include <poll.h>
 
 typedef enum {
     SENSOR_TEMPERATURE = 1,
@@ -34,17 +35,18 @@ typedef enum {
 } sensor_type_t;
 
 typedef struct {
-    int id;
-    int type;
+    uint8_t id;
+    uint8_t type;
     double value;
     time_t ts;
 } sensor_packet_t;
 
 typedef struct sbuffer_node {
     sensor_packet_t pkt;
-    int refcount; 
-    int processed_by_data;
-    int processed_by_storage;
+    uint8_t refcount; 
+    uint8_t processed_by_data;
+    uint8_t processed_by_storage;
+    uint8_t processed_by_cloud;
     struct sbuffer_node *next;
 } sbuffer_node_t;
 
@@ -56,24 +58,24 @@ typedef struct {
 } sbuffer_t;
 
 typedef struct {
-    int client_fd;
+    uint8_t client_fd;
     struct sockaddr_in addr;
 } client_info_t;
 
 // --- per-sensor running average table (linked list) ---
 typedef struct sensor_stat {
-    int id;
-    int type;
+    uint8_t id;
+    uint8_t type;
     double avg;
     unsigned long count;
     struct sensor_stat *next;
 } sensor_stat_t;
 
 typedef struct {
-    int id;
+    uint8_t id;
     const char *token;
     struct mosquitto *mosq;
-    int connected;
+    uint8_t connected;
 } cloud_client_t;
 
 #endif

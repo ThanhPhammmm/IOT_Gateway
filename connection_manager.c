@@ -1,8 +1,9 @@
 #include "connection_manager.h"
 #include "client_thread.h"
+#include "logger.h"
 
 void *connection_manager_thread(void *arg){
-    printf("Connection manager thread started\n");
+    log_event("[CONNECTION] Connection manager thread started\n");
 
     int port = *(int*)arg;
 
@@ -34,7 +35,7 @@ void *connection_manager_thread(void *arg){
         close(server_fd);
         exit(EXIT_FAILURE);
     }
-    printf("Connection manager: listening on port %d\n", port);
+    log_event("[CONNECTION] Connection manager: listening on port %d\n", port);
 
     while(!stop_flag){
         fd_set fds;
@@ -68,6 +69,6 @@ void *connection_manager_thread(void *arg){
     }
 
     close(server_fd);
-    printf("Connection manager thread exiting\n");
+    log_event("[CONNECTION] Connection manager thread exiting\n");
     return NULL;
 }

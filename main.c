@@ -48,7 +48,7 @@ int main(int argc, char ** argv){
     }
 
     sbuffer_init(&sbuffer);
-
+    printf("[MAIN] Started System ...\n");
     pthread_t connection_thread, data_thread, storage_thread, cloud_thread;
     
     pthread_create(&connection_thread, NULL, connection_manager_thread, &port);
@@ -56,12 +56,11 @@ int main(int argc, char ** argv){
     pthread_create(&storage_thread, NULL, storage_manager_thread, NULL);
     pthread_create(&cloud_thread, NULL, cloud_manager_thread, NULL);
 
-
     pthread_join(connection_thread, NULL);
     pthread_join(data_thread, NULL);
     pthread_join(storage_thread, NULL);
     pthread_join(cloud_thread, NULL);
-
+    
     sbuffer_free_all(&sbuffer);
     stats_free_all();
 
@@ -70,7 +69,7 @@ int main(int argc, char ** argv){
     kill(logger_pid, SIGTERM);
     waitpid(logger_pid, NULL, 0);
 
-    printf("Gateway shutdown cleanly.\n");
+    log_event("Gateway shutdown cleanly.\n");
 
     return 0;
 }

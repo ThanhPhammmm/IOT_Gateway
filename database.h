@@ -6,6 +6,6 @@
 extern sbuffer_t sbuffer;
 
 int db_init_and_open(sqlite3 **out_db);
-int db_insert_measure(sqlite3 *db, sensor_packet_t *pkt);
+int db_insert_measure(sqlite3_stmt *stmt, const sensor_packet_t *pkt);
 
 #endif

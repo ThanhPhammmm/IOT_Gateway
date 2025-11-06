@@ -37,7 +37,7 @@ void *client_thread_func(void *arg){
             if(parsed == 3){
                 if(first_id == -1){
                     first_id = sensor_id;
-                    log_event("A sensor node with ID:%d from %s:%d has opened a new connection", first_id, inet_ntoa(ci->addr.sin_addr), ntohs(ci->addr.sin_port));
+                    log_event("[CLIENT] A sensor node with ID:%d from %s:%d has opened a new connection", first_id, inet_ntoa(ci->addr.sin_addr), ntohs(ci->addr.sin_port));
                 }
                 sensor_packet_t pkt;
                 pkt.id = sensor_id;
@@ -45,12 +45,12 @@ void *client_thread_func(void *arg){
                 pkt.value = sensor_value;
                 pkt.ts = time(NULL);
                 
-                log_event("Received data with ID:%d type=%d val=%.2f from %s:%d", sensor_id, sensor_type, sensor_value, inet_ntoa(ci->addr.sin_addr), ntohs(ci->addr.sin_port));
+                log_event("[CLIENT] Received data with ID:%d type=%d val=%.2f from %s:%d", sensor_id, sensor_type, sensor_value, inet_ntoa(ci->addr.sin_addr), ntohs(ci->addr.sin_port));
 
                 sbuffer_insert(&sbuffer, &pkt);
             } 
             else{
-                log_event("Received sensor data with invalid sensor node ID or format");
+                log_event("[CLIENT] Received sensor data with invalid sensor node ID or format");
             }
             line_start = nl + 1;
         }
@@ -60,10 +60,10 @@ void *client_thread_func(void *arg){
         readbuf_len = leftover;
     }
     if(first_id != -1){
-        log_event("The sensor node with ID:%d from %s:%d has closed the connection", first_id, inet_ntoa(ci->addr.sin_addr), ntohs(ci->addr.sin_port));
+        log_event("[CLIENT] The sensor node with ID:%d from %s:%d has closed the connection", first_id, inet_ntoa(ci->addr.sin_addr), ntohs(ci->addr.sin_port));
     } 
     else{
-        log_event("A sensor node (unknown ID) has closed the connection");
+        log_event("[CLIENT] A sensor node (unknown ID) has closed the connection");
     }
 
     free(ci);

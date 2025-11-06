@@ -12,13 +12,13 @@ cloud_client_t *find_client_by_id(int id){
 
 void *cloud_manager_thread(void *arg){
     (void)arg;
-    printf("Cloud uploader thread started (multi-client persistent mode)\n");
+    log_event("[CLOUD] Cloud uploader thread started (multi-client persistent mode)\n");
     cloud_clients_init();
 
     while(!stop_flag){
         pthread_mutex_lock(&stats_mutex);
         sensor_stat_t *cur = stats_head;
-
+            
         while(cur){
             cloud_client_t *cli = find_client_by_id(cur->id);
             if(!cli->token || !cli->connected){
@@ -27,7 +27,7 @@ void *cloud_manager_thread(void *arg){
                 continue;
             }
             if(!cli->connected){
-                printf("[Cloud] Sensor %d not connected yet, skip\n", cur->id);
+                log_event("[Cloud] Sensor %d not connected yet, skip\n", cur->id);
                 cur = cur->next;
                 continue;
             }
@@ -46,13 +46,15 @@ void *cloud_manager_thread(void *arg){
                 usleep(100000);
             }
             cur = cur->next;
+            sbuffer_node_t *node;
+            while((node = sbuffer_find_for_cloud(&sbuffer)) != NULL) {
+                sbuffer_mark_upcloud_done(&sbuffer, node);
+            }
         }
-
         pthread_mutex_unlock(&stats_mutex);
         sleep(5);
     }
-
     cloud_clients_cleanup();
-    printf("Cloud uploader thread exiting\n");
+    log_event("[CLOUD] Cloud uploader thread exiting\n");
     return NULL;
 }

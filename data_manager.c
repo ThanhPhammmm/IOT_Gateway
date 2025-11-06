@@ -4,28 +4,24 @@
 #include "client_thread.h"
 
 void *data_manager_thread(void *arg){
-    printf("Data manager thread started\n");
+    log_event("[DATA] Data manager thread started\n");
     (void)arg;
     while(!stop_flag){
         // copy all nodes not yet processed_by_data
-        sensor_packet_t local_buf[128];
+        sensor_packet_t local_buf[1500];
         size_t local_count = 0;
 
-        //pthread_mutex_lock(&sbuffer.mutex);
-        sbuffer_node_t *cur = sbuffer.head;
-        while(cur){
-            if(!cur->processed_by_data){
-                // copy
-                if(local_count < sizeof(local_buf)/sizeof(local_buf[0])){
-                    local_buf[local_count++] = cur->pkt;
-                }
-                // mark processed_by_data and decrement refcount
-                sbuffer_mark_data_done(&sbuffer, cur);
+        sbuffer_node_t *cur;
+        while((cur = sbuffer_find_for_data(&sbuffer)) != NULL){
+            // copy
+            if(local_count < sizeof(local_buf)/sizeof(local_buf[0])){
+                local_buf[local_count++] = cur->pkt;
             }
-            cur = cur->next;
+            else{
+                break;
+            }
+            sbuffer_mark_data_done(&sbuffer, cur);
         }
-        cur = sbuffer.head;
-        
         // process local_buf
         for(size_t i = 0; i < local_count; ++i){
             sensor_packet_t *p = &local_buf[i];
@@ -78,6 +74,6 @@ void *data_manager_thread(void *arg){
         // small sleep to avoid busy-wait when no new data
         usleep(100 * 1000);
     }
-    printf("Data manager thread exiting\n");
+    log_event("[DATA] Data manager thread exiting\n");
     return NULL;
 }
