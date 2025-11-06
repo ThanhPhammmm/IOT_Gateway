@@ -1,8 +1,7 @@
 #include "database.h"
 
-// data manager will copy nodes that haven't been processed_by_data
-// Strategy: lock, traverse list, for each unprocessed_by_data mark processed_by_data=1 and decrement refcount (do NOT free here if refcount==0? we can free here)
-sensor_packet_t *data_copy_buffer = NULL; // temp dynamic buffer (we allocate per batch)
+
+sensor_packet_t *data_copy_buffer = NULL; 
 size_t data_copy_count = 0;
 
 int db_init_and_open(sqlite3 **out_db){
