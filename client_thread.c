@@ -2,109 +2,166 @@
 #include "sbuffer.h"
 #include "logger.h"
 
+#define READ_BUFFER_SIZE 1024
+#define RECV_BUFFER_SIZE 512
+
 void *client_thread_func(void *arg){
-    client_info_t *ci = (client_info_t*)arg;
-    int fd = ci->client_fd;
-
-    // read lines: "<id> <type> <value>\n"
-    char buf[512];
-    ssize_t n;
-    int first_id = -1;
-    char readbuf[1024];
-    size_t readbuf_len = 0;
-
+    client_info_t *client_info = (client_info_t*)arg;
+    int client_fd = client_info->client_fd;
+    char *client_ip = inet_ntoa(client_info->addr.sin_addr);
+    int client_port = ntohs(client_info->addr.sin_port);
+    
+    int first_sensor_id = -1;
+    char read_buffer[READ_BUFFER_SIZE];
+    size_t buffer_len = 0;
+    size_t packets_received = 0;
+    
+    // Main read loop
     while(!stop_flag){
-        n = read(fd, buf, sizeof(buf)-1);
-        if(n <= 0){
+        char recv_buf[RECV_BUFFER_SIZE];
+        ssize_t bytes_read = read(client_fd, recv_buf, sizeof(recv_buf) - 1);
+        
+        if(bytes_read <= 0){
+            // Connection closed or error
             break;
         }
-        // append to readbuf
-        if(readbuf_len + n >= sizeof(readbuf)-1){
-            readbuf_len = 0; // overflow -> reset
+        
+        // Check buffer overflow
+        if(buffer_len + bytes_read >= sizeof(read_buffer)){
+            log_event("[CLIENT] Buffer overflow for client %s:%d, resetting buffer", 
+                      client_ip, client_port);
+            buffer_len = 0;
         }
-        memcpy(readbuf + readbuf_len, buf, n);
-        readbuf_len += n;
-        readbuf[readbuf_len] = '\0';
-
-        // process lines
-        char *line_start = readbuf;
-        char *nl;
-        while((nl = memchr(line_start, '\n', (readbuf + readbuf_len) - line_start))){
-            *nl = '\0';
+        
+        // Append to read buffer
+        memcpy(read_buffer + buffer_len, recv_buf, bytes_read);
+        buffer_len += bytes_read;
+        read_buffer[buffer_len] = '\0';
+        
+        // Process complete lines
+        char *line_start = read_buffer;
+        char *newline;
+        
+        while((newline = memchr(line_start, '\n', (read_buffer + buffer_len) - line_start))) {
+            *newline = '\0';
+            
+            // Parse sensor data: "id type value"
             int sensor_id, sensor_type;
             double sensor_value;
             int parsed = sscanf(line_start, "%d %d %lf", &sensor_id, &sensor_type, &sensor_value);
+            
             if(parsed == 3){
-                if(first_id == -1){
-                    first_id = sensor_id;
-                    log_event("[CLIENT] A sensor node with ID:%d from %s:%d has opened a new connection", first_id, inet_ntoa(ci->addr.sin_addr), ntohs(ci->addr.sin_port));
+                // Log first connection
+                if(first_sensor_id == -1){
+                    first_sensor_id = sensor_id;
+                    log_event("[CLIENT] Sensor node ID %d from %s:%d opened new connection",
+                              first_sensor_id, client_ip, client_port);
                 }
-                sensor_packet_t pkt;
-                pkt.id = sensor_id;
-                pkt.type = sensor_type;
-                pkt.value = sensor_value;
-                pkt.ts = time(NULL);
                 
-                log_event("[CLIENT] Received data with ID:%d type=%d val=%.2f from %s:%d", sensor_id, sensor_type, sensor_value, inet_ntoa(ci->addr.sin_addr), ntohs(ci->addr.sin_port));
-
-                sbuffer_insert(&sbuffer, &pkt);
+                // Create packet
+                sensor_packet_t packet = {
+                    .id = sensor_id,
+                    .type = sensor_type,
+                    .value = sensor_value,
+                    .ts = time(NULL)
+                };
+                
+                // Insert into shared buffer
+                sbuffer_insert(&sbuffer, &packet);
+                packets_received++;
+                
+                log_event("[CLIENT] Received data ID %d type %d value %.2f from %s:%d",
+                          sensor_id, sensor_type, sensor_value, client_ip, client_port);
             } 
             else{
-                log_event("[CLIENT] Received sensor data with invalid sensor node ID or format");
+                log_event("[CLIENT] Invalid data format from %s:%d: '%s'",
+                          client_ip, client_port, line_start);
             }
-            line_start = nl + 1;
+            
+            line_start = newline + 1;
         }
-        // move leftover to beginning
-        size_t leftover = (readbuf + readbuf_len) - line_start;
-        memmove(readbuf, line_start, leftover);
-        readbuf_len = leftover;
+        
+        // Move leftover data to beginning
+        size_t leftover = (read_buffer + buffer_len) - line_start;
+        if(leftover > 0){
+            memmove(read_buffer, line_start, leftover);
+        }
+        buffer_len = leftover;
     }
-    if(first_id != -1){
-        log_event("[CLIENT] The sensor node with ID:%d from %s:%d has closed the connection", first_id, inet_ntoa(ci->addr.sin_addr), ntohs(ci->addr.sin_port));
+    
+    // Log disconnection
+    if(first_sensor_id != -1){
+        log_event("[CLIENT] Sensor node ID %d from %s:%d closed connection (%zu packets received)",
+                  first_sensor_id, client_ip, client_port, packets_received);
     } 
     else{
-        log_event("[CLIENT] A sensor node (unknown ID) has closed the connection");
+        log_event("[CLIENT] Unknown sensor from %s:%d closed connection (no valid data)",
+                  client_ip, client_port);
     }
-
-    free(ci);
-    close(fd);
+    
+    // Cleanup
+    close(client_fd);
+    free(client_info);
+    
     return NULL;
 }
 
 void update_running_avg(int id, int type, double val, double *out_avg){
     pthread_mutex_lock(&stats_mutex);
-    sensor_stat_t *cur = stats_head;
-    while(cur){
-        if(cur->id == id && cur->type == type)
+    
+    // Find existing stat entry
+    sensor_stat_t *stat = stats_head;
+    while(stat){
+        if(stat->id == id && stat->type == type){
             break;
-        cur = cur->next;
+        }
+        stat = stat->next;
     }
-    if(!cur){
-        cur = calloc(1, sizeof(*cur));
-        if(!cur){
+    
+    // Create new entry if not found
+    if(!stat){
+        stat = malloc(sizeof(sensor_stat_t));
+        if(!stat){
+            log_event("[STATS] Memory allocation failed for sensor %d type %d", id, type);
             pthread_mutex_unlock(&stats_mutex);
-            fprintf(stderr, "Memory allocation failed in update_running_avg\n");
             return;
         }
-        cur->id = id;
-        cur->type = type;
-        cur->avg = 0.0;
-        cur->count = 0;
-        cur->next = stats_head;
-        stats_head = cur;
+        
+        stat->id = id;
+        stat->type = type;
+        stat->avg = 0.0;
+        stat->count = 0;
+        stat->next = stats_head;
+        stats_head = stat;
     }
-    cur->avg = (cur->avg * (double)cur->count + val) / (double)(cur->count + 1);
-    cur->count++;
-    if(out_avg) *out_avg = cur->avg;
+    
+    // Update running average
+    stat->avg = (stat->avg * stat->count + val) / (stat->count + 1);
+    stat->count++;
+    
+    if(out_avg){
+        *out_avg = stat->avg;
+    }
+    
     pthread_mutex_unlock(&stats_mutex);
 }
 
-void stats_free_all(){
-    sensor_stat_t *n = stats_head;
-    while(n){
-        sensor_stat_t *nx = n->next;
-        free(n);
-        n = nx;
+void stats_free_all(void){
+    pthread_mutex_lock(&stats_mutex);
+    
+    sensor_stat_t *stat = stats_head;
+    size_t freed_count = 0;
+    
+    while(stat){
+        sensor_stat_t *next = stat->next;
+        free(stat);
+        stat = next;
+        freed_count++;
     }
+    
     stats_head = NULL;
+    
+    pthread_mutex_unlock(&stats_mutex);
+    
+    log_event("[STATS] Freed %zu sensor statistics entries", freed_count);
 }
