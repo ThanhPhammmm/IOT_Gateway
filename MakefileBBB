@@ -1,0 +1,21 @@
+CC = gcc
+CFLAGS = -Wall -O2
+
+SRCS = main.c utilities.c connection_manager.c sbuffer.c storage_manager.c cloud_manager.c cloud_uploader.c database.c logger.c client_thread.c data_manager.c
+OBJS = $(SRCS:.c=.o)
+
+TARGET = bbb_gateway
+
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $(OBJS) -lpthread -lsqlite3 -lmosquitto
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	rm -f $(OBJS) $(TARGET)
+
+.PHONY: all clean
+
