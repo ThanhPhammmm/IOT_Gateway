@@ -42,7 +42,7 @@ void *client_thread_func(void *arg){
         char *line_start = read_buffer;
         char *newline;
         
-        while((newline = memchr(line_start, '\n', (read_buffer + buffer_len) - line_start))) {
+        while((newline = memchr(line_start, '\n', (read_buffer + buffer_len) - line_start))){
             *newline = '\0';
             
             // Parse sensor data: "id type value"
