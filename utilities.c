@@ -6,28 +6,33 @@ void sigint_handler(int sig){
     pthread_cond_broadcast(&sbuffer.cond);
 
     int fd = open(fifo_path, O_WRONLY | O_NONBLOCK);
-    if(fd >= 0) {
+    if(fd >= 0){
         static const char msg[] = "shutdown\n";
-        ssize_t n = write(fd, msg, sizeof(msg) - 1);
-        if(n < 0) {
-            perror("[SIGINT] write to FIFO failed");
-        }
+        write(fd, msg, sizeof(msg) - 1); // Ignore errors in signal handler
         close(fd);
-    } else {
-        perror("[SIGINT] open FIFO failed");
     }
 
-    fprintf(stderr, "\n[MAIN] SIGINT received — shutting down gracefully...\n");
+    // Use write() instead of fprintf in signal handler (async-signal-safe)
+    static const char shutdown_msg[] = "\n[MAIN] SIGINT received — shutting down gracefully...\n";
+    write(STDERR_FILENO, shutdown_msg, sizeof(shutdown_msg) - 1);
 }
+
 void ensure_fifo_exists(void){
     struct stat st;
 
-    if(stat(fifo_path, &st) == -1) {
-        if(mkfifo(fifo_path, 0666) == -1 && errno != EEXIST) {
+    if(stat(fifo_path, &st) == 0){
+        // File exists - check if it's a FIFO
+        if(!S_ISFIFO(st.st_mode)){
+            static const char warn[] = "Warning: FIFO path exists but is not a FIFO\n";
+            write(STDERR_FILENO, warn, sizeof(warn) - 1);
+        }
+        return;
+    }
+
+    // File doesn't exist - create FIFO
+    if(errno == ENOENT){
+        if(mkfifo(fifo_path, 0666) == -1 && errno != EEXIST){
             perror("mkfifo");
         }
-    } 
-    else if(!S_ISFIFO(st.st_mode)) {
-        fprintf(stderr, "Warning: %s exists but is not a FIFO\n", fifo_path);
     }
 }

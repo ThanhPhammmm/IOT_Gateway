@@ -24,7 +24,7 @@ cloud_client_t clients[] = {
 
 struct mosquitto *mosq = NULL;
 
-int main(int argc, char ** argv){
+int main(int argc, char **argv){
     if(argc != 2){
         fprintf(stderr, "Usage: %s <port>\n", argv[0]);
         return 1;
@@ -34,21 +34,26 @@ int main(int argc, char ** argv){
     signal(SIGINT, sigint_handler);
     ensure_fifo_exists();
 
-    // fork logger
+    // Fork logger
     logger_pid = fork();
     
     if(logger_pid < 0){
         perror("fork");
         return 1;
     }
-    else if(logger_pid == 0){
-        // child: logger process
+    
+    if(logger_pid == 0){
+        // Child: logger process
         run_logger_process();
         exit(0);
     }
 
+    // Parent: main process
+    usleep(50000); // Wait 50ms for logger to initialize
+    
     sbuffer_init(&sbuffer);
-    printf("[MAIN] Started System ...\n");
+    log_event("[MAIN] Gateway system started on port %d", port);
+    
     pthread_t connection_thread, data_thread, storage_thread, cloud_thread;
     
     pthread_create(&connection_thread, NULL, connection_manager_thread, &port);
@@ -64,12 +69,13 @@ int main(int argc, char ** argv){
     sbuffer_free_all(&sbuffer);
     stats_free_all();
 
-    stop_flag = 1;
+    // Shutdown logger
+    if(logger_pid > 0){
+        kill(logger_pid, SIGTERM);
+        waitpid(logger_pid, NULL, 0);
+    }
 
-    kill(logger_pid, SIGTERM);
-    waitpid(logger_pid, NULL, 0);
-
-    log_event("Gateway shutdown cleanly.\n");
+    log_event("[MAIN] Gateway shutdown complete");
 
     return 0;
 }

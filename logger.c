@@ -8,77 +8,133 @@ void log_event(const char *fmt, ...){
     va_list ap;
 
     va_start(ap, fmt);
-    vsnprintf(buf, sizeof(buf), fmt, ap);
+    int len = vsnprintf(buf, sizeof(buf) - 1, fmt, ap);
     va_end(ap);
 
-    size_t len = strlen(buf);
-    if(len == 0) return;
+    if(len <= 0) return;
+    
+    // Ensure we have space for newline
+    if(len >= (int)sizeof(buf) - 1) len = sizeof(buf) - 2;
     buf[len++] = '\n';
 
     pthread_mutex_lock(&log_mutex);
 
-    // Try to open FIFO lazily if not yet open
+    // Lazy open FIFO
     if(log_fd == -1){
         log_fd = open(fifo_path, O_WRONLY | O_NONBLOCK);
         if(log_fd == -1){
-            // fallback to stderr
-            fprintf(stderr, "log fallback: %s\n", buf);
             pthread_mutex_unlock(&log_mutex);
+            write(STDERR_FILENO, "log fallback: ", 14);
+            write(STDERR_FILENO, buf, len);
             return;
         }
     }
+
     ssize_t w = write(log_fd, buf, len);
-    if(w < 0){
-        if(errno == EPIPE || errno == ENXIO){
-            // Logger closed or FIFO not ready — close and reset
-            close(log_fd);
-            log_fd = -1;
-            fprintf(stderr, "log fallback: %s\n", buf);
-        }
-        else{
-            perror("write fifo");
-        }
+    if(w < 0 && (errno == EPIPE || errno == ENXIO)){
+        close(log_fd);
+        log_fd = -1;
+        pthread_mutex_unlock(&log_mutex);
+        write(STDERR_FILENO, "log fallback: ", 14);
+        write(STDERR_FILENO, buf, len);
+        return;
     }
+
     pthread_mutex_unlock(&log_mutex);
 }
 
 void run_logger_process(){
-    // open FIFO for reading; if no writer yet, open blocks until writer opens.
-    // open in blocking mode and handle EOF by reopening.
     FILE *logf = fopen(LOG_FILE, "a");
     if(!logf){
         perror("fopen gateway.log");
         exit(EXIT_FAILURE);
     }
+    
+    setvbuf(logf, NULL, _IOLBF, 0);
+    
     int seq = 0;
+    char buf[4096];
+    static char leftover[256] = {0}; // Buffer for incomplete lines
+    size_t leftover_len = 0;
+    
     while(!stop_flag){
         int fd = open(fifo_path, O_RDONLY);
         if(fd == -1){
-            // maybe FIFO not present; sleep and retry
-            fprintf(stderr, "logger process failed\n");
             sleep(1);
             continue;
         }
-        // read loop
-        char buf[1024];
+
         ssize_t r;
-        while((r = read(fd, buf, sizeof(buf)-1)) > 0){
+        while((r = read(fd, buf, sizeof(buf) - 1)) > 0){
             buf[r] = '\0';
-            char *line = strtok(buf, "\n");
-            while(line){
-                time_t now = time(NULL);
-                struct tm tm;
-                localtime_r(&now, &tm);
-                char timestr[64];
-                strftime(timestr, sizeof(timestr), "%Y-%m-%d %H:%M:%S", &tm);
-                fprintf(logf, "%d %s %s\n", seq++, timestr, line);
-                fflush(logf);
-                line = strtok(NULL, "\n");
+            
+            // Get timestamp once per read
+            time_t now = time(NULL);
+            struct tm tm;
+            localtime_r(&now, &tm);
+            char timestr[32];
+            strftime(timestr, sizeof(timestr), "%Y-%m-%d %H:%M:%S", &tm);
+            
+            char *start = buf;
+            char *end = buf + r;
+            
+            // Process leftover from previous read
+            if(leftover_len > 0){
+                char *newline = strchr(start, '\n');
+                if(newline){
+                    *newline = '\0';
+                    fprintf(logf, "%d %s %s%s\n", seq++, timestr, leftover, start);
+                    start = newline + 1;
+                    leftover_len = 0;
+                } 
+                else{
+                    // Still no complete line, append to leftover
+                    size_t copy_len = (sizeof(leftover) - leftover_len - 1 < (size_t)r) 
+                                      ? sizeof(leftover) - leftover_len - 1 : (size_t)r;
+                    memcpy(leftover + leftover_len, start, copy_len);
+                    leftover_len += copy_len;
+                    leftover[leftover_len] = '\0';
+                    continue;
+                }
+            }
+            
+            // Process complete lines
+            while(start < end){
+                char *newline = memchr(start, '\n', end - start);
+                if(newline){
+                    *newline = '\0';
+                    if(start != newline){ // Skip empty lines
+                        fprintf(logf, "%d %s %s\n", seq++, timestr, start);
+                    }
+                    start = newline + 1;
+                } 
+                else{
+                    // Incomplete line - save to leftover
+                    leftover_len = end - start;
+                    if(leftover_len >= sizeof(leftover)){
+                        leftover_len = sizeof(leftover) - 1;
+                    }
+                    memcpy(leftover, start, leftover_len);
+                    leftover[leftover_len] = '\0';
+                    break;
+                }
             }
         }
+        
+        // Flush any remaining leftover when writer closes
+        if(leftover_len > 0){
+            time_t now = time(NULL);
+            struct tm tm;
+            localtime_r(&now, &tm);
+            char timestr[32];
+            strftime(timestr, sizeof(timestr), "%Y-%m-%d %H:%M:%S", &tm);
+            fprintf(logf, "%d %s %s\n", seq++, timestr, leftover);
+            leftover_len = 0;
+        }
+        
         close(fd);
-        // read returned 0 => all writers closed; loop to reopen
     }
+    
     fclose(logf);
     exit(0);
 }

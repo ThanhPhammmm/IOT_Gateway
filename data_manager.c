@@ -3,77 +3,114 @@
 #include "logger.h"
 #include "client_thread.h"
 
-void *data_manager_thread(void *arg){
-    log_event("[DATA] Data manager thread started\n");
-    (void)arg;
-    while(!stop_flag){
-        // copy all nodes not yet processed_by_data
-        sensor_packet_t local_buf[1500];
-        size_t local_count = 0;
 
-        sbuffer_node_t *cur;
-        while((cur = sbuffer_find_for_data(&sbuffer)) != NULL){
-            // copy
-            if(local_count < sizeof(local_buf)/sizeof(local_buf[0])){
-                local_buf[local_count++] = cur->pkt;
-            }
+
+// Helper: process temperature sensor
+static void process_temperature(int sensor_id, double avg){
+    if(avg >= TEMP_HOT){
+        log_event("[TEMP] Sensor %d reports it's too hot (avg = %.2f°C)", sensor_id, avg);
+    } 
+    else if (avg < TEMP_COLD){
+        log_event("[TEMP] Sensor %d reports it's too cold (avg = %.2f°C)", sensor_id, avg);
+    } 
+    else{
+        log_event("[TEMP] Sensor %d temperature normal (avg = %.2f°C)", sensor_id, avg);
+    }
+}
+
+// Helper: process humidity sensor
+static void process_humidity(int sensor_id, double avg){
+    if(avg >= HUMID_HIGH){
+        log_event("[HUMID] Sensor %d reports high humidity (avg = %.2f%%)", sensor_id, avg);
+    } 
+    else if(avg < HUMID_LOW){
+        log_event("[HUMID] Sensor %d reports low humidity (avg = %.2f%%)", sensor_id, avg);
+    } 
+    else{
+        log_event("[HUMID] Sensor %d humidity normal (avg = %.2f%%)", sensor_id, avg);
+    }
+}
+
+// Helper: process light sensor
+static void process_light(int sensor_id, double avg){
+    if(avg >= LIGHT_BRIGHT){
+        log_event("[LIGHT] Sensor %d reports bright light (avg = %.2f lux)", sensor_id, avg);
+    } 
+    else if(avg < LIGHT_DIM){
+        log_event("[LIGHT] Sensor %d reports low light (avg = %.2f lux)", sensor_id, avg);
+    } 
+    else{
+        log_event("[LIGHT] Sensor %d light normal (avg = %.2f lux)", sensor_id, avg);
+    }
+}
+
+// Helper: process single sensor packet
+static void process_sensor_packet(sensor_packet_t *pkt){
+    double avg;
+    
+    // Update running average for this sensor
+    update_running_avg(pkt->id, pkt->type, pkt->value, &avg);
+    
+    // Process based on sensor type
+    switch(pkt->type){
+        case SENSOR_TEMPERATURE:
+            process_temperature(pkt->id, avg);
+            break;
+            
+        case SENSOR_HUMIDITY:
+            process_humidity(pkt->id, avg);
+            break;
+            
+        case SENSOR_LIGHT:
+            process_light(pkt->id, avg);
+            break;
+            
+        default:
+            log_event("[UNKNOWN] Sensor %d has unknown type %d (avg = %.2f)", 
+                      pkt->id, pkt->type, avg);
+            break;
+    }
+}
+
+void *data_manager_thread(void *arg){
+    (void)arg;
+    
+    log_event("[DATA] Data manager thread started");
+    
+    sensor_packet_t local_buf[LOCAL_BUFFER_SIZE];
+    size_t total_processed = 0;
+    
+    while(!stop_flag){
+        size_t local_count = 0;
+        
+        // Collect all unprocessed packets into local buffer
+        sbuffer_node_t *node;
+        while((node = sbuffer_find_for_data(&sbuffer)) != NULL){
+            if(local_count < LOCAL_BUFFER_SIZE){
+                local_buf[local_count++] = node->pkt;
+            } 
             else{
+                // Buffer full, will process this node in next iteration
                 break;
             }
-            sbuffer_mark_data_done(&sbuffer, cur);
+            sbuffer_mark_data_done(&sbuffer, node);
         }
-        // process local_buf
-        for(size_t i = 0; i < local_count; ++i){
-            sensor_packet_t *p = &local_buf[i];
-            double avg;
-
-            // Update average value for this sensor
-            update_running_avg(p->id, p->type, p->value, &avg);
-
-            switch(p->type){
-                case SENSOR_TEMPERATURE:
-                    if(avg >= 25.5){
-                        log_event("[TEMP] Sensor %d reports it's too hot (avg = %.2f°C)", p->id, avg);
-                    } 
-                    else if(avg < 15.0){
-                        log_event("[TEMP] Sensor %d reports it's too cold (avg = %.2f°C)", p->id, avg);
-                    } 
-                    else{
-                        log_event("[TEMP] Sensor %d temperature normal (avg = %.2f°C)", p->id, avg);
-                    }
-                    break;
-                case SENSOR_HUMIDITY:
-                    if(avg >= 80.0){
-                        log_event("[HUMID] Sensor %d reports high humidity (avg = %.2f%%)", p->id, avg);
-                    } 
-                    else if(avg < 30.0){
-                        log_event("[HUMID] Sensor %d reports low humidity (avg = %.2f%%)", p->id, avg);
-                    } 
-                    else{
-                        log_event("[HUMID] Sensor %d humidity normal (avg = %.2f%%)", p->id, avg);
-                    }
-                    break;
-                case SENSOR_LIGHT:
-                    if(avg >= 800.0){
-                        log_event("[LIGHT] Sensor %d reports bright light (avg = %.2f lux)", p->id, avg);
-                    } 
-                    else if(avg < 200.0){
-                        log_event("[LIGHT] Sensor %d reports low light (avg = %.2f lux)", p->id, avg);
-                    } 
-                    else{
-                        log_event("[LIGHT] Sensor %d light normal (avg = %.2f lux)", p->id, avg);
-                    }
-                    break;
-
-                default:
-                    log_event("[UNKNOWN] Sensor %d has unknown type %d (avg = %.2f)", p->id, p->type, avg);
-                    break;
+        
+        // Process all collected packets
+        if(local_count > 0){
+            for(size_t i = 0; i < local_count; i++){
+                process_sensor_packet(&local_buf[i]);
             }
+            total_processed += local_count;
+        } 
+        else{
+            // No data available, sleep to avoid busy-waiting
+            usleep(POLL_DELAY_MS * 1000);
         }
-
-        // small sleep to avoid busy-wait when no new data
-        usleep(100 * 1000);
     }
-    log_event("[DATA] Data manager thread exiting\n");
+    
+    log_event("[DATA] Data manager thread exiting. Total processed: %zu measurements", 
+              total_processed);
+    
     return NULL;
 }

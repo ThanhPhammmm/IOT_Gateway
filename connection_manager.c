@@ -2,73 +2,120 @@
 #include "client_thread.h"
 #include "logger.h"
 
+#define LISTEN_BACKLOG 16
+#define SELECT_TIMEOUT_SEC 1
+
 void *connection_manager_thread(void *arg){
-    log_event("[CONNECTION] Connection manager thread started\n");
-
     int port = *(int*)arg;
-
+    
+    log_event("[CONNECTION] Connection manager thread started");
+    
+    // Create socket
     int server_fd = socket(AF_INET, SOCK_STREAM, 0);
     if(server_fd < 0){
-        perror("socket failed");
+        log_event("[CONNECTION] Socket creation failed: %s", strerror(errno));
         exit(EXIT_FAILURE);
     }
-
+    
+    // Set socket options
     int opt = 1;
-    if(setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt))){
-        perror("setsockopt");
+    if(setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, 
+                   &opt, sizeof(opt)) < 0){
+        log_event("[CONNECTION] setsockopt failed: %s", strerror(errno));
+        close(server_fd);
         exit(EXIT_FAILURE);
     }
-
+    
+    // Bind socket
     struct sockaddr_in server;
+    memset(&server, 0, sizeof(server));
     server.sin_family = AF_INET;
     server.sin_addr.s_addr = INADDR_ANY;
     server.sin_port = htons(port);
-    socklen_t servlen = sizeof(server);
-
-    if(bind(server_fd, (struct sockaddr*)&server, servlen) < 0){
-        perror("bind");
+    
+    if(bind(server_fd, (struct sockaddr*)&server, sizeof(server)) < 0){
+        log_event("[CONNECTION] Bind failed on port %d: %s", port, strerror(errno));
         close(server_fd);
         exit(EXIT_FAILURE);
     }
-    if(listen(server_fd, 16) < 0){
-        perror("listen");
+    
+    // Listen for connections
+    if(listen(server_fd, LISTEN_BACKLOG) < 0){
+        log_event("[CONNECTION] Listen failed: %s", strerror(errno));
         close(server_fd);
         exit(EXIT_FAILURE);
     }
-    log_event("[CONNECTION] Connection manager: listening on port %d\n", port);
-
+    
+    log_event("[CONNECTION] Listening on port %d", port);
+    
+    size_t total_connections = 0;
+    
+    // Main accept loop
     while(!stop_flag){
-        fd_set fds;
-        FD_ZERO(&fds);
-        FD_SET(server_fd, &fds);
-
-        struct timeval tv = {1, 0}; // timeout 1s
-        int ret = select(server_fd + 1, &fds, NULL, NULL, &tv);
+        fd_set read_fds;
+        FD_ZERO(&read_fds);
+        FD_SET(server_fd, &read_fds);
+        
+        struct timeval timeout = {SELECT_TIMEOUT_SEC, 0};
+        int ret = select(server_fd + 1, &read_fds, NULL, NULL, &timeout);
+        
         if(ret < 0){
             if(errno == EINTR) continue;
-            perror("select");
+            log_event("[CONNECTION] select() error: %s", strerror(errno));
             break;
         }
-        else if(ret == 0){
-            continue; // timeout, check again the stop_flag
+        
+        if(ret == 0){
+            // Timeout, loop to check stop_flag
+            continue;
         }
-        struct sockaddr_in client;
-        socklen_t clilen = sizeof(client);
-        int cfd = accept(server_fd, (struct sockaddr*)&client, &clilen);
-        if(cfd < 0){
+        
+        // Accept new connection
+        struct sockaddr_in client_addr;
+        socklen_t client_len = sizeof(client_addr);
+        int client_fd = accept(server_fd, (struct sockaddr*)&client_addr, &client_len);
+        
+        if(client_fd < 0){
             if(errno == EINTR) continue;
-            perror("accept");
-            break;
+            log_event("[CONNECTION] accept() error: %s", strerror(errno));
+            continue; // Try to accept next connection
         }
-        client_info_t *ci = malloc(sizeof(*ci));
-        ci->client_fd = cfd;
-        ci->addr = client;
-        pthread_t tid;
-        pthread_create(&tid, NULL, client_thread_func, ci);
-        pthread_detach(tid);
+        
+        // Allocate client info
+        client_info_t *client_info = malloc(sizeof(client_info_t));
+        if(!client_info){
+            log_event("[CONNECTION] malloc failed for client info");
+            close(client_fd);
+            continue;
+        }
+        
+        client_info->client_fd = client_fd;
+        client_info->addr = client_addr;
+        
+        // Create client thread
+        pthread_t client_tid;
+        int rc = pthread_create(&client_tid, NULL, client_thread_func, client_info);
+        if(rc != 0){
+            log_event("[CONNECTION] pthread_create failed: %s", strerror(rc));
+            free(client_info);
+            close(client_fd);
+            continue;
+        }
+        
+        pthread_detach(client_tid);
+        total_connections++;
+        
+        log_event("[CONNECTION] New client connected from %s:%d (total: %zu)",
+                  inet_ntoa(client_addr.sin_addr), 
+                  ntohs(client_addr.sin_port),
+                  total_connections);
     }
-
+    
+    // Cleanup
     close(server_fd);
-    log_event("[CONNECTION] Connection manager thread exiting\n");
+    
+    log_event("[CONNECTION] Connection manager thread exiting. Total connections: %zu", 
+              total_connections);
+    
     return NULL;
 }
