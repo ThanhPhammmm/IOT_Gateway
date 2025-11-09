@@ -19,8 +19,7 @@ void *connection_manager_thread(void *arg){
     
     // Set socket options
     int opt = 1;
-    if(setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, 
-                   &opt, sizeof(opt)) < 0){
+    if(setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt)) < 0){
         log_event("[CONNECTION] setsockopt failed: %s", strerror(errno));
         close(server_fd);
         exit(EXIT_FAILURE);
@@ -105,10 +104,7 @@ void *connection_manager_thread(void *arg){
         pthread_detach(client_tid);
         total_connections++;
         
-        log_event("[CONNECTION] New client connected from %s:%d (total: %zu)",
-                  inet_ntoa(client_addr.sin_addr), 
-                  ntohs(client_addr.sin_port),
-                  total_connections);
+        log_event("[CONNECTION] New client connected from %s:%d (total: %zu)", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port),total_connections);
     }
     
     // Cleanup

@@ -19,8 +19,7 @@ static sqlite3* storage_connect_db(int max_attempts){
             return db;
         }
         
-        log_event("[SQL] Unable to connect to SQL server (attempt %d/%d)", 
-                  attempt, max_attempts);
+        log_event("[SQL] Unable to connect to SQL server (attempt %d/%d)", attempt, max_attempts);
         
         if(attempt < max_attempts){
             sleep(RECONNECT_DELAY_SEC);
@@ -45,8 +44,7 @@ static int storage_batch_insert_with_retry(sqlite3 **db, sensor_packet_t *batch,
     
     *db = storage_connect_db(MAX_RECONNECT_ATTEMPTS);
     if(!*db){
-        log_event("[SQL] Unable to reconnect to SQL server after %d attempts", 
-                  MAX_RECONNECT_ATTEMPTS);
+        log_event("[SQL] Unable to reconnect to SQL server after %d attempts", MAX_RECONNECT_ATTEMPTS);
         return SQLITE_ERROR;
     }
     
@@ -170,8 +168,7 @@ void *storage_manager_thread(void *arg){
         log_event("[SQL] Database connection closed");
     }
     
-    log_event("[STORAGE] Storage manager thread exiting. Stats: %zu inserted, %zu failed", 
-              total_inserted, total_failed);
+    log_event("[STORAGE] Storage manager thread exiting. Stats: %zu inserted, %zu failed", total_inserted, total_failed);
     
     return NULL;
 }

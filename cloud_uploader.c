@@ -11,8 +11,7 @@ static void on_connect(struct mosquitto *mosq, void *userdata, int rc){
         log_event("[MQTT] Sensor %d connected to ThingsBoard broker", c->id);
     } 
     else{
-        log_event("[MQTT] Sensor %d connection failed: %s", 
-                  c->id, mosquitto_connack_string(rc));
+        log_event("[MQTT] Sensor %d connection failed: %s", c->id, mosquitto_connack_string(rc));
     }
 }
 
@@ -37,8 +36,7 @@ static void on_publish(struct mosquitto *mosq, void *userdata, int mid){
 void cloud_clients_init(void){
     int rc = mosquitto_lib_init();
     if(rc != MOSQ_ERR_SUCCESS){
-        log_event("[MQTT] Failed to initialize mosquitto library: %s", 
-                  mosquitto_strerror(rc));
+        log_event("[MQTT] Failed to initialize mosquitto library: %s", mosquitto_strerror(rc));
         return;
     }
     
@@ -62,8 +60,7 @@ void cloud_clients_init(void){
         // Set authentication
         rc = mosquitto_username_pw_set(clients[i].mosq, clients[i].token, NULL);
         if(rc != MOSQ_ERR_SUCCESS){
-            log_event("[MQTT] Sensor %d failed to set credentials: %s", 
-                      clients[i].id, mosquitto_strerror(rc));
+            log_event("[MQTT] Sensor %d failed to set credentials: %s", clients[i].id, mosquitto_strerror(rc));
             mosquitto_destroy(clients[i].mosq);
             clients[i].mosq = NULL;
             continue;
@@ -72,8 +69,7 @@ void cloud_clients_init(void){
         // Connect to broker
         rc = mosquitto_connect(clients[i].mosq, MQTT_BROKER, MQTT_PORT, MQTT_KEEPALIVE);
         if(rc != MOSQ_ERR_SUCCESS){
-            log_event("[MQTT] Sensor %d connect failed: %s", 
-                      clients[i].id, mosquitto_strerror(rc));
+            log_event("[MQTT] Sensor %d connect failed: %s", clients[i].id, mosquitto_strerror(rc));
             mosquitto_destroy(clients[i].mosq);
             clients[i].mosq = NULL;
             continue;
@@ -82,8 +78,7 @@ void cloud_clients_init(void){
         // Start network loop
         rc = mosquitto_loop_start(clients[i].mosq);
         if(rc != MOSQ_ERR_SUCCESS){
-            log_event("[MQTT] Sensor %d failed to start loop: %s", 
-                      clients[i].id, mosquitto_strerror(rc));
+            log_event("[MQTT] Sensor %d failed to start loop: %s", clients[i].id, mosquitto_strerror(rc));
             mosquitto_disconnect(clients[i].mosq);
             mosquitto_destroy(clients[i].mosq);
             clients[i].mosq = NULL;
@@ -94,8 +89,7 @@ void cloud_clients_init(void){
         log_event("[MQTT] Sensor %d initialization started", clients[i].id);
     }
     
-    log_event("[MQTT] Cloud clients initialization complete: %zu/%d successful", 
-              success_count, NUM_CLIENTS);
+    log_event("[MQTT] Cloud clients initialization complete: %zu/%d successful", success_count, NUM_CLIENTS);
 }
 
 void cloud_clients_cleanup(void){

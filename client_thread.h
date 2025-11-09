@@ -11,4 +11,5 @@ extern sbuffer_t sbuffer;
 void *client_thread_func(void *arg);
 void update_running_avg(int id, int type, double val, double *out_avg);
 void stats_free_all();
+
 #endif

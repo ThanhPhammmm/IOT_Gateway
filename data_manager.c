@@ -66,8 +66,7 @@ static void process_sensor_packet(sensor_packet_t *pkt){
             break;
             
         default:
-            log_event("[UNKNOWN] Sensor %d has unknown type %d (avg = %.2f)", 
-                      pkt->id, pkt->type, avg);
+            log_event("[UNKNOWN] Sensor %d has unknown type %d (avg = %.2f)", pkt->id, pkt->type, avg);
             break;
     }
 }
@@ -109,8 +108,7 @@ void *data_manager_thread(void *arg){
         }
     }
     
-    log_event("[DATA] Data manager thread exiting. Total processed: %zu measurements", 
-              total_processed);
+    log_event("[DATA] Data manager thread exiting. Total processed: %zu measurements", total_processed);
     
     return NULL;
 }

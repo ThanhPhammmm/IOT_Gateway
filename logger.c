@@ -89,8 +89,7 @@ void run_logger_process(){
                 } 
                 else{
                     // Still no complete line, append to leftover
-                    size_t copy_len = (sizeof(leftover) - leftover_len - 1 < (size_t)r) 
-                                      ? sizeof(leftover) - leftover_len - 1 : (size_t)r;
+                    size_t copy_len = (sizeof(leftover) - leftover_len - 1 < (size_t)r) ? sizeof(leftover) - leftover_len - 1 : (size_t)r;
                     memcpy(leftover + leftover_len, start, copy_len);
                     leftover_len += copy_len;
                     leftover[leftover_len] = '\0';

@@ -27,5 +27,6 @@
         "database.h": "c",
         "mosquitto.h": "c",
         "cloud_manager.h": "c"
-    }
+    },
+    "makefile.configureOnOpen": true
 }

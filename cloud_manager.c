@@ -24,9 +24,7 @@ static int upload_sensor_data(cloud_client_t *client, sensor_stat_t *stat){
     
     // Build JSON payload
     char payload[256];
-    int len = snprintf(payload, sizeof(payload),
-                      "{\"sensor_id\":%d,\"type\":%d,\"avg\":%.2f,\"count\":%lu,\"timestamp\":%ld}",
-                      stat->id, stat->type, stat->avg, stat->count, time(NULL));
+    int len = snprintf(payload, sizeof(payload), "{\"sensor_id\":%d,\"type\":%d,\"avg\":%.2f,\"count\":%lu,\"timestamp\":%ld}", stat->id, stat->type, stat->avg, stat->count, time(NULL));
     
     if(len < 0 || len >= (int)sizeof(payload)){
         log_event("[CLOUD] Payload too large for sensor %d", stat->id);
@@ -37,13 +35,11 @@ static int upload_sensor_data(cloud_client_t *client, sensor_stat_t *stat){
     int rc = mosquitto_publish(client->mosq, NULL, MQTT_TOPIC, len, payload, MQTT_QOS, false);
     
     if(rc == MOSQ_ERR_SUCCESS){
-        log_event("[CLOUD] Uploaded sensor %d (type=%d, avg=%.2f, count=%lu)",
-                  stat->id, stat->type, stat->avg, stat->count);
+        log_event("[CLOUD] Uploaded sensor %d (type=%d, avg=%.2f, count=%lu)", stat->id, stat->type, stat->avg, stat->count);
         return 0;
     } 
     else{
-        log_event("[CLOUD] Publish failed for sensor %d: %s", 
-                  stat->id, mosquitto_strerror(rc));
+        log_event("[CLOUD] Publish failed for sensor %d: %s", stat->id, mosquitto_strerror(rc));
         return -1;
     }
 }
@@ -131,8 +127,7 @@ void *cloud_manager_thread(void *arg){
         total_failed += batch_failed;
         
         if(batch_uploaded > 0 || batch_failed > 0){
-            log_event("[CLOUD] Upload batch complete: %zu uploaded, %zu failed",
-                      batch_uploaded, batch_failed);
+            log_event("[CLOUD] Upload batch complete: %zu uploaded, %zu failed", batch_uploaded, batch_failed);
         }
         
         // Wait before next upload cycle
@@ -142,8 +137,7 @@ void *cloud_manager_thread(void *arg){
     // Cleanup
     cloud_clients_cleanup();
     
-    log_event("[CLOUD] Cloud uploader thread exiting. Total: %zu uploaded, %zu failed",
-              total_uploaded, total_failed);
+    log_event("[CLOUD] Cloud uploader thread exiting. Total: %zu uploaded, %zu failed", total_uploaded, total_failed);
     
     return NULL;
 }

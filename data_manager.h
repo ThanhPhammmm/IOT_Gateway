@@ -16,6 +16,10 @@ extern volatile sig_atomic_t stop_flag;
 #define LIGHT_BRIGHT 800.0
 #define LIGHT_DIM 200.0
 
+static void process_temperature(int sensor_id, double avg);
+static void process_humidity(int sensor_id, double avg);
+static void process_light(int sensor_id, double avg);
+static void process_sensor_packet(sensor_packet_t *pkt);
 void *data_manager_thread(void *arg);
 
 #endif

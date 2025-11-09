@@ -28,8 +28,7 @@ void *client_thread_func(void *arg){
         
         // Check buffer overflow
         if(buffer_len + bytes_read >= sizeof(read_buffer)){
-            log_event("[CLIENT] Buffer overflow for client %s:%d, resetting buffer", 
-                      client_ip, client_port);
+            log_event("[CLIENT] Buffer overflow for client %s:%d, resetting buffer", client_ip, client_port);
             buffer_len = 0;
         }
         
@@ -54,8 +53,7 @@ void *client_thread_func(void *arg){
                 // Log first connection
                 if(first_sensor_id == -1){
                     first_sensor_id = sensor_id;
-                    log_event("[CLIENT] Sensor node ID %d from %s:%d opened new connection",
-                              first_sensor_id, client_ip, client_port);
+                    log_event("[CLIENT] Sensor node ID %d from %s:%d opened new connection", first_sensor_id, client_ip, client_port);
                 }
                 
                 // Create packet
@@ -70,12 +68,10 @@ void *client_thread_func(void *arg){
                 sbuffer_insert(&sbuffer, &packet);
                 packets_received++;
                 
-                log_event("[CLIENT] Received data ID %d type %d value %.2f from %s:%d",
-                          sensor_id, sensor_type, sensor_value, client_ip, client_port);
+                log_event("[CLIENT] Received data ID %d type %d value %.2f from %s:%d", sensor_id, sensor_type, sensor_value, client_ip, client_port);
             } 
             else{
-                log_event("[CLIENT] Invalid data format from %s:%d: '%s'",
-                          client_ip, client_port, line_start);
+                log_event("[CLIENT] Invalid data format from %s:%d: '%s'", client_ip, client_port, line_start);
             }
             
             line_start = newline + 1;
@@ -91,12 +87,10 @@ void *client_thread_func(void *arg){
     
     // Log disconnection
     if(first_sensor_id != -1){
-        log_event("[CLIENT] Sensor node ID %d from %s:%d closed connection (%zu packets received)",
-                  first_sensor_id, client_ip, client_port, packets_received);
+        log_event("[CLIENT] Sensor node ID %d from %s:%d closed connection (%zu packets received)", first_sensor_id, client_ip, client_port, packets_received);
     } 
     else{
-        log_event("[CLIENT] Unknown sensor from %s:%d closed connection (no valid data)",
-                  client_ip, client_port);
+        log_event("[CLIENT] Unknown sensor from %s:%d closed connection (no valid data)", client_ip, client_port);
     }
     
     // Cleanup
