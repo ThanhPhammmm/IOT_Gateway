@@ -61,9 +61,7 @@ void sbuffer_insert(sbuffer_t *b, sensor_packet_t *pkt){
  *   Find node functions
  * =========================== */
 
-static sbuffer_node_t *sbuffer_find_generic(sbuffer_t *b,
-        int (*predicate)(sbuffer_node_t *)){
-
+static sbuffer_node_t *sbuffer_find_generic(sbuffer_t *b, int (*predicate)(sbuffer_node_t *)){
     pthread_mutex_lock(&b->mutex);
 
     // Wait until data arrives or stop_flag
