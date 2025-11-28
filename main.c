@@ -32,6 +32,8 @@ int main(int argc, char **argv){
     int port = atoi(argv[1]);
 
     signal(SIGINT, sigint_handler);
+    signal(SIGPIPE, SIG_IGN);  // <-- ADD THIS: Prevent SIGPIPE crashes
+    
     ensure_fifo_exists();
 
     // Fork logger
@@ -44,6 +46,7 @@ int main(int argc, char **argv){
     
     if(logger_pid == 0){
         // Child: logger process
+        signal(SIGINT, SIG_IGN);  // <-- ADD THIS: Logger ignores SIGINT
         run_logger_process();
         exit(0);
     }
@@ -69,13 +72,17 @@ int main(int argc, char **argv){
     sbuffer_free_all(&sbuffer);
     stats_free_all();
 
+    // Log BEFORE shutting down logger
+    log_event("[MAIN] Gateway shutdown complete");
+    
+    // Give logger time to flush
+    usleep(100000); // 100ms
+    
     // Shutdown logger
     if(logger_pid > 0){
         kill(logger_pid, SIGTERM);
         waitpid(logger_pid, NULL, 0);
     }
-
-    log_event("[MAIN] Gateway shutdown complete");
 
     return 0;
 }

@@ -39,10 +39,10 @@ void sbuffer_insert(sbuffer_t *b, sensor_packet_t *pkt){
 
     n->pkt = *pkt;
     n->pkt.ts = time(NULL);
-    n->refcount = 3;  // data + storage + cloud
+    n->refcount = 2;  // data + storage
     n->processed_by_data = 0;
     n->processed_by_storage = 0;
-    n->processed_by_cloud = 0;
+    //n->processed_by_cloud = 0;
     n->next = NULL;
 
     pthread_mutex_lock(&b->mutex);
@@ -91,9 +91,9 @@ static int need_storage(sbuffer_node_t *n){
     return n->processed_by_data && !n->processed_by_storage;
 }
 
-static int need_cloud(sbuffer_node_t *n){
-    return n->processed_by_data && n->processed_by_storage && !n->processed_by_cloud;
-}
+// static int need_cloud(sbuffer_node_t *n){
+//     return n->processed_by_data && n->processed_by_storage && !n->processed_by_cloud;
+// }
 
 // Wrappers
 sbuffer_node_t* sbuffer_find_for_data(sbuffer_t *b){
@@ -104,9 +104,9 @@ sbuffer_node_t* sbuffer_find_for_storage(sbuffer_t *b){
     return sbuffer_find_generic(b, need_storage);
 }
 
-sbuffer_node_t* sbuffer_find_for_cloud(sbuffer_t *b){
-    return sbuffer_find_generic(b, need_cloud);
-}
+// sbuffer_node_t* sbuffer_find_for_cloud(sbuffer_t *b){
+//     return sbuffer_find_generic(b, need_cloud);
+// }
 
 /* ===========================
  *   Mark functions
@@ -163,15 +163,15 @@ void sbuffer_mark_storage_done(sbuffer_t *b, sbuffer_node_t *node){
     pthread_mutex_unlock(&b->mutex);
 }
 
-void sbuffer_mark_upcloud_done(sbuffer_t *b, sbuffer_node_t *node){
-    pthread_mutex_lock(&b->mutex);
-    if(node->processed_by_data && node->processed_by_storage && 
-        !node->processed_by_cloud){
-        node->processed_by_cloud = 1;
-        if(--node->refcount == 0){
-            sbuffer_try_cleanup(b, node);
-        }
-        pthread_cond_broadcast(&b->cond);
-    }
-    pthread_mutex_unlock(&b->mutex);
-}
+// void sbuffer_mark_upcloud_done(sbuffer_t *b, sbuffer_node_t *node){
+//     pthread_mutex_lock(&b->mutex);
+//     if(node->processed_by_data && node->processed_by_storage && 
+//         !node->processed_by_cloud){
+//         node->processed_by_cloud = 1;
+//         if(--node->refcount == 0){
+//             sbuffer_try_cleanup(b, node);
+//         }
+//         pthread_cond_broadcast(&b->cond);
+//     }
+//     pthread_mutex_unlock(&b->mutex);
+// }

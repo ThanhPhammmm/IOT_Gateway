@@ -79,6 +79,7 @@ void cloud_clients_init(void){
         rc = mosquitto_loop_start(clients[i].mosq);
         if(rc != MOSQ_ERR_SUCCESS){
             log_event("[MQTT] Sensor %d failed to start loop: %s", clients[i].id, mosquitto_strerror(rc));
+            mosquitto_loop_stop(clients[i].mosq, true);
             mosquitto_disconnect(clients[i].mosq);
             mosquitto_destroy(clients[i].mosq);
             clients[i].mosq = NULL;
@@ -93,15 +94,21 @@ void cloud_clients_init(void){
 }
 
 void cloud_clients_cleanup(void){
-    log_event("[MQTT] Cleaning up cloud clients");
+    log_event("[MQTT] Cleaning up cloud clients (NUM_CLIENTS=%zu)", NUM_CLIENTS);
     
     for(size_t i = 0; i < NUM_CLIENTS; i++){
         if(clients[i].mosq){
-            // Disconnect gracefully
-            mosquitto_disconnect(clients[i].mosq);
+            log_event("[MQTT] Cleaning up client %zu (ID=%d, connected=%d)", 
+                      i, clients[i].id, clients[i].connected);
             
-            // Stop loop (wait for completion)
-            mosquitto_loop_stop(clients[i].mosq, true);
+            // Stop the background loop thread
+            int rc = mosquitto_loop_stop(clients[i].mosq, true);
+            log_event("[MQTT] mosquitto_loop_stop returned: %d", rc);
+            
+            // Disconnect if connected
+            if(clients[i].connected){
+                mosquitto_disconnect(clients[i].mosq);
+            }
             
             // Destroy client
             mosquitto_destroy(clients[i].mosq);
@@ -109,6 +116,8 @@ void cloud_clients_cleanup(void){
             clients[i].connected = 0;
             
             log_event("[MQTT] Sensor %d cleaned up", clients[i].id);
+        } else {
+            log_event("[MQTT] Client %zu was NULL, skipping", i);
         }
     }
     

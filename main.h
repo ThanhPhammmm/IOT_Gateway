@@ -46,7 +46,7 @@ typedef struct sbuffer_node {
     uint8_t refcount; 
     uint8_t processed_by_data;
     uint8_t processed_by_storage;
-    uint8_t processed_by_cloud;
+    //uint8_t processed_by_cloud;
     struct sbuffer_node *next;
 } sbuffer_node_t;
 

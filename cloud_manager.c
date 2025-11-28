@@ -44,23 +44,23 @@ static int upload_sensor_data(cloud_client_t *client, sensor_stat_t *stat){
     }
 }
 
-// Helper: Process network loop for client
-static void process_mqtt_loop(cloud_client_t *client){
-    if(!client || !client->mosq) return;
+// // Helper: Process network loop for client
+// static void process_mqtt_loop(cloud_client_t *client){
+//     if(!client || !client->mosq) return;
     
-    for(int i = 0; i < LOOP_ITERATIONS; i++){
-        mosquitto_loop(client->mosq, LOOP_DELAY_MS, 1);
-        usleep(LOOP_DELAY_MS * 1000);
-    }
-}
+//     for(int i = 0; i < LOOP_ITERATIONS; i++){
+//         mosquitto_loop(client->mosq, LOOP_DELAY_MS, 1);
+//         usleep(LOOP_DELAY_MS * 1000);
+//     }
+// }
 
-// Helper: Mark all cloud-ready buffer nodes as done
-static void mark_cloud_buffer_done(void){
-    sbuffer_node_t *node;
-    while((node = sbuffer_find_for_cloud(&sbuffer)) != NULL){
-        sbuffer_mark_upcloud_done(&sbuffer, node);
-    }
-}
+// // Helper: Mark all cloud-ready buffer nodes as done
+// static void mark_cloud_buffer_done(void){
+//     sbuffer_node_t *node;
+//     while((node = sbuffer_find_for_cloud(&sbuffer)) != NULL){
+//         sbuffer_mark_upcloud_done(&sbuffer, node);
+//     }
+// }
 
 void *cloud_manager_thread(void *arg){
     (void)arg;
@@ -75,7 +75,7 @@ void *cloud_manager_thread(void *arg){
     
     // Main upload loop
     while(!stop_flag){
-        pthread_mutex_lock(&stats_mutex);
+        // pthread_mutex_lock(&stats_mutex);
         
         sensor_stat_t *stat = stats_head;
         size_t batch_uploaded = 0;
@@ -103,7 +103,7 @@ void *cloud_manager_thread(void *arg){
                 continue;
             }
             
-            // Upload sensor data
+            // Upload sensor data continuously
             if(upload_sensor_data(client, stat) == 0){
                 batch_uploaded++;
             } 
@@ -111,16 +111,16 @@ void *cloud_manager_thread(void *arg){
                 batch_failed++;
             }
             
-            // Process MQTT network loop
-            process_mqtt_loop(client);
+            // // Process MQTT network loop
+            // process_mqtt_loop(client);
             
             stat = stat->next;
         }
         
-        // Mark buffer nodes as processed
-        mark_cloud_buffer_done();
+        // // Mark buffer nodes as processed
+        // mark_cloud_buffer_done();
         
-        pthread_mutex_unlock(&stats_mutex);
+        // pthread_mutex_unlock(&stats_mutex);
         
         // Update statistics
         total_uploaded += batch_uploaded;
