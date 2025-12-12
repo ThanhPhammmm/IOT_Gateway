@@ -61,7 +61,7 @@ void *client_thread_func(void *arg){
                     .id = sensor_id,
                     .type = sensor_type,
                     .value = sensor_value,
-                    .ts = time(NULL)
+                    //.ts = time(NULL)
                 };
                 
                 // Insert into shared buffer

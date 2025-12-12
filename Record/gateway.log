@@ -7893,3 +7893,200 @@
 927 2025-12-12 18:45:02 [CLOUD] Cloud uploader thread exiting. Total: 24 uploaded, 0 failed
 928 2025-12-12 18:45:02 [STATS] Freed 3 sensor statistics entries
 929 2025-12-12 18:45:02 [MAIN] Gateway shutdown complete
+0 2025-12-13 06:30:56 [MAIN] Gateway system started on port 1234
+1 2025-12-13 06:30:56 [CLOUD] Cloud uploader thread started
+2 2025-12-13 06:30:56 [CONNECTION] Connection manager thread started
+3 2025-12-13 06:30:56 [MQTT] Initializing 3 cloud clients
+4 2025-12-13 06:30:56 [DATA] Data manager thread started
+5 2025-12-13 06:30:56 [STORAGE] Storage manager thread started
+6 2025-12-13 06:30:56 [CONNECTION] Listening on port 1234
+7 2025-12-13 06:30:56 [SQL] Connection to SQL server established
+8 2025-12-13 06:30:56 [MQTT] Sensor 1 initialization started
+9 2025-12-13 06:30:56 [MQTT] Sensor 1 connected to ThingsBoard broker
+10 2025-12-13 06:30:56 [MQTT] Sensor 2 initialization started
+11 2025-12-13 06:30:57 [MQTT] Sensor 2 connected to ThingsBoard broker
+12 2025-12-13 06:30:57 [MQTT] Sensor 3 initialization started
+13 2025-12-13 06:30:57 [MQTT] Cloud clients initialization complete: 3/3 successful
+14 2025-12-13 06:30:57 [MQTT] Sensor 3 connected to ThingsBoard broker
+15 2025-12-13 06:31:30 [CONNECTION] New client connected from 127.0.0.1:52660 (total: 1)
+16 2025-12-13 06:31:30 [CLIENT] Sensor node ID 1 from 127.0.0.1:52660 opened new connection
+17 2025-12-13 06:31:30 [CLIENT] Received data ID 1 type 1 value 27.50 from 127.0.0.1:52660
+18 2025-12-13 06:31:30 [TEMP] Sensor 1 reports it's too hot (avg = 27.50°C)
+19 2025-12-13 06:31:30 [CLIENT] Received data ID 1 type 1 value 26.84 from 127.0.0.1:52660
+20 2025-12-13 06:31:30 [TEMP] Sensor 1 reports it's too hot (avg = 27.17°C)
+21 2025-12-13 06:31:30 [SQL] Stored batch of 1 measurements
+22 2025-12-13 06:31:30 [CLIENT] Received data ID 1 type 1 value 26.96 from 127.0.0.1:52660
+23 2025-12-13 06:31:30 [SQL] Stored batch of 1 measurements
+24 2025-12-13 06:31:30 [TEMP] Sensor 1 reports it's too hot (avg = 27.10°C)
+25 2025-12-13 06:31:30 [CLIENT] Received data ID 1 type 1 value 26.88 from 127.0.0.1:52660
+26 2025-12-13 06:31:30 [SQL] Stored batch of 1 measurements
+27 2025-12-13 06:31:30 [TEMP] Sensor 1 reports it's too hot (avg = 27.05°C)
+28 2025-12-13 06:31:30 [CLIENT] Received data ID 1 type 1 value 27.20 from 127.0.0.1:52660
+29 2025-12-13 06:31:30 [TEMP] Sensor 1 reports it's too hot (avg = 27.08°C)
+30 2025-12-13 06:31:30 [SQL] Stored batch of 1 measurements
+31 2025-12-13 06:31:30 [CLIENT] Received data ID 1 type 1 value 29.68 from 127.0.0.1:52660
+32 2025-12-13 06:31:30 [TEMP] Sensor 1 reports it's too hot (avg = 27.51°C)
+33 2025-12-13 06:31:30 [SQL] Stored batch of 1 measurements
+34 2025-12-13 06:31:31 [CLIENT] Received data ID 1 type 1 value 23.23 from 127.0.0.1:52660
+35 2025-12-13 06:31:31 [SQL] Stored batch of 1 measurements
+36 2025-12-13 06:31:31 [TEMP] Sensor 1 reports it's too hot (avg = 26.90°C)
+37 2025-12-13 06:31:31 [CLIENT] Received data ID 1 type 1 value 20.84 from 127.0.0.1:52660
+38 2025-12-13 06:31:31 [TEMP] Sensor 1 reports it's too hot (avg = 26.14°C)
+39 2025-12-13 06:31:31 [SQL] Stored batch of 1 measurements
+40 2025-12-13 06:31:31 [CLIENT] Received data ID 1 type 1 value 22.99 from 127.0.0.1:52660
+41 2025-12-13 06:31:31 [TEMP] Sensor 1 reports it's too hot (avg = 25.79°C)
+42 2025-12-13 06:31:31 [SQL] Stored batch of 1 measurements
+43 2025-12-13 06:31:31 [CLIENT] Received data ID 1 type 1 value 26.03 from 127.0.0.1:52660
+44 2025-12-13 06:31:31 [TEMP] Sensor 1 reports it's too hot (avg = 25.81°C)
+45 2025-12-13 06:31:31 [SQL] Stored batch of 1 measurements
+46 2025-12-13 06:31:31 [CLIENT] Received data ID 1 type 1 value 28.97 from 127.0.0.1:52660
+47 2025-12-13 06:31:31 [TEMP] Sensor 1 reports it's too hot (avg = 26.10°C)
+48 2025-12-13 06:31:31 [SQL] Stored batch of 1 measurements
+49 2025-12-13 06:31:31 [CLIENT] Received data ID 1 type 1 value 28.95 from 127.0.0.1:52660
+50 2025-12-13 06:31:31 [TEMP] Sensor 1 reports it's too hot (avg = 26.34°C)
+51 2025-12-13 06:31:31 [CLIENT] Received data ID 1 type 1 value 27.81 from 127.0.0.1:52660
+52 2025-12-13 06:31:31 [TEMP] Sensor 1 reports it's too hot (avg = 26.45°C)
+53 2025-12-13 06:31:31 [CLIENT] Received data ID 1 type 1 value 21.24 from 127.0.0.1:52660
+54 2025-12-13 06:31:31 [TEMP] Sensor 1 reports it's too hot (avg = 26.08°C)
+55 2025-12-13 06:31:31 [SQL] Stored batch of 3 measurements
+56 2025-12-13 06:31:31 [CLIENT] Received data ID 1 type 1 value 22.33 from 127.0.0.1:52660
+57 2025-12-13 06:31:31 [SQL] Stored batch of 1 measurements
+58 2025-12-13 06:31:31 [TEMP] Sensor 1 reports it's too hot (avg = 25.83°C)
+59 2025-12-13 06:31:31 [CLIENT] Received data ID 1 type 1 value 26.65 from 127.0.0.1:52660
+60 2025-12-13 06:31:31 [TEMP] Sensor 1 reports it's too hot (avg = 25.88°C)
+61 2025-12-13 06:31:32 [CLIENT] Received data ID 1 type 1 value 27.55 from 127.0.0.1:52660
+62 2025-12-13 06:31:32 [TEMP] Sensor 1 reports it's too hot (avg = 25.98°C)
+63 2025-12-13 06:31:32 [CLIENT] Received data ID 1 type 1 value 25.39 from 127.0.0.1:52660
+64 2025-12-13 06:31:32 [TEMP] Sensor 1 reports it's too hot (avg = 25.95°C)
+65 2025-12-13 06:31:32 [CLOUD] Uploaded sensor 1 (type=1, avg=25.95, count=18)
+66 2025-12-13 06:31:32 [CLOUD] Upload batch complete: 1 uploaded, 0 failed
+67 2025-12-13 06:31:32 [CLIENT] Received data ID 1 type 1 value 22.52 from 127.0.0.1:52660
+68 2025-12-13 06:31:32 [SQL] Stored batch of 4 measurements
+69 2025-12-13 06:31:32 [TEMP] Sensor 1 reports it's too hot (avg = 25.77°C)
+70 2025-12-13 06:31:32 [CLIENT] Received data ID 1 type 1 value 26.81 from 127.0.0.1:52660
+71 2025-12-13 06:31:32 [TEMP] Sensor 1 reports it's too hot (avg = 25.82°C)
+72 2025-12-13 06:31:32 [SQL] Stored batch of 1 measurements
+73 2025-12-13 06:31:32 [CLIENT] Received data ID 1 type 1 value 21.65 from 127.0.0.1:52660
+74 2025-12-13 06:31:32 [TEMP] Sensor 1 reports it's too hot (avg = 25.62°C)
+75 2025-12-13 06:31:32 [SQL] Stored batch of 1 measurements
+76 2025-12-13 06:31:32 [MQTT] Sensor 1 message published successfully (mid=1)
+77 2025-12-13 06:31:32 [CLIENT] Received data ID 1 type 1 value 21.46 from 127.0.0.1:52660
+78 2025-12-13 06:31:32 [TEMP] Sensor 1 temperature normal (avg = 25.43°C)
+79 2025-12-13 06:31:32 [CLIENT] Received data ID 1 type 1 value 22.15 from 127.0.0.1:52660
+80 2025-12-13 06:31:32 [TEMP] Sensor 1 temperature normal (avg = 25.29°C)
+81 2025-12-13 06:31:32 [CLIENT] Received data ID 1 type 1 value 20.06 from 127.0.0.1:52660
+82 2025-12-13 06:31:32 [TEMP] Sensor 1 temperature normal (avg = 25.07°C)
+83 2025-12-13 06:31:32 [CLIENT] Received data ID 1 type 1 value 23.98 from 127.0.0.1:52660
+84 2025-12-13 06:31:32 [TEMP] Sensor 1 temperature normal (avg = 25.03°C)
+85 2025-12-13 06:31:32 [CLIENT] Received data ID 1 type 1 value 20.32 from 127.0.0.1:52660
+86 2025-12-13 06:31:32 [TEMP] Sensor 1 temperature normal (avg = 24.85°C)
+87 2025-12-13 06:31:33 [CLIENT] Received data ID 1 type 1 value 24.35 from 127.0.0.1:52660
+88 2025-12-13 06:31:33 [TEMP] Sensor 1 temperature normal (avg = 24.83°C)
+89 2025-12-13 06:31:33 [SQL] Stored batch of 6 measurements
+90 2025-12-13 06:31:33 [CLIENT] Received data ID 1 type 1 value 28.45 from 127.0.0.1:52660
+91 2025-12-13 06:31:33 [TEMP] Sensor 1 temperature normal (avg = 24.96°C)
+92 2025-12-13 06:31:33 [SQL] Stored batch of 1 measurements
+93 2025-12-13 06:31:33 [CLIENT] Received data ID 1 type 1 value 28.35 from 127.0.0.1:52660
+94 2025-12-13 06:31:33 [SQL] Stored batch of 1 measurements
+95 2025-12-13 06:31:33 [TEMP] Sensor 1 temperature normal (avg = 25.07°C)
+96 2025-12-13 06:31:33 [CLIENT] Received data ID 1 type 1 value 25.31 from 127.0.0.1:52660
+97 2025-12-13 06:31:33 [SQL] Stored batch of 1 measurements
+98 2025-12-13 06:31:33 [TEMP] Sensor 1 temperature normal (avg = 25.08°C)
+99 2025-12-13 06:31:33 [CLIENT] Received data ID 1 type 1 value 29.49 from 127.0.0.1:52660
+100 2025-12-13 06:31:33 [TEMP] Sensor 1 temperature normal (avg = 25.22°C)
+101 2025-12-13 06:31:33 [CLIENT] Received data ID 1 type 1 value 25.85 from 127.0.0.1:52660
+102 2025-12-13 06:31:33 [TEMP] Sensor 1 temperature normal (avg = 25.24°C)
+103 2025-12-13 06:31:33 [SQL] Stored batch of 2 measurements
+104 2025-12-13 06:31:33 [CLIENT] Received data ID 1 type 1 value 25.67 from 127.0.0.1:52660
+105 2025-12-13 06:31:33 [TEMP] Sensor 1 temperature normal (avg = 25.26°C)
+106 2025-12-13 06:31:33 [SQL] Stored batch of 1 measurements
+107 2025-12-13 06:31:33 [CLIENT] Received data ID 1 type 1 value 26.45 from 127.0.0.1:52660
+108 2025-12-13 06:31:33 [TEMP] Sensor 1 temperature normal (avg = 25.29°C)
+109 2025-12-13 06:31:33 [SQL] Stored batch of 1 measurements
+110 2025-12-13 06:31:33 [CLIENT] Received data ID 1 type 1 value 26.26 from 127.0.0.1:52660
+111 2025-12-13 06:31:33 [TEMP] Sensor 1 temperature normal (avg = 25.32°C)
+112 2025-12-13 06:31:33 [CLIENT] Received data ID 1 type 1 value 22.87 from 127.0.0.1:52660
+113 2025-12-13 06:31:33 [SQL] Stored batch of 2 measurements
+114 2025-12-13 06:31:33 [TEMP] Sensor 1 temperature normal (avg = 25.25°C)
+115 2025-12-13 06:31:34 [CLIENT] Received data ID 1 type 1 value 26.14 from 127.0.0.1:52660
+116 2025-12-13 06:31:34 [TEMP] Sensor 1 temperature normal (avg = 25.28°C)
+117 2025-12-13 06:31:34 [CLIENT] Received data ID 1 type 1 value 29.49 from 127.0.0.1:52660
+118 2025-12-13 06:31:34 [TEMP] Sensor 1 temperature normal (avg = 25.39°C)
+119 2025-12-13 06:31:34 [SQL] Stored batch of 2 measurements
+120 2025-12-13 06:31:34 [CLIENT] Received data ID 1 type 1 value 27.23 from 127.0.0.1:52660
+121 2025-12-13 06:31:34 [TEMP] Sensor 1 temperature normal (avg = 25.43°C)
+122 2025-12-13 06:31:34 [SQL] Stored batch of 1 measurements
+123 2025-12-13 06:31:34 [CLIENT] Received data ID 1 type 1 value 29.13 from 127.0.0.1:52660
+124 2025-12-13 06:31:34 [TEMP] Sensor 1 reports it's too hot (avg = 25.53°C)
+125 2025-12-13 06:31:34 [CLIENT] Received data ID 1 type 1 value 25.52 from 127.0.0.1:52660
+126 2025-12-13 06:31:34 [TEMP] Sensor 1 reports it's too hot (avg = 25.53°C)
+127 2025-12-13 06:31:34 [SQL] Stored batch of 2 measurements
+128 2025-12-13 06:31:34 [CLIENT] Received data ID 1 type 1 value 26.20 from 127.0.0.1:52660
+129 2025-12-13 06:31:34 [TEMP] Sensor 1 reports it's too hot (avg = 25.54°C)
+130 2025-12-13 06:31:34 [SQL] Stored batch of 1 measurements
+131 2025-12-13 06:31:34 [CLIENT] Received data ID 1 type 1 value 21.60 from 127.0.0.1:52660
+132 2025-12-13 06:31:34 [TEMP] Sensor 1 temperature normal (avg = 25.45°C)
+133 2025-12-13 06:31:34 [SQL] Stored batch of 1 measurements
+134 2025-12-13 06:31:34 [CLIENT] Received data ID 1 type 1 value 26.85 from 127.0.0.1:52660
+135 2025-12-13 06:31:34 [TEMP] Sensor 1 temperature normal (avg = 25.48°C)
+136 2025-12-13 06:31:34 [CLIENT] Received data ID 1 type 1 value 20.96 from 127.0.0.1:52660
+137 2025-12-13 06:31:34 [SQL] Stored batch of 2 measurements
+138 2025-12-13 06:31:34 [TEMP] Sensor 1 temperature normal (avg = 25.38°C)
+139 2025-12-13 06:31:34 [CLIENT] Received data ID 1 type 1 value 23.93 from 127.0.0.1:52660
+140 2025-12-13 06:31:34 [SQL] Stored batch of 1 measurements
+141 2025-12-13 06:31:34 [TEMP] Sensor 1 temperature normal (avg = 25.35°C)
+142 2025-12-13 06:31:35 [CLIENT] Received data ID 1 type 1 value 23.50 from 127.0.0.1:52660
+143 2025-12-13 06:31:35 [TEMP] Sensor 1 temperature normal (avg = 25.31°C)
+144 2025-12-13 06:31:35 [CLIENT] Received data ID 1 type 1 value 22.03 from 127.0.0.1:52660
+145 2025-12-13 06:31:35 [TEMP] Sensor 1 temperature normal (avg = 25.24°C)
+146 2025-12-13 06:31:35 [SQL] Stored batch of 2 measurements
+147 2025-12-13 06:31:35 [CLIENT] Received data ID 1 type 1 value 29.33 from 127.0.0.1:52660
+148 2025-12-13 06:31:35 [TEMP] Sensor 1 temperature normal (avg = 25.33°C)
+149 2025-12-13 06:31:35 [SQL] Stored batch of 1 measurements
+150 2025-12-13 06:31:35 [CLIENT] Received data ID 1 type 1 value 26.02 from 127.0.0.1:52660
+151 2025-12-13 06:31:35 [TEMP] Sensor 1 temperature normal (avg = 25.34°C)
+152 2025-12-13 06:31:35 [CLIENT] Sensor node ID 1 from 127.0.0.1:52660 closed connection (50 packets received)
+153 2025-12-13 06:31:37 [CLOUD] Uploaded sensor 1 (type=1, avg=25.34, count=50)
+154 2025-12-13 06:31:37 [CLOUD] Upload batch complete: 1 uploaded, 0 failed
+155 2025-12-13 06:31:37 [MQTT] Sensor 1 message published successfully (mid=2)
+156 2025-12-13 06:31:42 [CLOUD] Uploaded sensor 1 (type=1, avg=25.34, count=50)
+157 2025-12-13 06:31:42 [CLOUD] Upload batch complete: 1 uploaded, 0 failed
+158 2025-12-13 06:31:42 [MQTT] Sensor 1 message published successfully (mid=3)
+159 2025-12-13 06:31:47 [CLOUD] Uploaded sensor 1 (type=1, avg=25.34, count=50)
+160 2025-12-13 06:31:47 [CLOUD] Upload batch complete: 1 uploaded, 0 failed
+161 2025-12-13 06:31:47 [MQTT] Sensor 1 message published successfully (mid=4)
+162 2025-12-13 06:31:52 [CLOUD] Uploaded sensor 1 (type=1, avg=25.34, count=50)
+163 2025-12-13 06:31:52 [CLOUD] Upload batch complete: 1 uploaded, 0 failed
+164 2025-12-13 06:31:52 [MQTT] Sensor 1 message published successfully (mid=5)
+165 2025-12-13 06:31:57 [CLOUD] Uploaded sensor 1 (type=1, avg=25.34, count=50)
+166 2025-12-13 06:31:57 [CLOUD] Upload batch complete: 1 uploaded, 0 failed
+167 2025-12-13 06:31:57 [MQTT] Sensor 1 message published successfully (mid=6)
+168 2025-12-13 06:32:02 [CLOUD] Uploaded sensor 1 (type=1, avg=25.34, count=50)
+169 2025-12-13 06:32:02 [CLOUD] Upload batch complete: 1 uploaded, 0 failed
+170 2025-12-13 06:32:02 [MQTT] Sensor 1 message published successfully (mid=7)
+171 2025-12-13 06:32:07 [CLOUD] Uploaded sensor 1 (type=1, avg=25.34, count=50)
+172 2025-12-13 06:32:07 [CLOUD] Upload batch complete: 1 uploaded, 0 failed
+173 2025-12-13 06:32:07 [MQTT] Sensor 1 message published successfully (mid=8)
+174 2025-12-13 06:32:10 shutdown
+175 2025-12-13 06:32:10 [SQL] Stored batch of 2 measurements
+176 2025-12-13 06:32:10 [SQL] Database connection closed
+177 2025-12-13 06:32:10 [STORAGE] Storage manager thread exiting. Stats: 50 inserted, 0 failed
+178 2025-12-13 06:32:10 [DATA] Data manager thread exiting. Total processed: 50 measurements
+179 2025-12-13 06:32:10 [CONNECTION] Connection manager thread exiting. Total connections: 1
+180 2025-12-13 06:32:12 [MQTT] Cleaning up cloud clients (NUM_CLIENTS=3)
+181 2025-12-13 06:32:12 [MQTT] Cleaning up client 0 (ID=1, connected=1)
+182 2025-12-13 06:32:12 [MQTT] mosquitto_loop_stop returned: 0
+183 2025-12-13 06:32:12 [MQTT] Sensor 1 disconnected
+184 2025-12-13 06:32:12 [MQTT] Sensor 1 cleaned up
+185 2025-12-13 06:32:12 [MQTT] Cleaning up client 1 (ID=2, connected=1)
+186 2025-12-13 06:32:12 [MQTT] mosquitto_loop_stop returned: 0
+187 2025-12-13 06:32:12 [MQTT] Sensor 2 disconnected
+188 2025-12-13 06:32:12 [MQTT] Sensor 2 cleaned up
+189 2025-12-13 06:32:12 [MQTT] Cleaning up client 2 (ID=3, connected=1)
+190 2025-12-13 06:32:12 [MQTT] mosquitto_loop_stop returned: 0
+191 2025-12-13 06:32:12 [MQTT] Sensor 3 disconnected
+192 2025-12-13 06:32:12 [MQTT] Sensor 3 cleaned up
+193 2025-12-13 06:32:12 [MQTT] Cloud clients cleanup complete
+194 2025-12-13 06:32:12 [CLOUD] Cloud uploader thread exiting. Total: 8 uploaded, 0 failed
+195 2025-12-13 06:32:12 [STATS] Freed 1 sensor statistics entries
+196 2025-12-13 06:32:12 [MAIN] Gateway shutdown complete

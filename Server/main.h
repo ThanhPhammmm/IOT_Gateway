@@ -38,7 +38,7 @@ typedef struct {
     uint8_t id;
     uint8_t type;
     double value;
-    time_t ts;
+    //time_t ts;
 } sensor_packet_t;
 
 typedef struct sbuffer_node {

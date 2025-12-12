@@ -38,7 +38,7 @@ void sbuffer_insert(sbuffer_t *b, sensor_packet_t *pkt){
     }
 
     n->pkt = *pkt;
-    n->pkt.ts = time(NULL);
+    //n->pkt.ts = time(NULL);
     n->refcount = 2;  // data + storage
     n->processed_by_data = 0;
     n->processed_by_storage = 0;
