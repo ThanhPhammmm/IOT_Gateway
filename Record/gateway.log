@@ -6963,3 +6963,933 @@
 1487 2025-11-28 07:20:18 [CLOUD] Cloud uploader thread exiting. Total: 54 uploaded, 0 failed
 1488 2025-11-28 07:20:18 [STATS] Freed 3 sensor statistics entries
 1489 2025-11-28 07:20:18 [MAIN] Gateway shutdown complete
+0 2025-12-12 18:43:40 [MAIN] Gateway system started on port 1234
+1 2025-12-12 18:43:40 [CONNECTION] Connection manager thread started
+2 2025-12-12 18:43:40 [CONNECTION] Listening on port 1234
+3 2025-12-12 18:43:40 [STORAGE] Storage manager thread started
+4 2025-12-12 18:43:40 [CLOUD] Cloud uploader thread started
+5 2025-12-12 18:43:40 [DATA] Data manager thread started
+6 2025-12-12 18:43:40 [MQTT] Initializing 3 cloud clients
+7 2025-12-12 18:43:40 [SQL] Connection to SQL server established
+8 2025-12-12 18:43:41 [MQTT] Sensor 1 initialization started
+9 2025-12-12 18:43:41 [MQTT] Sensor 1 connected to ThingsBoard broker
+10 2025-12-12 18:43:41 [MQTT] Sensor 2 initialization started
+11 2025-12-12 18:43:42 [MQTT] Sensor 2 connected to ThingsBoard broker
+12 2025-12-12 18:43:42 [MQTT] Sensor 3 initialization started
+13 2025-12-12 18:43:42 [MQTT] Cloud clients initialization complete: 3/3 successful
+14 2025-12-12 18:43:42 [MQTT] Sensor 3 connected to ThingsBoard broker
+15 2025-12-12 18:44:03 [CONNECTION] New client connected from 127.0.0.1:32934 (total: 1)
+16 2025-12-12 18:44:03 [CLIENT] Sensor node ID 1 from 127.0.0.1:32934 opened new connection
+17 2025-12-12 18:44:03 [CLIENT] Received data ID 1 type 1 value 28.96 from 127.0.0.1:32934
+18 2025-12-12 18:44:03 [TEMP] Sensor 1 reports it's too hot (avg = 28.96°C)
+19 2025-12-12 18:44:03 [CLIENT] Received data ID 1 type 1 value 29.39 from 127.0.0.1:32934
+20 2025-12-12 18:44:03 [TEMP] Sensor 1 reports it's too hot (avg = 29.18°C)
+21 2025-12-12 18:44:03 [SQL] Stored batch of 1 measurements
+22 2025-12-12 18:44:04 [CLIENT] Received data ID 1 type 1 value 27.73 from 127.0.0.1:32934
+23 2025-12-12 18:44:04 [TEMP] Sensor 1 reports it's too hot (avg = 28.69°C)
+24 2025-12-12 18:44:04 [CLIENT] Received data ID 1 type 1 value 28.48 from 127.0.0.1:32934
+25 2025-12-12 18:44:04 [TEMP] Sensor 1 reports it's too hot (avg = 28.64°C)
+26 2025-12-12 18:44:04 [CLIENT] Received data ID 1 type 1 value 26.07 from 127.0.0.1:32934
+27 2025-12-12 18:44:04 [TEMP] Sensor 1 reports it's too hot (avg = 28.13°C)
+28 2025-12-12 18:44:04 [CLIENT] Received data ID 1 type 1 value 23.77 from 127.0.0.1:32934
+29 2025-12-12 18:44:04 [TEMP] Sensor 1 reports it's too hot (avg = 27.40°C)
+30 2025-12-12 18:44:04 [CLIENT] Received data ID 1 type 1 value 22.00 from 127.0.0.1:32934
+31 2025-12-12 18:44:04 [TEMP] Sensor 1 reports it's too hot (avg = 26.63°C)
+32 2025-12-12 18:44:04 [SQL] Stored batch of 5 measurements
+33 2025-12-12 18:44:05 [CLIENT] Received data ID 1 type 1 value 29.43 from 127.0.0.1:32934
+34 2025-12-12 18:44:05 [TEMP] Sensor 1 reports it's too hot (avg = 26.98°C)
+35 2025-12-12 18:44:05 [CLIENT] Received data ID 1 type 1 value 25.29 from 127.0.0.1:32934
+36 2025-12-12 18:44:05 [TEMP] Sensor 1 reports it's too hot (avg = 26.79°C)
+37 2025-12-12 18:44:05 [SQL] Stored batch of 2 measurements
+38 2025-12-12 18:44:05 [CLIENT] Received data ID 1 type 1 value 24.61 from 127.0.0.1:32934
+39 2025-12-12 18:44:05 [TEMP] Sensor 1 reports it's too hot (avg = 26.57°C)
+40 2025-12-12 18:44:05 [SQL] Stored batch of 1 measurements
+41 2025-12-12 18:44:05 [CLIENT] Received data ID 1 type 1 value 28.15 from 127.0.0.1:32934
+42 2025-12-12 18:44:05 [TEMP] Sensor 1 reports it's too hot (avg = 26.72°C)
+43 2025-12-12 18:44:05 [SQL] Stored batch of 1 measurements
+44 2025-12-12 18:44:05 [CLIENT] Received data ID 1 type 1 value 29.61 from 127.0.0.1:32934
+45 2025-12-12 18:44:05 [TEMP] Sensor 1 reports it's too hot (avg = 26.96°C)
+46 2025-12-12 18:44:05 [SQL] Stored batch of 1 measurements
+47 2025-12-12 18:44:06 [CLIENT] Received data ID 1 type 1 value 24.81 from 127.0.0.1:32934
+48 2025-12-12 18:44:06 [TEMP] Sensor 1 reports it's too hot (avg = 26.79°C)
+49 2025-12-12 18:44:06 [CLIENT] Received data ID 1 type 1 value 21.34 from 127.0.0.1:32934
+50 2025-12-12 18:44:06 [TEMP] Sensor 1 reports it's too hot (avg = 26.40°C)
+51 2025-12-12 18:44:06 [SQL] Stored batch of 2 measurements
+52 2025-12-12 18:44:06 [CLIENT] Received data ID 1 type 1 value 24.29 from 127.0.0.1:32934
+53 2025-12-12 18:44:06 [TEMP] Sensor 1 reports it's too hot (avg = 26.26°C)
+54 2025-12-12 18:44:06 [SQL] Stored batch of 1 measurements
+55 2025-12-12 18:44:06 [CLIENT] Received data ID 1 type 1 value 29.61 from 127.0.0.1:32934
+56 2025-12-12 18:44:06 [TEMP] Sensor 1 reports it's too hot (avg = 26.47°C)
+57 2025-12-12 18:44:06 [SQL] Stored batch of 1 measurements
+58 2025-12-12 18:44:06 [CLIENT] Received data ID 1 type 1 value 25.02 from 127.0.0.1:32934
+59 2025-12-12 18:44:06 [TEMP] Sensor 1 reports it's too hot (avg = 26.39°C)
+60 2025-12-12 18:44:07 [CLIENT] Received data ID 1 type 1 value 27.43 from 127.0.0.1:32934
+61 2025-12-12 18:44:07 [TEMP] Sensor 1 reports it's too hot (avg = 26.44°C)
+62 2025-12-12 18:44:07 [CLOUD] Uploaded sensor 1 (type=1, avg=26.44, count=18)
+63 2025-12-12 18:44:07 [CLOUD] Upload batch complete: 1 uploaded, 0 failed
+64 2025-12-12 18:44:07 [CLIENT] Received data ID 1 type 1 value 22.90 from 127.0.0.1:32934
+65 2025-12-12 18:44:07 [TEMP] Sensor 1 reports it's too hot (avg = 26.26°C)
+66 2025-12-12 18:44:07 [SQL] Stored batch of 3 measurements
+67 2025-12-12 18:44:07 [MQTT] Sensor 1 message published successfully (mid=1)
+68 2025-12-12 18:44:07 [CLIENT] Received data ID 1 type 1 value 21.39 from 127.0.0.1:32934
+69 2025-12-12 18:44:07 [TEMP] Sensor 1 reports it's too hot (avg = 26.01°C)
+70 2025-12-12 18:44:07 [SQL] Stored batch of 1 measurements
+71 2025-12-12 18:44:07 [CLIENT] Received data ID 1 type 1 value 22.49 from 127.0.0.1:32934
+72 2025-12-12 18:44:07 [TEMP] Sensor 1 reports it's too hot (avg = 25.85°C)
+73 2025-12-12 18:44:07 [CLIENT] Received data ID 1 type 1 value 20.52 from 127.0.0.1:32934
+74 2025-12-12 18:44:07 [TEMP] Sensor 1 reports it's too hot (avg = 25.60°C)
+75 2025-12-12 18:44:07 [SQL] Stored batch of 2 measurements
+76 2025-12-12 18:44:08 [CLIENT] Received data ID 1 type 1 value 27.55 from 127.0.0.1:32934
+77 2025-12-12 18:44:08 [TEMP] Sensor 1 reports it's too hot (avg = 25.69°C)
+78 2025-12-12 18:44:08 [SQL] Stored batch of 1 measurements
+79 2025-12-12 18:44:08 [CLIENT] Received data ID 1 type 1 value 25.98 from 127.0.0.1:32934
+80 2025-12-12 18:44:08 [TEMP] Sensor 1 reports it's too hot (avg = 25.70°C)
+81 2025-12-12 18:44:08 [SQL] Stored batch of 1 measurements
+82 2025-12-12 18:44:08 [CLIENT] Received data ID 1 type 1 value 24.17 from 127.0.0.1:32934
+83 2025-12-12 18:44:08 [TEMP] Sensor 1 reports it's too hot (avg = 25.64°C)
+84 2025-12-12 18:44:08 [SQL] Stored batch of 1 measurements
+85 2025-12-12 18:44:08 [CLIENT] Received data ID 1 type 1 value 22.24 from 127.0.0.1:32934
+86 2025-12-12 18:44:08 [TEMP] Sensor 1 reports it's too hot (avg = 25.51°C)
+87 2025-12-12 18:44:08 [SQL] Stored batch of 1 measurements
+88 2025-12-12 18:44:08 [CLIENT] Received data ID 1 type 1 value 28.36 from 127.0.0.1:32934
+89 2025-12-12 18:44:08 [TEMP] Sensor 1 reports it's too hot (avg = 25.61°C)
+90 2025-12-12 18:44:08 [SQL] Stored batch of 1 measurements
+91 2025-12-12 18:44:09 [CLIENT] Received data ID 1 type 1 value 20.37 from 127.0.0.1:32934
+92 2025-12-12 18:44:09 [TEMP] Sensor 1 temperature normal (avg = 25.43°C)
+93 2025-12-12 18:44:09 [SQL] Stored batch of 1 measurements
+94 2025-12-12 18:44:09 [CLIENT] Received data ID 1 type 1 value 21.44 from 127.0.0.1:32934
+95 2025-12-12 18:44:09 [TEMP] Sensor 1 temperature normal (avg = 25.29°C)
+96 2025-12-12 18:44:09 [SQL] Stored batch of 1 measurements
+97 2025-12-12 18:44:09 [CLIENT] Received data ID 1 type 1 value 20.09 from 127.0.0.1:32934
+98 2025-12-12 18:44:09 [TEMP] Sensor 1 temperature normal (avg = 25.12°C)
+99 2025-12-12 18:44:09 [SQL] Stored batch of 1 measurements
+100 2025-12-12 18:44:09 [CLIENT] Received data ID 1 type 1 value 22.52 from 127.0.0.1:32934
+101 2025-12-12 18:44:09 [TEMP] Sensor 1 temperature normal (avg = 25.03°C)
+102 2025-12-12 18:44:09 [SQL] Stored batch of 1 measurements
+103 2025-12-12 18:44:09 [CLIENT] Received data ID 1 type 1 value 20.40 from 127.0.0.1:32934
+104 2025-12-12 18:44:09 [TEMP] Sensor 1 temperature normal (avg = 24.89°C)
+105 2025-12-12 18:44:09 [SQL] Stored batch of 1 measurements
+106 2025-12-12 18:44:10 [CLIENT] Received data ID 1 type 1 value 23.00 from 127.0.0.1:32934
+107 2025-12-12 18:44:10 [TEMP] Sensor 1 temperature normal (avg = 24.83°C)
+108 2025-12-12 18:44:10 [CLIENT] Received data ID 1 type 1 value 20.25 from 127.0.0.1:32934
+109 2025-12-12 18:44:10 [TEMP] Sensor 1 temperature normal (avg = 24.70°C)
+110 2025-12-12 18:44:10 [CLIENT] Received data ID 1 type 1 value 28.88 from 127.0.0.1:32934
+111 2025-12-12 18:44:10 [TEMP] Sensor 1 temperature normal (avg = 24.82°C)
+112 2025-12-12 18:44:10 [CLIENT] Received data ID 1 type 1 value 29.08 from 127.0.0.1:32934
+113 2025-12-12 18:44:10 [TEMP] Sensor 1 temperature normal (avg = 24.93°C)
+114 2025-12-12 18:44:10 [SQL] Stored batch of 4 measurements
+115 2025-12-12 18:44:10 [CLIENT] Received data ID 1 type 1 value 24.02 from 127.0.0.1:32934
+116 2025-12-12 18:44:10 [TEMP] Sensor 1 temperature normal (avg = 24.91°C)
+117 2025-12-12 18:44:10 [SQL] Stored batch of 1 measurements
+118 2025-12-12 18:44:11 [CLIENT] Received data ID 1 type 1 value 20.88 from 127.0.0.1:32934
+119 2025-12-12 18:44:11 [TEMP] Sensor 1 temperature normal (avg = 24.80°C)
+120 2025-12-12 18:44:11 [SQL] Stored batch of 1 measurements
+121 2025-12-12 18:44:11 [CLIENT] Received data ID 1 type 1 value 22.03 from 127.0.0.1:32934
+122 2025-12-12 18:44:11 [TEMP] Sensor 1 temperature normal (avg = 24.73°C)
+123 2025-12-12 18:44:11 [SQL] Stored batch of 1 measurements
+124 2025-12-12 18:44:11 [CLIENT] Received data ID 1 type 1 value 22.83 from 127.0.0.1:32934
+125 2025-12-12 18:44:11 [TEMP] Sensor 1 temperature normal (avg = 24.68°C)
+126 2025-12-12 18:44:11 [SQL] Stored batch of 1 measurements
+127 2025-12-12 18:44:11 [CLIENT] Received data ID 1 type 1 value 29.01 from 127.0.0.1:32934
+128 2025-12-12 18:44:11 [TEMP] Sensor 1 temperature normal (avg = 24.79°C)
+129 2025-12-12 18:44:11 [SQL] Stored batch of 1 measurements
+130 2025-12-12 18:44:11 [CLIENT] Received data ID 1 type 1 value 20.18 from 127.0.0.1:32934
+131 2025-12-12 18:44:11 [TEMP] Sensor 1 temperature normal (avg = 24.68°C)
+132 2025-12-12 18:44:12 [CLIENT] Received data ID 1 type 1 value 22.45 from 127.0.0.1:32934
+133 2025-12-12 18:44:12 [TEMP] Sensor 1 temperature normal (avg = 24.63°C)
+134 2025-12-12 18:44:12 [CLOUD] Uploaded sensor 1 (type=1, avg=24.63, count=43)
+135 2025-12-12 18:44:12 [CLOUD] Upload batch complete: 1 uploaded, 0 failed
+136 2025-12-12 18:44:12 [CLIENT] Received data ID 1 type 1 value 27.34 from 127.0.0.1:32934
+137 2025-12-12 18:44:12 [TEMP] Sensor 1 temperature normal (avg = 24.69°C)
+138 2025-12-12 18:44:12 [SQL] Stored batch of 3 measurements
+139 2025-12-12 18:44:12 [CLIENT] Received data ID 1 type 1 value 25.04 from 127.0.0.1:32934
+140 2025-12-12 18:44:12 [TEMP] Sensor 1 temperature normal (avg = 24.70°C)
+141 2025-12-12 18:44:12 [MQTT] Sensor 1 message published successfully (mid=2)
+142 2025-12-12 18:44:12 [CLIENT] Received data ID 1 type 1 value 26.74 from 127.0.0.1:32934
+143 2025-12-12 18:44:12 [TEMP] Sensor 1 temperature normal (avg = 24.74°C)
+144 2025-12-12 18:44:12 [SQL] Stored batch of 2 measurements
+145 2025-12-12 18:44:12 [CLIENT] Received data ID 1 type 1 value 26.95 from 127.0.0.1:32934
+146 2025-12-12 18:44:12 [TEMP] Sensor 1 temperature normal (avg = 24.79°C)
+147 2025-12-12 18:44:12 [SQL] Stored batch of 1 measurements
+148 2025-12-12 18:44:13 [CLIENT] Received data ID 1 type 1 value 20.06 from 127.0.0.1:32934
+149 2025-12-12 18:44:13 [TEMP] Sensor 1 temperature normal (avg = 24.69°C)
+150 2025-12-12 18:44:13 [SQL] Stored batch of 1 measurements
+151 2025-12-12 18:44:13 [CLIENT] Received data ID 1 type 1 value 27.69 from 127.0.0.1:32934
+152 2025-12-12 18:44:13 [TEMP] Sensor 1 temperature normal (avg = 24.75°C)
+153 2025-12-12 18:44:13 [SQL] Stored batch of 1 measurements
+154 2025-12-12 18:44:13 [CLIENT] Received data ID 1 type 1 value 23.38 from 127.0.0.1:32934
+155 2025-12-12 18:44:13 [TEMP] Sensor 1 temperature normal (avg = 24.72°C)
+156 2025-12-12 18:44:13 [CLIENT] Sensor node ID 1 from 127.0.0.1:32934 closed connection (50 packets received)
+157 2025-12-12 18:44:17 [CLOUD] Uploaded sensor 1 (type=1, avg=24.72, count=50)
+158 2025-12-12 18:44:17 [CLOUD] Upload batch complete: 1 uploaded, 0 failed
+159 2025-12-12 18:44:17 [MQTT] Sensor 1 message published successfully (mid=3)
+160 2025-12-12 18:44:22 [CLOUD] Uploaded sensor 1 (type=1, avg=24.72, count=50)
+161 2025-12-12 18:44:22 [CLOUD] Upload batch complete: 1 uploaded, 0 failed
+162 2025-12-12 18:44:22 [MQTT] Sensor 1 message published successfully (mid=4)
+163 2025-12-12 18:44:23 [CONNECTION] New client connected from 127.0.0.1:51720 (total: 2)
+164 2025-12-12 18:44:23 [CLIENT] Sensor node ID 2 from 127.0.0.1:51720 opened new connection
+165 2025-12-12 18:44:23 [CLIENT] Received data ID 2 type 2 value 72.90 from 127.0.0.1:51720
+166 2025-12-12 18:44:23 [HUMID] Sensor 2 humidity normal (avg = 72.90%)
+167 2025-12-12 18:44:23 [CLIENT] Received data ID 2 type 2 value 68.50 from 127.0.0.1:51720
+168 2025-12-12 18:44:23 [HUMID] Sensor 2 humidity normal (avg = 70.70%)
+169 2025-12-12 18:44:24 [CLIENT] Received data ID 2 type 2 value 48.40 from 127.0.0.1:51720
+170 2025-12-12 18:44:24 [HUMID] Sensor 2 humidity normal (avg = 63.27%)
+171 2025-12-12 18:44:24 [SQL] Stored batch of 4 measurements
+172 2025-12-12 18:44:24 [CLIENT] Received data ID 2 type 2 value 52.70 from 127.0.0.1:51720
+173 2025-12-12 18:44:24 [HUMID] Sensor 2 humidity normal (avg = 60.62%)
+174 2025-12-12 18:44:24 [SQL] Stored batch of 1 measurements
+175 2025-12-12 18:44:24 [CLIENT] Received data ID 2 type 2 value 78.50 from 127.0.0.1:51720
+176 2025-12-12 18:44:24 [HUMID] Sensor 2 humidity normal (avg = 64.20%)
+177 2025-12-12 18:44:24 [CLIENT] Received data ID 2 type 2 value 51.20 from 127.0.0.1:51720
+178 2025-12-12 18:44:24 [HUMID] Sensor 2 humidity normal (avg = 62.03%)
+179 2025-12-12 18:44:24 [SQL] Stored batch of 2 measurements
+180 2025-12-12 18:44:24 [CLIENT] Received data ID 2 type 2 value 48.50 from 127.0.0.1:51720
+181 2025-12-12 18:44:24 [HUMID] Sensor 2 humidity normal (avg = 60.10%)
+182 2025-12-12 18:44:25 [CLIENT] Received data ID 2 type 2 value 58.00 from 127.0.0.1:51720
+183 2025-12-12 18:44:25 [HUMID] Sensor 2 humidity normal (avg = 59.84%)
+184 2025-12-12 18:44:25 [SQL] Stored batch of 2 measurements
+185 2025-12-12 18:44:25 [CLIENT] Received data ID 2 type 2 value 42.30 from 127.0.0.1:51720
+186 2025-12-12 18:44:25 [HUMID] Sensor 2 humidity normal (avg = 57.89%)
+187 2025-12-12 18:44:25 [SQL] Stored batch of 1 measurements
+188 2025-12-12 18:44:25 [CLIENT] Received data ID 2 type 2 value 74.10 from 127.0.0.1:51720
+189 2025-12-12 18:44:25 [HUMID] Sensor 2 humidity normal (avg = 59.51%)
+190 2025-12-12 18:44:25 [SQL] Stored batch of 1 measurements
+191 2025-12-12 18:44:25 [CLIENT] Received data ID 2 type 2 value 47.10 from 127.0.0.1:51720
+192 2025-12-12 18:44:25 [HUMID] Sensor 2 humidity normal (avg = 58.38%)
+193 2025-12-12 18:44:25 [SQL] Stored batch of 1 measurements
+194 2025-12-12 18:44:25 [CLIENT] Received data ID 2 type 2 value 68.10 from 127.0.0.1:51720
+195 2025-12-12 18:44:25 [HUMID] Sensor 2 humidity normal (avg = 59.19%)
+196 2025-12-12 18:44:25 [SQL] Stored batch of 1 measurements
+197 2025-12-12 18:44:26 [CLIENT] Received data ID 2 type 2 value 54.20 from 127.0.0.1:51720
+198 2025-12-12 18:44:26 [HUMID] Sensor 2 humidity normal (avg = 58.81%)
+199 2025-12-12 18:44:26 [SQL] Stored batch of 1 measurements
+200 2025-12-12 18:44:26 [CLIENT] Received data ID 2 type 2 value 47.20 from 127.0.0.1:51720
+201 2025-12-12 18:44:26 [HUMID] Sensor 2 humidity normal (avg = 57.98%)
+202 2025-12-12 18:44:26 [SQL] Stored batch of 1 measurements
+203 2025-12-12 18:44:26 [CLIENT] Received data ID 2 type 2 value 48.20 from 127.0.0.1:51720
+204 2025-12-12 18:44:26 [HUMID] Sensor 2 humidity normal (avg = 57.33%)
+205 2025-12-12 18:44:26 [SQL] Stored batch of 1 measurements
+206 2025-12-12 18:44:26 [CLIENT] Received data ID 2 type 2 value 60.80 from 127.0.0.1:51720
+207 2025-12-12 18:44:26 [HUMID] Sensor 2 humidity normal (avg = 57.54%)
+208 2025-12-12 18:44:26 [SQL] Stored batch of 1 measurements
+209 2025-12-12 18:44:26 [CLIENT] Received data ID 2 type 2 value 66.20 from 127.0.0.1:51720
+210 2025-12-12 18:44:26 [HUMID] Sensor 2 humidity normal (avg = 58.05%)
+211 2025-12-12 18:44:27 [CLIENT] Received data ID 2 type 2 value 51.30 from 127.0.0.1:51720
+212 2025-12-12 18:44:27 [HUMID] Sensor 2 humidity normal (avg = 57.68%)
+213 2025-12-12 18:44:27 [SQL] Stored batch of 2 measurements
+214 2025-12-12 18:44:27 [CLOUD] Uploaded sensor 2 (type=2, avg=57.68, count=18)
+215 2025-12-12 18:44:27 [CLOUD] Uploaded sensor 1 (type=1, avg=24.72, count=50)
+216 2025-12-12 18:44:27 [CLOUD] Upload batch complete: 2 uploaded, 0 failed
+217 2025-12-12 18:44:27 [CLIENT] Received data ID 2 type 2 value 56.10 from 127.0.0.1:51720
+218 2025-12-12 18:44:27 [HUMID] Sensor 2 humidity normal (avg = 57.59%)
+219 2025-12-12 18:44:27 [CLIENT] Received data ID 2 type 2 value 41.80 from 127.0.0.1:51720
+220 2025-12-12 18:44:27 [HUMID] Sensor 2 humidity normal (avg = 56.80%)
+221 2025-12-12 18:44:27 [SQL] Stored batch of 2 measurements
+222 2025-12-12 18:44:27 [MQTT] Sensor 1 message published successfully (mid=5)
+223 2025-12-12 18:44:27 [MQTT] Sensor 2 message published successfully (mid=1)
+224 2025-12-12 18:44:27 [CLIENT] Received data ID 2 type 2 value 67.10 from 127.0.0.1:51720
+225 2025-12-12 18:44:27 [HUMID] Sensor 2 humidity normal (avg = 57.30%)
+226 2025-12-12 18:44:27 [CLIENT] Received data ID 2 type 2 value 52.20 from 127.0.0.1:51720
+227 2025-12-12 18:44:27 [HUMID] Sensor 2 humidity normal (avg = 57.06%)
+228 2025-12-12 18:44:27 [SQL] Stored batch of 2 measurements
+229 2025-12-12 18:44:28 [CLIENT] Received data ID 2 type 2 value 65.00 from 127.0.0.1:51720
+230 2025-12-12 18:44:28 [HUMID] Sensor 2 humidity normal (avg = 57.41%)
+231 2025-12-12 18:44:28 [CLIENT] Received data ID 2 type 2 value 62.30 from 127.0.0.1:51720
+232 2025-12-12 18:44:28 [HUMID] Sensor 2 humidity normal (avg = 57.61%)
+233 2025-12-12 18:44:28 [CLIENT] Received data ID 2 type 2 value 71.60 from 127.0.0.1:51720
+234 2025-12-12 18:44:28 [HUMID] Sensor 2 humidity normal (avg = 58.17%)
+235 2025-12-12 18:44:28 [SQL] Stored batch of 3 measurements
+236 2025-12-12 18:44:28 [CONNECTION] New client connected from 127.0.0.1:53856 (total: 3)
+237 2025-12-12 18:44:28 [CLIENT] Sensor node ID 3 from 127.0.0.1:53856 opened new connection
+238 2025-12-12 18:44:28 [CLIENT] Received data ID 3 type 3 value 180.00 from 127.0.0.1:53856
+239 2025-12-12 18:44:28 [LIGHT] Sensor 3 reports low light (avg = 180.00 lux)
+240 2025-12-12 18:44:28 [CLIENT] Received data ID 2 type 2 value 54.50 from 127.0.0.1:51720
+241 2025-12-12 18:44:28 [HUMID] Sensor 2 humidity normal (avg = 58.03%)
+242 2025-12-12 18:44:28 [SQL] Stored batch of 2 measurements
+243 2025-12-12 18:44:28 [CLIENT] Received data ID 3 type 3 value 482.00 from 127.0.0.1:53856
+244 2025-12-12 18:44:28 [LIGHT] Sensor 3 light normal (avg = 331.00 lux)
+245 2025-12-12 18:44:28 [SQL] Stored batch of 1 measurements
+246 2025-12-12 18:44:28 [CLIENT] Received data ID 2 type 2 value 51.20 from 127.0.0.1:51720
+247 2025-12-12 18:44:28 [SQL] Stored batch of 1 measurements
+248 2025-12-12 18:44:28 [HUMID] Sensor 2 humidity normal (avg = 57.78%)
+249 2025-12-12 18:44:29 [CLIENT] Received data ID 3 type 3 value 157.00 from 127.0.0.1:53856
+250 2025-12-12 18:44:29 [SQL] Stored batch of 1 measurements
+251 2025-12-12 18:44:29 [LIGHT] Sensor 3 light normal (avg = 273.00 lux)
+252 2025-12-12 18:44:29 [CLIENT] Received data ID 2 type 2 value 78.90 from 127.0.0.1:51720
+253 2025-12-12 18:44:29 [SQL] Stored batch of 1 measurements
+254 2025-12-12 18:44:29 [HUMID] Sensor 2 humidity normal (avg = 58.53%)
+255 2025-12-12 18:44:29 [CLIENT] Received data ID 3 type 3 value 895.00 from 127.0.0.1:53856
+256 2025-12-12 18:44:29 [SQL] Stored batch of 1 measurements
+257 2025-12-12 18:44:29 [LIGHT] Sensor 3 light normal (avg = 428.50 lux)
+258 2025-12-12 18:44:29 [CLIENT] Received data ID 2 type 2 value 70.80 from 127.0.0.1:51720
+259 2025-12-12 18:44:29 [SQL] Stored batch of 1 measurements
+260 2025-12-12 18:44:29 [HUMID] Sensor 2 humidity normal (avg = 58.96%)
+261 2025-12-12 18:44:29 [CLIENT] Received data ID 3 type 3 value 810.00 from 127.0.0.1:53856
+262 2025-12-12 18:44:29 [SQL] Stored batch of 1 measurements
+263 2025-12-12 18:44:29 [LIGHT] Sensor 3 light normal (avg = 504.80 lux)
+264 2025-12-12 18:44:29 [CLIENT] Received data ID 2 type 2 value 68.30 from 127.0.0.1:51720
+265 2025-12-12 18:44:29 [SQL] Stored batch of 1 measurements
+266 2025-12-12 18:44:29 [HUMID] Sensor 2 humidity normal (avg = 59.27%)
+267 2025-12-12 18:44:29 [CLIENT] Received data ID 3 type 3 value 840.00 from 127.0.0.1:53856
+268 2025-12-12 18:44:29 [SQL] Stored batch of 1 measurements
+269 2025-12-12 18:44:29 [LIGHT] Sensor 3 light normal (avg = 560.67 lux)
+270 2025-12-12 18:44:29 [CLIENT] Received data ID 2 type 2 value 53.00 from 127.0.0.1:51720
+271 2025-12-12 18:44:29 [SQL] Stored batch of 1 measurements
+272 2025-12-12 18:44:29 [HUMID] Sensor 2 humidity normal (avg = 59.06%)
+273 2025-12-12 18:44:29 [CLIENT] Received data ID 3 type 3 value 102.00 from 127.0.0.1:53856
+274 2025-12-12 18:44:29 [SQL] Stored batch of 1 measurements
+275 2025-12-12 18:44:29 [LIGHT] Sensor 3 light normal (avg = 495.14 lux)
+276 2025-12-12 18:44:29 [CLIENT] Received data ID 2 type 2 value 63.70 from 127.0.0.1:51720
+277 2025-12-12 18:44:29 [SQL] Stored batch of 1 measurements
+278 2025-12-12 18:44:29 [HUMID] Sensor 2 humidity normal (avg = 59.21%)
+279 2025-12-12 18:44:30 [CLIENT] Received data ID 3 type 3 value 237.00 from 127.0.0.1:53856
+280 2025-12-12 18:44:30 [SQL] Stored batch of 1 measurements
+281 2025-12-12 18:44:30 [LIGHT] Sensor 3 light normal (avg = 462.88 lux)
+282 2025-12-12 18:44:30 [CLIENT] Received data ID 2 type 2 value 56.90 from 127.0.0.1:51720
+283 2025-12-12 18:44:30 [SQL] Stored batch of 1 measurements
+284 2025-12-12 18:44:30 [HUMID] Sensor 2 humidity normal (avg = 59.14%)
+285 2025-12-12 18:44:30 [CLIENT] Received data ID 3 type 3 value 423.00 from 127.0.0.1:53856
+286 2025-12-12 18:44:30 [SQL] Stored batch of 1 measurements
+287 2025-12-12 18:44:30 [LIGHT] Sensor 3 light normal (avg = 458.44 lux)
+288 2025-12-12 18:44:30 [CLIENT] Received data ID 2 type 2 value 61.50 from 127.0.0.1:51720
+289 2025-12-12 18:44:30 [SQL] Stored batch of 1 measurements
+290 2025-12-12 18:44:30 [HUMID] Sensor 2 humidity normal (avg = 59.21%)
+291 2025-12-12 18:44:30 [CLIENT] Received data ID 3 type 3 value 343.00 from 127.0.0.1:53856
+292 2025-12-12 18:44:30 [SQL] Stored batch of 1 measurements
+293 2025-12-12 18:44:30 [LIGHT] Sensor 3 light normal (avg = 446.90 lux)
+294 2025-12-12 18:44:30 [CLIENT] Received data ID 2 type 2 value 71.70 from 127.0.0.1:51720
+295 2025-12-12 18:44:30 [SQL] Stored batch of 1 measurements
+296 2025-12-12 18:44:30 [HUMID] Sensor 2 humidity normal (avg = 59.57%)
+297 2025-12-12 18:44:30 [CLIENT] Received data ID 3 type 3 value 164.00 from 127.0.0.1:53856
+298 2025-12-12 18:44:30 [SQL] Stored batch of 1 measurements
+299 2025-12-12 18:44:30 [LIGHT] Sensor 3 light normal (avg = 421.18 lux)
+300 2025-12-12 18:44:30 [CLIENT] Received data ID 2 type 2 value 55.40 from 127.0.0.1:51720
+301 2025-12-12 18:44:30 [SQL] Stored batch of 1 measurements
+302 2025-12-12 18:44:30 [HUMID] Sensor 2 humidity normal (avg = 59.45%)
+303 2025-12-12 18:44:30 [CLIENT] Received data ID 3 type 3 value 379.00 from 127.0.0.1:53856
+304 2025-12-12 18:44:30 [SQL] Stored batch of 1 measurements
+305 2025-12-12 18:44:30 [LIGHT] Sensor 3 light normal (avg = 417.67 lux)
+306 2025-12-12 18:44:30 [CLIENT] Received data ID 2 type 2 value 67.90 from 127.0.0.1:51720
+307 2025-12-12 18:44:30 [SQL] Stored batch of 1 measurements
+308 2025-12-12 18:44:30 [HUMID] Sensor 2 humidity normal (avg = 59.68%)
+309 2025-12-12 18:44:31 [CLIENT] Received data ID 3 type 3 value 655.00 from 127.0.0.1:53856
+310 2025-12-12 18:44:31 [SQL] Stored batch of 1 measurements
+311 2025-12-12 18:44:31 [LIGHT] Sensor 3 light normal (avg = 435.92 lux)
+312 2025-12-12 18:44:31 [CLIENT] Received data ID 2 type 2 value 40.20 from 127.0.0.1:51720
+313 2025-12-12 18:44:31 [SQL] Stored batch of 1 measurements
+314 2025-12-12 18:44:31 [HUMID] Sensor 2 humidity normal (avg = 59.17%)
+315 2025-12-12 18:44:31 [CLIENT] Received data ID 3 type 3 value 659.00 from 127.0.0.1:53856
+316 2025-12-12 18:44:31 [SQL] Stored batch of 1 measurements
+317 2025-12-12 18:44:31 [LIGHT] Sensor 3 light normal (avg = 451.86 lux)
+318 2025-12-12 18:44:31 [CLIENT] Received data ID 2 type 2 value 68.70 from 127.0.0.1:51720
+319 2025-12-12 18:44:31 [SQL] Stored batch of 1 measurements
+320 2025-12-12 18:44:31 [HUMID] Sensor 2 humidity normal (avg = 59.41%)
+321 2025-12-12 18:44:31 [CLIENT] Received data ID 3 type 3 value 510.00 from 127.0.0.1:53856
+322 2025-12-12 18:44:31 [SQL] Stored batch of 1 measurements
+323 2025-12-12 18:44:31 [LIGHT] Sensor 3 light normal (avg = 455.73 lux)
+324 2025-12-12 18:44:31 [CLIENT] Received data ID 2 type 2 value 65.40 from 127.0.0.1:51720
+325 2025-12-12 18:44:31 [SQL] Stored batch of 1 measurements
+326 2025-12-12 18:44:31 [HUMID] Sensor 2 humidity normal (avg = 59.56%)
+327 2025-12-12 18:44:31 [CLIENT] Received data ID 3 type 3 value 548.00 from 127.0.0.1:53856
+328 2025-12-12 18:44:31 [SQL] Stored batch of 1 measurements
+329 2025-12-12 18:44:31 [LIGHT] Sensor 3 light normal (avg = 461.50 lux)
+330 2025-12-12 18:44:31 [CLIENT] Received data ID 2 type 2 value 69.50 from 127.0.0.1:51720
+331 2025-12-12 18:44:31 [SQL] Stored batch of 1 measurements
+332 2025-12-12 18:44:31 [HUMID] Sensor 2 humidity normal (avg = 59.80%)
+333 2025-12-12 18:44:31 [CLIENT] Received data ID 3 type 3 value 954.00 from 127.0.0.1:53856
+334 2025-12-12 18:44:31 [SQL] Stored batch of 1 measurements
+335 2025-12-12 18:44:31 [LIGHT] Sensor 3 light normal (avg = 490.47 lux)
+336 2025-12-12 18:44:31 [CLIENT] Received data ID 2 type 2 value 71.00 from 127.0.0.1:51720
+337 2025-12-12 18:44:31 [SQL] Stored batch of 1 measurements
+338 2025-12-12 18:44:31 [HUMID] Sensor 2 humidity normal (avg = 60.07%)
+339 2025-12-12 18:44:32 [CLIENT] Received data ID 3 type 3 value 482.00 from 127.0.0.1:53856
+340 2025-12-12 18:44:32 [SQL] Stored batch of 1 measurements
+341 2025-12-12 18:44:32 [LIGHT] Sensor 3 light normal (avg = 490.00 lux)
+342 2025-12-12 18:44:32 [CLIENT] Received data ID 2 type 2 value 53.50 from 127.0.0.1:51720
+343 2025-12-12 18:44:32 [SQL] Stored batch of 1 measurements
+344 2025-12-12 18:44:32 [HUMID] Sensor 2 humidity normal (avg = 59.92%)
+345 2025-12-12 18:44:32 [CLOUD] Uploaded sensor 3 (type=3, avg=490.00, count=18)
+346 2025-12-12 18:44:32 [CLOUD] Uploaded sensor 2 (type=2, avg=59.92, count=43)
+347 2025-12-12 18:44:32 [CLOUD] Uploaded sensor 1 (type=1, avg=24.72, count=50)
+348 2025-12-12 18:44:32 [CLOUD] Upload batch complete: 3 uploaded, 0 failed
+349 2025-12-12 18:44:32 [CLIENT] Received data ID 3 type 3 value 779.00 from 127.0.0.1:53856
+350 2025-12-12 18:44:32 [SQL] Stored batch of 1 measurements
+351 2025-12-12 18:44:32 [LIGHT] Sensor 3 light normal (avg = 505.21 lux)
+352 2025-12-12 18:44:32 [CLIENT] Received data ID 2 type 2 value 78.90 from 127.0.0.1:51720
+353 2025-12-12 18:44:32 [SQL] Stored batch of 1 measurements
+354 2025-12-12 18:44:32 [HUMID] Sensor 2 humidity normal (avg = 60.35%)
+355 2025-12-12 18:44:32 [CLIENT] Received data ID 3 type 3 value 281.00 from 127.0.0.1:53856
+356 2025-12-12 18:44:32 [SQL] Stored batch of 1 measurements
+357 2025-12-12 18:44:32 [LIGHT] Sensor 3 light normal (avg = 494.00 lux)
+358 2025-12-12 18:44:32 [CLIENT] Received data ID 2 type 2 value 78.30 from 127.0.0.1:51720
+359 2025-12-12 18:44:32 [MQTT] Sensor 1 message published successfully (mid=6)
+360 2025-12-12 18:44:32 [MQTT] Sensor 2 message published successfully (mid=2)
+361 2025-12-12 18:44:32 [MQTT] Sensor 3 message published successfully (mid=1)
+362 2025-12-12 18:44:32 [SQL] Stored batch of 1 measurements
+363 2025-12-12 18:44:32 [HUMID] Sensor 2 humidity normal (avg = 60.75%)
+364 2025-12-12 18:44:32 [CLIENT] Received data ID 3 type 3 value 561.00 from 127.0.0.1:53856
+365 2025-12-12 18:44:32 [SQL] Stored batch of 1 measurements
+366 2025-12-12 18:44:32 [LIGHT] Sensor 3 light normal (avg = 497.19 lux)
+367 2025-12-12 18:44:32 [CLIENT] Received data ID 2 type 2 value 57.00 from 127.0.0.1:51720
+368 2025-12-12 18:44:32 [SQL] Stored batch of 1 measurements
+369 2025-12-12 18:44:32 [HUMID] Sensor 2 humidity normal (avg = 60.67%)
+370 2025-12-12 18:44:32 [CLIENT] Received data ID 3 type 3 value 786.00 from 127.0.0.1:53856
+371 2025-12-12 18:44:32 [SQL] Stored batch of 1 measurements
+372 2025-12-12 18:44:32 [LIGHT] Sensor 3 light normal (avg = 510.32 lux)
+373 2025-12-12 18:44:32 [CLIENT] Received data ID 2 type 2 value 59.80 from 127.0.0.1:51720
+374 2025-12-12 18:44:32 [SQL] Stored batch of 1 measurements
+375 2025-12-12 18:44:32 [HUMID] Sensor 2 humidity normal (avg = 60.65%)
+376 2025-12-12 18:44:33 [CLIENT] Received data ID 3 type 3 value 548.00 from 127.0.0.1:53856
+377 2025-12-12 18:44:33 [SQL] Stored batch of 1 measurements
+378 2025-12-12 18:44:33 [LIGHT] Sensor 3 light normal (avg = 511.96 lux)
+379 2025-12-12 18:44:33 [CLIENT] Received data ID 2 type 2 value 59.70 from 127.0.0.1:51720
+380 2025-12-12 18:44:33 [SQL] Stored batch of 1 measurements
+381 2025-12-12 18:44:33 [HUMID] Sensor 2 humidity normal (avg = 60.63%)
+382 2025-12-12 18:44:33 [CLIENT] Received data ID 3 type 3 value 820.00 from 127.0.0.1:53856
+383 2025-12-12 18:44:33 [SQL] Stored batch of 1 measurements
+384 2025-12-12 18:44:33 [LIGHT] Sensor 3 light normal (avg = 524.79 lux)
+385 2025-12-12 18:44:33 [CLIENT] Received data ID 2 type 2 value 63.50 from 127.0.0.1:51720
+386 2025-12-12 18:44:33 [SQL] Stored batch of 1 measurements
+387 2025-12-12 18:44:33 [HUMID] Sensor 2 humidity normal (avg = 60.69%)
+388 2025-12-12 18:44:33 [CLIENT] Received data ID 3 type 3 value 253.00 from 127.0.0.1:53856
+389 2025-12-12 18:44:33 [SQL] Stored batch of 1 measurements
+390 2025-12-12 18:44:33 [LIGHT] Sensor 3 light normal (avg = 513.92 lux)
+391 2025-12-12 18:44:33 [CLIENT] Received data ID 2 type 2 value 75.90 from 127.0.0.1:51720
+392 2025-12-12 18:44:33 [SQL] Stored batch of 1 measurements
+393 2025-12-12 18:44:33 [HUMID] Sensor 2 humidity normal (avg = 60.99%)
+394 2025-12-12 18:44:33 [CLIENT] Received data ID 3 type 3 value 822.00 from 127.0.0.1:53856
+395 2025-12-12 18:44:33 [SQL] Stored batch of 1 measurements
+396 2025-12-12 18:44:33 [LIGHT] Sensor 3 light normal (avg = 525.77 lux)
+397 2025-12-12 18:44:33 [CLIENT] Sensor node ID 2 from 127.0.0.1:51720 closed connection (50 packets received)
+398 2025-12-12 18:44:33 [CLIENT] Received data ID 3 type 3 value 945.00 from 127.0.0.1:53856
+399 2025-12-12 18:44:33 [LIGHT] Sensor 3 light normal (avg = 541.30 lux)
+400 2025-12-12 18:44:33 [SQL] Stored batch of 1 measurements
+401 2025-12-12 18:44:34 [CLIENT] Received data ID 3 type 3 value 530.00 from 127.0.0.1:53856
+402 2025-12-12 18:44:34 [LIGHT] Sensor 3 light normal (avg = 540.89 lux)
+403 2025-12-12 18:44:34 [SQL] Stored batch of 1 measurements
+404 2025-12-12 18:44:34 [CLIENT] Received data ID 3 type 3 value 482.00 from 127.0.0.1:53856
+405 2025-12-12 18:44:34 [LIGHT] Sensor 3 light normal (avg = 538.86 lux)
+406 2025-12-12 18:44:34 [SQL] Stored batch of 1 measurements
+407 2025-12-12 18:44:34 [CLIENT] Received data ID 3 type 3 value 899.00 from 127.0.0.1:53856
+408 2025-12-12 18:44:34 [LIGHT] Sensor 3 light normal (avg = 550.87 lux)
+409 2025-12-12 18:44:34 [SQL] Stored batch of 1 measurements
+410 2025-12-12 18:44:34 [CLIENT] Received data ID 3 type 3 value 128.00 from 127.0.0.1:53856
+411 2025-12-12 18:44:34 [LIGHT] Sensor 3 light normal (avg = 537.23 lux)
+412 2025-12-12 18:44:34 [CLIENT] Received data ID 3 type 3 value 563.00 from 127.0.0.1:53856
+413 2025-12-12 18:44:34 [LIGHT] Sensor 3 light normal (avg = 538.03 lux)
+414 2025-12-12 18:44:35 [CLIENT] Received data ID 3 type 3 value 433.00 from 127.0.0.1:53856
+415 2025-12-12 18:44:35 [LIGHT] Sensor 3 light normal (avg = 534.85 lux)
+416 2025-12-12 18:44:35 [CLIENT] Received data ID 3 type 3 value 237.00 from 127.0.0.1:53856
+417 2025-12-12 18:44:35 [LIGHT] Sensor 3 light normal (avg = 526.09 lux)
+418 2025-12-12 18:44:35 [CLIENT] Received data ID 3 type 3 value 510.00 from 127.0.0.1:53856
+419 2025-12-12 18:44:35 [LIGHT] Sensor 3 light normal (avg = 525.63 lux)
+420 2025-12-12 18:44:35 [CLIENT] Received data ID 3 type 3 value 243.00 from 127.0.0.1:53856
+421 2025-12-12 18:44:35 [LIGHT] Sensor 3 light normal (avg = 517.78 lux)
+422 2025-12-12 18:44:35 [CLIENT] Received data ID 3 type 3 value 977.00 from 127.0.0.1:53856
+423 2025-12-12 18:44:35 [LIGHT] Sensor 3 light normal (avg = 530.19 lux)
+424 2025-12-12 18:44:36 [CLIENT] Received data ID 3 type 3 value 564.00 from 127.0.0.1:53856
+425 2025-12-12 18:44:36 [LIGHT] Sensor 3 light normal (avg = 531.08 lux)
+426 2025-12-12 18:44:36 [CLIENT] Received data ID 3 type 3 value 432.00 from 127.0.0.1:53856
+427 2025-12-12 18:44:36 [LIGHT] Sensor 3 light normal (avg = 528.54 lux)
+428 2025-12-12 18:44:36 [SQL] Stored batch of 9 measurements
+429 2025-12-12 18:44:36 [CLIENT] Received data ID 3 type 3 value 452.00 from 127.0.0.1:53856
+430 2025-12-12 18:44:36 [LIGHT] Sensor 3 light normal (avg = 526.62 lux)
+431 2025-12-12 18:44:36 [CLIENT] Received data ID 3 type 3 value 808.00 from 127.0.0.1:53856
+432 2025-12-12 18:44:36 [LIGHT] Sensor 3 light normal (avg = 533.49 lux)
+433 2025-12-12 18:44:36 [SQL] Stored batch of 2 measurements
+434 2025-12-12 18:44:36 [CLIENT] Received data ID 3 type 3 value 548.00 from 127.0.0.1:53856
+435 2025-12-12 18:44:36 [LIGHT] Sensor 3 light normal (avg = 533.83 lux)
+436 2025-12-12 18:44:36 [CONNECTION] New client connected from 127.0.0.1:59552 (total: 4)
+437 2025-12-12 18:44:36 [CLIENT] Sensor node ID 1 from 127.0.0.1:59552 opened new connection
+438 2025-12-12 18:44:36 [CLIENT] Received data ID 1 type 1 value 26.37 from 127.0.0.1:59552
+439 2025-12-12 18:44:36 [TEMP] Sensor 1 temperature normal (avg = 24.76°C)
+440 2025-12-12 18:44:37 [CLIENT] Received data ID 3 type 3 value 731.00 from 127.0.0.1:53856
+441 2025-12-12 18:44:37 [LIGHT] Sensor 3 light normal (avg = 538.42 lux)
+442 2025-12-12 18:44:37 [CLIENT] Received data ID 1 type 1 value 21.63 from 127.0.0.1:59552
+443 2025-12-12 18:44:37 [TEMP] Sensor 1 temperature normal (avg = 24.70°C)
+444 2025-12-12 18:44:37 [CLOUD] Uploaded sensor 3 (type=3, avg=538.42, count=43)
+445 2025-12-12 18:44:37 [CLOUD] Uploaded sensor 2 (type=2, avg=60.99, count=50)
+446 2025-12-12 18:44:37 [CLOUD] Uploaded sensor 1 (type=1, avg=24.70, count=52)
+447 2025-12-12 18:44:37 [CLOUD] Upload batch complete: 3 uploaded, 0 failed
+448 2025-12-12 18:44:37 [CLIENT] Received data ID 3 type 3 value 515.00 from 127.0.0.1:53856
+449 2025-12-12 18:44:37 [LIGHT] Sensor 3 light normal (avg = 537.89 lux)
+450 2025-12-12 18:44:37 [CLIENT] Received data ID 1 type 1 value 21.69 from 127.0.0.1:59552
+451 2025-12-12 18:44:37 [TEMP] Sensor 1 temperature normal (avg = 24.64°C)
+452 2025-12-12 18:44:37 [SQL] Stored batch of 6 measurements
+453 2025-12-12 18:44:37 [CLIENT] Received data ID 3 type 3 value 208.00 from 127.0.0.1:53856
+454 2025-12-12 18:44:37 [LIGHT] Sensor 3 light normal (avg = 530.56 lux)
+455 2025-12-12 18:44:37 [MQTT] Sensor 3 message published successfully (mid=2)
+456 2025-12-12 18:44:37 [MQTT] Sensor 1 message published successfully (mid=7)
+457 2025-12-12 18:44:37 [MQTT] Sensor 2 message published successfully (mid=3)
+458 2025-12-12 18:44:37 [CLIENT] Received data ID 1 type 1 value 25.99 from 127.0.0.1:59552
+459 2025-12-12 18:44:37 [TEMP] Sensor 1 temperature normal (avg = 24.66°C)
+460 2025-12-12 18:44:37 [SQL] Stored batch of 2 measurements
+461 2025-12-12 18:44:37 [CLIENT] Received data ID 3 type 3 value 293.00 from 127.0.0.1:53856
+462 2025-12-12 18:44:37 [LIGHT] Sensor 3 light normal (avg = 525.39 lux)
+463 2025-12-12 18:44:37 [SQL] Stored batch of 1 measurements
+464 2025-12-12 18:44:37 [CLIENT] Received data ID 1 type 1 value 22.48 from 127.0.0.1:59552
+465 2025-12-12 18:44:37 [SQL] Stored batch of 1 measurements
+466 2025-12-12 18:44:37 [TEMP] Sensor 1 temperature normal (avg = 24.63°C)
+467 2025-12-12 18:44:37 [CLIENT] Received data ID 3 type 3 value 116.00 from 127.0.0.1:53856
+468 2025-12-12 18:44:37 [LIGHT] Sensor 3 light normal (avg = 516.68 lux)
+469 2025-12-12 18:44:37 [CLIENT] Received data ID 1 type 1 value 26.08 from 127.0.0.1:59552
+470 2025-12-12 18:44:37 [TEMP] Sensor 1 temperature normal (avg = 24.65°C)
+471 2025-12-12 18:44:37 [SQL] Stored batch of 2 measurements
+472 2025-12-12 18:44:38 [CLIENT] Received data ID 3 type 3 value 214.00 from 127.0.0.1:53856
+473 2025-12-12 18:44:38 [LIGHT] Sensor 3 light normal (avg = 510.38 lux)
+474 2025-12-12 18:44:38 [SQL] Stored batch of 1 measurements
+475 2025-12-12 18:44:38 [CLIENT] Received data ID 1 type 1 value 23.57 from 127.0.0.1:59552
+476 2025-12-12 18:44:38 [SQL] Stored batch of 1 measurements
+477 2025-12-12 18:44:38 [TEMP] Sensor 1 temperature normal (avg = 24.63°C)
+478 2025-12-12 18:44:38 [CLIENT] Received data ID 3 type 3 value 675.00 from 127.0.0.1:53856
+479 2025-12-12 18:44:38 [SQL] Stored batch of 1 measurements
+480 2025-12-12 18:44:38 [LIGHT] Sensor 3 light normal (avg = 513.73 lux)
+481 2025-12-12 18:44:38 [CLIENT] Received data ID 1 type 1 value 23.15 from 127.0.0.1:59552
+482 2025-12-12 18:44:38 [SQL] Stored batch of 1 measurements
+483 2025-12-12 18:44:38 [TEMP] Sensor 1 temperature normal (avg = 24.61°C)
+484 2025-12-12 18:44:38 [CLIENT] Received data ID 3 type 3 value 847.00 from 127.0.0.1:53856
+485 2025-12-12 18:44:38 [LIGHT] Sensor 3 light normal (avg = 520.40 lux)
+486 2025-12-12 18:44:38 [SQL] Stored batch of 1 measurements
+487 2025-12-12 18:44:38 [CLIENT] Received data ID 1 type 1 value 29.02 from 127.0.0.1:59552
+488 2025-12-12 18:44:38 [SQL] Stored batch of 1 measurements
+489 2025-12-12 18:44:38 [TEMP] Sensor 1 temperature normal (avg = 24.68°C)
+490 2025-12-12 18:44:38 [CLIENT] Sensor node ID 3 from 127.0.0.1:53856 closed connection (50 packets received)
+491 2025-12-12 18:44:38 [CLIENT] Received data ID 1 type 1 value 21.71 from 127.0.0.1:59552
+492 2025-12-12 18:44:38 [SQL] Stored batch of 1 measurements
+493 2025-12-12 18:44:38 [TEMP] Sensor 1 temperature normal (avg = 24.63°C)
+494 2025-12-12 18:44:38 [CLIENT] Received data ID 1 type 1 value 22.82 from 127.0.0.1:59552
+495 2025-12-12 18:44:38 [TEMP] Sensor 1 temperature normal (avg = 24.60°C)
+496 2025-12-12 18:44:39 [CLIENT] Received data ID 1 type 1 value 21.07 from 127.0.0.1:59552
+497 2025-12-12 18:44:39 [TEMP] Sensor 1 temperature normal (avg = 24.55°C)
+498 2025-12-12 18:44:39 [SQL] Stored batch of 2 measurements
+499 2025-12-12 18:44:39 [CLIENT] Received data ID 1 type 1 value 25.26 from 127.0.0.1:59552
+500 2025-12-12 18:44:39 [TEMP] Sensor 1 temperature normal (avg = 24.56°C)
+501 2025-12-12 18:44:39 [SQL] Stored batch of 1 measurements
+502 2025-12-12 18:44:39 [CLIENT] Received data ID 1 type 1 value 22.70 from 127.0.0.1:59552
+503 2025-12-12 18:44:39 [TEMP] Sensor 1 temperature normal (avg = 24.53°C)
+504 2025-12-12 18:44:39 [SQL] Stored batch of 1 measurements
+505 2025-12-12 18:44:39 [CLIENT] Received data ID 1 type 1 value 27.25 from 127.0.0.1:59552
+506 2025-12-12 18:44:39 [TEMP] Sensor 1 temperature normal (avg = 24.57°C)
+507 2025-12-12 18:44:39 [CLIENT] Received data ID 1 type 1 value 29.95 from 127.0.0.1:59552
+508 2025-12-12 18:44:39 [TEMP] Sensor 1 temperature normal (avg = 24.65°C)
+509 2025-12-12 18:44:39 [SQL] Stored batch of 2 measurements
+510 2025-12-12 18:44:40 [CLIENT] Received data ID 1 type 1 value 25.99 from 127.0.0.1:59552
+511 2025-12-12 18:44:40 [TEMP] Sensor 1 temperature normal (avg = 24.67°C)
+512 2025-12-12 18:44:40 [SQL] Stored batch of 1 measurements
+513 2025-12-12 18:44:40 [CLIENT] Received data ID 1 type 1 value 25.23 from 127.0.0.1:59552
+514 2025-12-12 18:44:40 [TEMP] Sensor 1 temperature normal (avg = 24.68°C)
+515 2025-12-12 18:44:40 [SQL] Stored batch of 1 measurements
+516 2025-12-12 18:44:40 [CONNECTION] New client connected from 127.0.0.1:59562 (total: 5)
+517 2025-12-12 18:44:40 [CLIENT] Sensor node ID 2 from 127.0.0.1:59562 opened new connection
+518 2025-12-12 18:44:40 [CLIENT] Received data ID 2 type 2 value 61.00 from 127.0.0.1:59562
+519 2025-12-12 18:44:40 [SQL] Stored batch of 1 measurements
+520 2025-12-12 18:44:40 [HUMID] Sensor 2 humidity normal (avg = 60.99%)
+521 2025-12-12 18:44:40 [CLIENT] Received data ID 1 type 1 value 21.13 from 127.0.0.1:59552
+522 2025-12-12 18:44:40 [SQL] Stored batch of 1 measurements
+523 2025-12-12 18:44:40 [TEMP] Sensor 1 temperature normal (avg = 24.63°C)
+524 2025-12-12 18:44:40 [CLIENT] Received data ID 2 type 2 value 78.90 from 127.0.0.1:59562
+525 2025-12-12 18:44:40 [SQL] Stored batch of 1 measurements
+526 2025-12-12 18:44:40 [HUMID] Sensor 2 humidity normal (avg = 61.33%)
+527 2025-12-12 18:44:40 [CLIENT] Received data ID 1 type 1 value 28.66 from 127.0.0.1:59552
+528 2025-12-12 18:44:40 [SQL] Stored batch of 1 measurements
+529 2025-12-12 18:44:40 [TEMP] Sensor 1 temperature normal (avg = 24.69°C)
+530 2025-12-12 18:44:40 [CLIENT] Received data ID 2 type 2 value 40.90 from 127.0.0.1:59562
+531 2025-12-12 18:44:40 [SQL] Stored batch of 1 measurements
+532 2025-12-12 18:44:40 [HUMID] Sensor 2 humidity normal (avg = 60.95%)
+533 2025-12-12 18:44:40 [CLIENT] Received data ID 1 type 1 value 27.18 from 127.0.0.1:59552
+534 2025-12-12 18:44:40 [SQL] Stored batch of 1 measurements
+535 2025-12-12 18:44:40 [TEMP] Sensor 1 temperature normal (avg = 24.72°C)
+536 2025-12-12 18:44:40 [CLIENT] Received data ID 2 type 2 value 51.00 from 127.0.0.1:59562
+537 2025-12-12 18:44:40 [SQL] Stored batch of 1 measurements
+538 2025-12-12 18:44:40 [HUMID] Sensor 2 humidity normal (avg = 60.76%)
+539 2025-12-12 18:44:41 [CLIENT] Received data ID 1 type 1 value 20.22 from 127.0.0.1:59552
+540 2025-12-12 18:44:41 [SQL] Stored batch of 1 measurements
+541 2025-12-12 18:44:41 [TEMP] Sensor 1 temperature normal (avg = 24.66°C)
+542 2025-12-12 18:44:41 [CLIENT] Received data ID 2 type 2 value 41.70 from 127.0.0.1:59562
+543 2025-12-12 18:44:41 [SQL] Stored batch of 1 measurements
+544 2025-12-12 18:44:41 [HUMID] Sensor 2 humidity normal (avg = 60.42%)
+545 2025-12-12 18:44:41 [CLIENT] Received data ID 1 type 1 value 26.22 from 127.0.0.1:59552
+546 2025-12-12 18:44:41 [SQL] Stored batch of 1 measurements
+547 2025-12-12 18:44:41 [TEMP] Sensor 1 temperature normal (avg = 24.68°C)
+548 2025-12-12 18:44:41 [CLIENT] Received data ID 2 type 2 value 49.70 from 127.0.0.1:59562
+549 2025-12-12 18:44:41 [SQL] Stored batch of 1 measurements
+550 2025-12-12 18:44:41 [HUMID] Sensor 2 humidity normal (avg = 60.23%)
+551 2025-12-12 18:44:41 [CONNECTION] New client connected from 127.0.0.1:59576 (total: 6)
+552 2025-12-12 18:44:41 [CLIENT] Sensor node ID 3 from 127.0.0.1:59576 opened new connection
+553 2025-12-12 18:44:41 [CLIENT] Received data ID 3 type 3 value 740.00 from 127.0.0.1:59576
+554 2025-12-12 18:44:41 [SQL] Stored batch of 1 measurements
+555 2025-12-12 18:44:41 [CLIENT] Received data ID 1 type 1 value 21.87 from 127.0.0.1:59552
+556 2025-12-12 18:44:41 [LIGHT] Sensor 3 light normal (avg = 524.71 lux)
+557 2025-12-12 18:44:41 [TEMP] Sensor 1 temperature normal (avg = 24.64°C)
+558 2025-12-12 18:44:41 [CLIENT] Received data ID 2 type 2 value 71.90 from 127.0.0.1:59562
+559 2025-12-12 18:44:41 [SQL] Stored batch of 2 measurements
+560 2025-12-12 18:44:41 [HUMID] Sensor 2 humidity normal (avg = 60.43%)
+561 2025-12-12 18:44:41 [CLIENT] Received data ID 3 type 3 value 622.00 from 127.0.0.1:59576
+562 2025-12-12 18:44:41 [SQL] Stored batch of 1 measurements
+563 2025-12-12 18:44:41 [CLIENT] Received data ID 1 type 1 value 28.54 from 127.0.0.1:59552
+564 2025-12-12 18:44:41 [LIGHT] Sensor 3 light normal (avg = 526.58 lux)
+565 2025-12-12 18:44:41 [TEMP] Sensor 1 temperature normal (avg = 24.69°C)
+566 2025-12-12 18:44:41 [CLIENT] Received data ID 2 type 2 value 70.10 from 127.0.0.1:59562
+567 2025-12-12 18:44:41 [SQL] Stored batch of 2 measurements
+568 2025-12-12 18:44:41 [HUMID] Sensor 2 humidity normal (avg = 60.60%)
+569 2025-12-12 18:44:41 [CLIENT] Received data ID 3 type 3 value 189.00 from 127.0.0.1:59576
+570 2025-12-12 18:44:41 [SQL] Stored batch of 1 measurements
+571 2025-12-12 18:44:41 [CLIENT] Received data ID 1 type 1 value 22.02 from 127.0.0.1:59552
+572 2025-12-12 18:44:41 [LIGHT] Sensor 3 light normal (avg = 520.21 lux)
+573 2025-12-12 18:44:41 [TEMP] Sensor 1 temperature normal (avg = 24.66°C)
+574 2025-12-12 18:44:41 [CLIENT] Received data ID 2 type 2 value 63.60 from 127.0.0.1:59562
+575 2025-12-12 18:44:41 [SQL] Stored batch of 2 measurements
+576 2025-12-12 18:44:41 [HUMID] Sensor 2 humidity normal (avg = 60.65%)
+577 2025-12-12 18:44:42 [CLIENT] Received data ID 3 type 3 value 917.00 from 127.0.0.1:59576
+578 2025-12-12 18:44:42 [SQL] Stored batch of 1 measurements
+579 2025-12-12 18:44:42 [CLIENT] Received data ID 1 type 1 value 24.93 from 127.0.0.1:59552
+580 2025-12-12 18:44:42 [LIGHT] Sensor 3 light normal (avg = 527.56 lux)
+581 2025-12-12 18:44:42 [TEMP] Sensor 1 temperature normal (avg = 24.66°C)
+582 2025-12-12 18:44:42 [CLOUD] Uploaded sensor 3 (type=3, avg=527.56, count=54)
+583 2025-12-12 18:44:42 [CLOUD] Uploaded sensor 2 (type=2, avg=60.65, count=59)
+584 2025-12-12 18:44:42 [CLOUD] Uploaded sensor 1 (type=1, avg=24.66, count=77)
+585 2025-12-12 18:44:42 [CLOUD] Upload batch complete: 3 uploaded, 0 failed
+586 2025-12-12 18:44:42 [CLIENT] Received data ID 2 type 2 value 76.40 from 127.0.0.1:59562
+587 2025-12-12 18:44:42 [SQL] Stored batch of 2 measurements
+588 2025-12-12 18:44:42 [HUMID] Sensor 2 humidity normal (avg = 60.91%)
+589 2025-12-12 18:44:42 [CLIENT] Received data ID 3 type 3 value 727.00 from 127.0.0.1:59576
+590 2025-12-12 18:44:42 [SQL] Stored batch of 1 measurements
+591 2025-12-12 18:44:42 [CLIENT] Received data ID 1 type 1 value 20.72 from 127.0.0.1:59552
+592 2025-12-12 18:44:42 [LIGHT] Sensor 3 light normal (avg = 531.18 lux)
+593 2025-12-12 18:44:42 [TEMP] Sensor 1 temperature normal (avg = 24.61°C)
+594 2025-12-12 18:44:42 [CLIENT] Received data ID 2 type 2 value 79.60 from 127.0.0.1:59562
+595 2025-12-12 18:44:42 [SQL] Stored batch of 2 measurements
+596 2025-12-12 18:44:42 [HUMID] Sensor 2 humidity normal (avg = 61.22%)
+597 2025-12-12 18:44:42 [CLIENT] Received data ID 3 type 3 value 859.00 from 127.0.0.1:59576
+598 2025-12-12 18:44:42 [SQL] Stored batch of 1 measurements
+599 2025-12-12 18:44:42 [CLIENT] Received data ID 1 type 1 value 25.32 from 127.0.0.1:59552
+600 2025-12-12 18:44:42 [LIGHT] Sensor 3 light normal (avg = 537.04 lux)
+601 2025-12-12 18:44:42 [TEMP] Sensor 1 temperature normal (avg = 24.62°C)
+602 2025-12-12 18:44:42 [MQTT] Sensor 2 message published successfully (mid=4)
+603 2025-12-12 18:44:42 [MQTT] Sensor 3 message published successfully (mid=3)
+604 2025-12-12 18:44:42 [MQTT] Sensor 1 message published successfully (mid=8)
+605 2025-12-12 18:44:42 [CLIENT] Received data ID 2 type 2 value 42.20 from 127.0.0.1:59562
+606 2025-12-12 18:44:42 [SQL] Stored batch of 2 measurements
+607 2025-12-12 18:44:42 [HUMID] Sensor 2 humidity normal (avg = 60.91%)
+608 2025-12-12 18:44:42 [CLIENT] Received data ID 3 type 3 value 242.00 from 127.0.0.1:59576
+609 2025-12-12 18:44:42 [SQL] Stored batch of 1 measurements
+610 2025-12-12 18:44:42 [CLIENT] Received data ID 1 type 1 value 22.52 from 127.0.0.1:59552
+611 2025-12-12 18:44:42 [LIGHT] Sensor 3 light normal (avg = 531.86 lux)
+612 2025-12-12 18:44:42 [TEMP] Sensor 1 temperature normal (avg = 24.59°C)
+613 2025-12-12 18:44:42 [CLIENT] Received data ID 2 type 2 value 59.60 from 127.0.0.1:59562
+614 2025-12-12 18:44:42 [SQL] Stored batch of 2 measurements
+615 2025-12-12 18:44:42 [HUMID] Sensor 2 humidity normal (avg = 60.89%)
+616 2025-12-12 18:44:42 [CLIENT] Received data ID 3 type 3 value 272.00 from 127.0.0.1:59576
+617 2025-12-12 18:44:42 [SQL] Stored batch of 1 measurements
+618 2025-12-12 18:44:42 [CLIENT] Received data ID 1 type 1 value 29.88 from 127.0.0.1:59552
+619 2025-12-12 18:44:42 [LIGHT] Sensor 3 light normal (avg = 527.38 lux)
+620 2025-12-12 18:44:42 [TEMP] Sensor 1 temperature normal (avg = 24.66°C)
+621 2025-12-12 18:44:42 [CLIENT] Received data ID 2 type 2 value 64.00 from 127.0.0.1:59562
+622 2025-12-12 18:44:42 [SQL] Stored batch of 2 measurements
+623 2025-12-12 18:44:42 [HUMID] Sensor 2 humidity normal (avg = 60.94%)
+624 2025-12-12 18:44:43 [CLIENT] Received data ID 3 type 3 value 635.00 from 127.0.0.1:59576
+625 2025-12-12 18:44:43 [SQL] Stored batch of 1 measurements
+626 2025-12-12 18:44:43 [CLIENT] Received data ID 1 type 1 value 25.21 from 127.0.0.1:59552
+627 2025-12-12 18:44:43 [LIGHT] Sensor 3 light normal (avg = 529.20 lux)
+628 2025-12-12 18:44:43 [TEMP] Sensor 1 temperature normal (avg = 24.67°C)
+629 2025-12-12 18:44:43 [CLIENT] Received data ID 2 type 2 value 49.40 from 127.0.0.1:59562
+630 2025-12-12 18:44:43 [SQL] Stored batch of 2 measurements
+631 2025-12-12 18:44:43 [HUMID] Sensor 2 humidity normal (avg = 60.76%)
+632 2025-12-12 18:44:43 [CLIENT] Received data ID 3 type 3 value 851.00 from 127.0.0.1:59576
+633 2025-12-12 18:44:43 [SQL] Stored batch of 1 measurements
+634 2025-12-12 18:44:43 [CLIENT] Received data ID 1 type 1 value 27.67 from 127.0.0.1:59552
+635 2025-12-12 18:44:43 [LIGHT] Sensor 3 light normal (avg = 534.57 lux)
+636 2025-12-12 18:44:43 [TEMP] Sensor 1 temperature normal (avg = 24.70°C)
+637 2025-12-12 18:44:43 [CLIENT] Received data ID 2 type 2 value 68.40 from 127.0.0.1:59562
+638 2025-12-12 18:44:43 [SQL] Stored batch of 2 measurements
+639 2025-12-12 18:44:43 [HUMID] Sensor 2 humidity normal (avg = 60.88%)
+640 2025-12-12 18:44:43 [CLIENT] Received data ID 3 type 3 value 118.00 from 127.0.0.1:59576
+641 2025-12-12 18:44:43 [SQL] Stored batch of 1 measurements
+642 2025-12-12 18:44:43 [CLIENT] Received data ID 1 type 1 value 25.09 from 127.0.0.1:59552
+643 2025-12-12 18:44:43 [LIGHT] Sensor 3 light normal (avg = 527.74 lux)
+644 2025-12-12 18:44:43 [TEMP] Sensor 1 temperature normal (avg = 24.71°C)
+645 2025-12-12 18:44:43 [CLIENT] Received data ID 2 type 2 value 65.90 from 127.0.0.1:59562
+646 2025-12-12 18:44:43 [HUMID] Sensor 2 humidity normal (avg = 60.95%)
+647 2025-12-12 18:44:43 [CLIENT] Received data ID 3 type 3 value 941.00 from 127.0.0.1:59576
+648 2025-12-12 18:44:43 [SQL] Stored batch of 3 measurements
+649 2025-12-12 18:44:43 [CLIENT] Received data ID 1 type 1 value 21.20 from 127.0.0.1:59552
+650 2025-12-12 18:44:43 [LIGHT] Sensor 3 light normal (avg = 534.40 lux)
+651 2025-12-12 18:44:43 [TEMP] Sensor 1 temperature normal (avg = 24.67°C)
+652 2025-12-12 18:44:43 [CLIENT] Received data ID 2 type 2 value 54.30 from 127.0.0.1:59562
+653 2025-12-12 18:44:43 [HUMID] Sensor 2 humidity normal (avg = 60.85%)
+654 2025-12-12 18:44:43 [CLIENT] Received data ID 3 type 3 value 667.00 from 127.0.0.1:59576
+655 2025-12-12 18:44:43 [SQL] Stored batch of 3 measurements
+656 2025-12-12 18:44:43 [CLIENT] Received data ID 1 type 1 value 20.15 from 127.0.0.1:59552
+657 2025-12-12 18:44:43 [LIGHT] Sensor 3 light normal (avg = 536.51 lux)
+658 2025-12-12 18:44:43 [TEMP] Sensor 1 temperature normal (avg = 24.61°C)
+659 2025-12-12 18:44:43 [CLIENT] Received data ID 2 type 2 value 59.60 from 127.0.0.1:59562
+660 2025-12-12 18:44:43 [HUMID] Sensor 2 humidity normal (avg = 60.84%)
+661 2025-12-12 18:44:44 [CLIENT] Received data ID 3 type 3 value 105.00 from 127.0.0.1:59576
+662 2025-12-12 18:44:44 [SQL] Stored batch of 3 measurements
+663 2025-12-12 18:44:44 [CLIENT] Received data ID 1 type 1 value 24.70 from 127.0.0.1:59552
+664 2025-12-12 18:44:44 [LIGHT] Sensor 3 light normal (avg = 529.77 lux)
+665 2025-12-12 18:44:44 [TEMP] Sensor 1 temperature normal (avg = 24.61°C)
+666 2025-12-12 18:44:44 [CLIENT] Received data ID 2 type 2 value 58.30 from 127.0.0.1:59562
+667 2025-12-12 18:44:44 [HUMID] Sensor 2 humidity normal (avg = 60.80%)
+668 2025-12-12 18:44:44 [SQL] Stored batch of 2 measurements
+669 2025-12-12 18:44:44 [CLIENT] Received data ID 3 type 3 value 803.00 from 127.0.0.1:59576
+670 2025-12-12 18:44:44 [SQL] Stored batch of 1 measurements
+671 2025-12-12 18:44:44 [CLIENT] Received data ID 1 type 1 value 28.30 from 127.0.0.1:59552
+672 2025-12-12 18:44:44 [LIGHT] Sensor 3 light normal (avg = 533.97 lux)
+673 2025-12-12 18:44:44 [TEMP] Sensor 1 temperature normal (avg = 24.66°C)
+674 2025-12-12 18:44:44 [CLIENT] Received data ID 2 type 2 value 42.30 from 127.0.0.1:59562
+675 2025-12-12 18:44:44 [HUMID] Sensor 2 humidity normal (avg = 60.54%)
+676 2025-12-12 18:44:44 [CLIENT] Received data ID 3 type 3 value 854.00 from 127.0.0.1:59576
+677 2025-12-12 18:44:44 [SQL] Stored batch of 3 measurements
+678 2025-12-12 18:44:44 [CLIENT] Received data ID 1 type 1 value 26.83 from 127.0.0.1:59552
+679 2025-12-12 18:44:44 [LIGHT] Sensor 3 light normal (avg = 538.82 lux)
+680 2025-12-12 18:44:44 [TEMP] Sensor 1 temperature normal (avg = 24.68°C)
+681 2025-12-12 18:44:44 [CLIENT] Received data ID 2 type 2 value 55.00 from 127.0.0.1:59562
+682 2025-12-12 18:44:44 [HUMID] Sensor 2 humidity normal (avg = 60.46%)
+683 2025-12-12 18:44:44 [SQL] Stored batch of 2 measurements
+684 2025-12-12 18:44:44 [CLIENT] Received data ID 3 type 3 value 649.00 from 127.0.0.1:59576
+685 2025-12-12 18:44:44 [SQL] Stored batch of 1 measurements
+686 2025-12-12 18:44:44 [CLIENT] Received data ID 1 type 1 value 23.72 from 127.0.0.1:59552
+687 2025-12-12 18:44:44 [LIGHT] Sensor 3 light normal (avg = 540.46 lux)
+688 2025-12-12 18:44:44 [TEMP] Sensor 1 temperature normal (avg = 24.67°C)
+689 2025-12-12 18:44:44 [CLIENT] Received data ID 2 type 2 value 75.50 from 127.0.0.1:59562
+690 2025-12-12 18:44:44 [HUMID] Sensor 2 humidity normal (avg = 60.67%)
+691 2025-12-12 18:44:44 [CLIENT] Received data ID 3 type 3 value 833.00 from 127.0.0.1:59576
+692 2025-12-12 18:44:44 [SQL] Stored batch of 3 measurements
+693 2025-12-12 18:44:44 [CLIENT] Received data ID 1 type 1 value 23.53 from 127.0.0.1:59552
+694 2025-12-12 18:44:44 [LIGHT] Sensor 3 light normal (avg = 544.76 lux)
+695 2025-12-12 18:44:44 [TEMP] Sensor 1 temperature normal (avg = 24.66°C)
+696 2025-12-12 18:44:44 [CLIENT] Received data ID 2 type 2 value 51.90 from 127.0.0.1:59562
+697 2025-12-12 18:44:44 [HUMID] Sensor 2 humidity normal (avg = 60.55%)
+698 2025-12-12 18:44:45 [CLIENT] Received data ID 3 type 3 value 161.00 from 127.0.0.1:59576
+699 2025-12-12 18:44:45 [SQL] Stored batch of 3 measurements
+700 2025-12-12 18:44:45 [CLIENT] Received data ID 1 type 1 value 29.65 from 127.0.0.1:59552
+701 2025-12-12 18:44:45 [LIGHT] Sensor 3 light normal (avg = 539.20 lux)
+702 2025-12-12 18:44:45 [TEMP] Sensor 1 temperature normal (avg = 24.71°C)
+703 2025-12-12 18:44:45 [CLIENT] Received data ID 2 type 2 value 53.90 from 127.0.0.1:59562
+704 2025-12-12 18:44:45 [HUMID] Sensor 2 humidity normal (avg = 60.46%)
+705 2025-12-12 18:44:45 [SQL] Stored batch of 2 measurements
+706 2025-12-12 18:44:45 [CLIENT] Received data ID 3 type 3 value 859.00 from 127.0.0.1:59576
+707 2025-12-12 18:44:45 [SQL] Stored batch of 1 measurements
+708 2025-12-12 18:44:45 [CLIENT] Received data ID 1 type 1 value 28.31 from 127.0.0.1:59552
+709 2025-12-12 18:44:45 [LIGHT] Sensor 3 light normal (avg = 543.77 lux)
+710 2025-12-12 18:44:45 [TEMP] Sensor 1 temperature normal (avg = 24.75°C)
+711 2025-12-12 18:44:45 [CLIENT] Received data ID 2 type 2 value 47.70 from 127.0.0.1:59562
+712 2025-12-12 18:44:45 [SQL] Stored batch of 2 measurements
+713 2025-12-12 18:44:45 [HUMID] Sensor 2 humidity normal (avg = 60.29%)
+714 2025-12-12 18:44:45 [CLIENT] Received data ID 3 type 3 value 698.00 from 127.0.0.1:59576
+715 2025-12-12 18:44:45 [SQL] Stored batch of 1 measurements
+716 2025-12-12 18:44:45 [CLIENT] Received data ID 1 type 1 value 28.79 from 127.0.0.1:59552
+717 2025-12-12 18:44:45 [LIGHT] Sensor 3 light normal (avg = 545.94 lux)
+718 2025-12-12 18:44:45 [TEMP] Sensor 1 temperature normal (avg = 24.79°C)
+719 2025-12-12 18:44:45 [CLIENT] Received data ID 2 type 2 value 59.10 from 127.0.0.1:59562
+720 2025-12-12 18:44:45 [HUMID] Sensor 2 humidity normal (avg = 60.28%)
+721 2025-12-12 18:44:45 [CLIENT] Received data ID 3 type 3 value 154.00 from 127.0.0.1:59576
+722 2025-12-12 18:44:45 [SQL] Stored batch of 3 measurements
+723 2025-12-12 18:44:45 [CLIENT] Received data ID 1 type 1 value 25.87 from 127.0.0.1:59552
+724 2025-12-12 18:44:45 [LIGHT] Sensor 3 light normal (avg = 540.50 lux)
+725 2025-12-12 18:44:45 [TEMP] Sensor 1 temperature normal (avg = 24.80°C)
+726 2025-12-12 18:44:45 [CLIENT] Received data ID 2 type 2 value 70.10 from 127.0.0.1:59562
+727 2025-12-12 18:44:45 [HUMID] Sensor 2 humidity normal (avg = 60.40%)
+728 2025-12-12 18:44:45 [CLIENT] Received data ID 3 type 3 value 617.00 from 127.0.0.1:59576
+729 2025-12-12 18:44:45 [SQL] Stored batch of 3 measurements
+730 2025-12-12 18:44:45 [CLIENT] Received data ID 1 type 1 value 29.08 from 127.0.0.1:59552
+731 2025-12-12 18:44:45 [LIGHT] Sensor 3 light normal (avg = 541.55 lux)
+732 2025-12-12 18:44:45 [TEMP] Sensor 1 temperature normal (avg = 24.85°C)
+733 2025-12-12 18:44:45 [CLIENT] Received data ID 2 type 2 value 41.70 from 127.0.0.1:59562
+734 2025-12-12 18:44:45 [HUMID] Sensor 2 humidity normal (avg = 60.17%)
+735 2025-12-12 18:44:46 [CLIENT] Received data ID 3 type 3 value 171.00 from 127.0.0.1:59576
+736 2025-12-12 18:44:46 [SQL] Stored batch of 3 measurements
+737 2025-12-12 18:44:46 [CLIENT] Received data ID 1 type 1 value 28.74 from 127.0.0.1:59552
+738 2025-12-12 18:44:46 [LIGHT] Sensor 3 light normal (avg = 536.54 lux)
+739 2025-12-12 18:44:46 [TEMP] Sensor 1 temperature normal (avg = 24.89°C)
+740 2025-12-12 18:44:46 [CLIENT] Received data ID 2 type 2 value 48.80 from 127.0.0.1:59562
+741 2025-12-12 18:44:46 [HUMID] Sensor 2 humidity normal (avg = 60.02%)
+742 2025-12-12 18:44:46 [SQL] Stored batch of 2 measurements
+743 2025-12-12 18:44:46 [CLIENT] Received data ID 3 type 3 value 170.00 from 127.0.0.1:59576
+744 2025-12-12 18:44:46 [SQL] Stored batch of 1 measurements
+745 2025-12-12 18:44:46 [LIGHT] Sensor 3 light normal (avg = 531.65 lux)
+746 2025-12-12 18:44:46 [CLIENT] Received data ID 1 type 1 value 21.86 from 127.0.0.1:59552
+747 2025-12-12 18:44:46 [SQL] Stored batch of 1 measurements
+748 2025-12-12 18:44:46 [TEMP] Sensor 1 temperature normal (avg = 24.86°C)
+749 2025-12-12 18:44:46 [HUMID] Sensor 2 humidity normal (avg = 59.78%)
+750 2025-12-12 18:44:46 [CLIENT] Received data ID 2 type 2 value 40.10 from 127.0.0.1:59562
+751 2025-12-12 18:44:46 [CLIENT] Received data ID 3 type 3 value 421.00 from 127.0.0.1:59576
+752 2025-12-12 18:44:46 [SQL] Stored batch of 2 measurements
+753 2025-12-12 18:44:46 [LIGHT] Sensor 3 light normal (avg = 530.20 lux)
+754 2025-12-12 18:44:46 [CLIENT] Received data ID 1 type 1 value 24.31 from 127.0.0.1:59552
+755 2025-12-12 18:44:46 [SQL] Stored batch of 1 measurements
+756 2025-12-12 18:44:46 [TEMP] Sensor 1 temperature normal (avg = 24.85°C)
+757 2025-12-12 18:44:46 [CLIENT] Received data ID 2 type 2 value 57.90 from 127.0.0.1:59562
+758 2025-12-12 18:44:46 [SQL] Stored batch of 1 measurements
+759 2025-12-12 18:44:46 [CLIENT] Received data ID 3 type 3 value 448.00 from 127.0.0.1:59576
+760 2025-12-12 18:44:46 [HUMID] Sensor 2 humidity normal (avg = 59.76%)
+761 2025-12-12 18:44:46 [LIGHT] Sensor 3 light normal (avg = 529.13 lux)
+762 2025-12-12 18:44:46 [CLIENT] Received data ID 1 type 1 value 29.87 from 127.0.0.1:59552
+763 2025-12-12 18:44:46 [SQL] Stored batch of 2 measurements
+764 2025-12-12 18:44:46 [CLIENT] Received data ID 2 type 2 value 47.70 from 127.0.0.1:59562
+765 2025-12-12 18:44:46 [TEMP] Sensor 1 temperature normal (avg = 24.90°C)
+766 2025-12-12 18:44:46 [HUMID] Sensor 2 humidity normal (avg = 59.61%)
+767 2025-12-12 18:44:46 [CLIENT] Received data ID 3 type 3 value 772.00 from 127.0.0.1:59576
+768 2025-12-12 18:44:46 [SQL] Stored batch of 2 measurements
+769 2025-12-12 18:44:46 [LIGHT] Sensor 3 light normal (avg = 532.24 lux)
+770 2025-12-12 18:44:46 [CLIENT] Sensor node ID 1 from 127.0.0.1:59552 closed connection (50 packets received)
+771 2025-12-12 18:44:46 [CLIENT] Received data ID 2 type 2 value 41.00 from 127.0.0.1:59562
+772 2025-12-12 18:44:46 [SQL] Stored batch of 1 measurements
+773 2025-12-12 18:44:46 [HUMID] Sensor 2 humidity normal (avg = 59.39%)
+774 2025-12-12 18:44:47 [CLIENT] Received data ID 3 type 3 value 260.00 from 127.0.0.1:59576
+775 2025-12-12 18:44:47 [SQL] Stored batch of 1 measurements
+776 2025-12-12 18:44:47 [LIGHT] Sensor 3 light normal (avg = 528.80 lux)
+777 2025-12-12 18:44:47 [CLOUD] Uploaded sensor 3 (type=3, avg=528.80, count=79)
+778 2025-12-12 18:44:47 [CLOUD] Uploaded sensor 2 (type=2, avg=59.39, count=84)
+779 2025-12-12 18:44:47 [CLOUD] Uploaded sensor 1 (type=1, avg=24.90, count=100)
+780 2025-12-12 18:44:47 [CLOUD] Upload batch complete: 3 uploaded, 0 failed
+781 2025-12-12 18:44:47 [CLIENT] Received data ID 2 type 2 value 68.90 from 127.0.0.1:59562
+782 2025-12-12 18:44:47 [SQL] Stored batch of 1 measurements
+783 2025-12-12 18:44:47 [HUMID] Sensor 2 humidity normal (avg = 59.50%)
+784 2025-12-12 18:44:47 [CLIENT] Received data ID 3 type 3 value 233.00 from 127.0.0.1:59576
+785 2025-12-12 18:44:47 [SQL] Stored batch of 1 measurements
+786 2025-12-12 18:44:47 [LIGHT] Sensor 3 light normal (avg = 525.10 lux)
+787 2025-12-12 18:44:47 [CLIENT] Received data ID 2 type 2 value 44.60 from 127.0.0.1:59562
+788 2025-12-12 18:44:47 [SQL] Stored batch of 1 measurements
+789 2025-12-12 18:44:47 [HUMID] Sensor 2 humidity normal (avg = 59.33%)
+790 2025-12-12 18:44:47 [MQTT] Sensor 2 message published successfully (mid=5)
+791 2025-12-12 18:44:47 [MQTT] Sensor 3 message published successfully (mid=4)
+792 2025-12-12 18:44:47 [MQTT] Sensor 1 message published successfully (mid=9)
+793 2025-12-12 18:44:47 [CLIENT] Received data ID 3 type 3 value 682.00 from 127.0.0.1:59576
+794 2025-12-12 18:44:47 [SQL] Stored batch of 1 measurements
+795 2025-12-12 18:44:47 [LIGHT] Sensor 3 light normal (avg = 527.04 lux)
+796 2025-12-12 18:44:47 [CLIENT] Received data ID 2 type 2 value 45.90 from 127.0.0.1:59562
+797 2025-12-12 18:44:47 [SQL] Stored batch of 1 measurements
+798 2025-12-12 18:44:47 [HUMID] Sensor 2 humidity normal (avg = 59.17%)
+799 2025-12-12 18:44:47 [CLIENT] Received data ID 3 type 3 value 900.00 from 127.0.0.1:59576
+800 2025-12-12 18:44:47 [SQL] Stored batch of 1 measurements
+801 2025-12-12 18:44:47 [LIGHT] Sensor 3 light normal (avg = 531.59 lux)
+802 2025-12-12 18:44:47 [CLIENT] Received data ID 2 type 2 value 56.00 from 127.0.0.1:59562
+803 2025-12-12 18:44:47 [SQL] Stored batch of 1 measurements
+804 2025-12-12 18:44:47 [HUMID] Sensor 2 humidity normal (avg = 59.14%)
+805 2025-12-12 18:44:47 [CLIENT] Received data ID 3 type 3 value 807.00 from 127.0.0.1:59576
+806 2025-12-12 18:44:47 [SQL] Stored batch of 1 measurements
+807 2025-12-12 18:44:47 [LIGHT] Sensor 3 light normal (avg = 534.90 lux)
+808 2025-12-12 18:44:47 [CLIENT] Received data ID 2 type 2 value 74.80 from 127.0.0.1:59562
+809 2025-12-12 18:44:47 [SQL] Stored batch of 1 measurements
+810 2025-12-12 18:44:48 [HUMID] Sensor 2 humidity normal (avg = 59.31%)
+811 2025-12-12 18:44:48 [CLIENT] Received data ID 3 type 3 value 771.00 from 127.0.0.1:59576
+812 2025-12-12 18:44:48 [SQL] Stored batch of 1 measurements
+813 2025-12-12 18:44:48 [LIGHT] Sensor 3 light normal (avg = 537.71 lux)
+814 2025-12-12 18:44:48 [CLIENT] Received data ID 2 type 2 value 69.60 from 127.0.0.1:59562
+815 2025-12-12 18:44:48 [SQL] Stored batch of 1 measurements
+816 2025-12-12 18:44:48 [HUMID] Sensor 2 humidity normal (avg = 59.43%)
+817 2025-12-12 18:44:48 [CLIENT] Received data ID 3 type 3 value 870.00 from 127.0.0.1:59576
+818 2025-12-12 18:44:48 [SQL] Stored batch of 1 measurements
+819 2025-12-12 18:44:48 [LIGHT] Sensor 3 light normal (avg = 541.62 lux)
+820 2025-12-12 18:44:48 [CLIENT] Received data ID 2 type 2 value 47.70 from 127.0.0.1:59562
+821 2025-12-12 18:44:48 [SQL] Stored batch of 1 measurements
+822 2025-12-12 18:44:48 [HUMID] Sensor 2 humidity normal (avg = 59.30%)
+823 2025-12-12 18:44:48 [CLIENT] Received data ID 3 type 3 value 534.00 from 127.0.0.1:59576
+824 2025-12-12 18:44:48 [SQL] Stored batch of 1 measurements
+825 2025-12-12 18:44:48 [LIGHT] Sensor 3 light normal (avg = 541.53 lux)
+826 2025-12-12 18:44:48 [CLIENT] Received data ID 2 type 2 value 74.40 from 127.0.0.1:59562
+827 2025-12-12 18:44:48 [SQL] Stored batch of 1 measurements
+828 2025-12-12 18:44:48 [HUMID] Sensor 2 humidity normal (avg = 59.46%)
+829 2025-12-12 18:44:48 [CLIENT] Received data ID 3 type 3 value 630.00 from 127.0.0.1:59576
+830 2025-12-12 18:44:48 [SQL] Stored batch of 1 measurements
+831 2025-12-12 18:44:48 [LIGHT] Sensor 3 light normal (avg = 542.55 lux)
+832 2025-12-12 18:44:48 [CLIENT] Received data ID 2 type 2 value 71.80 from 127.0.0.1:59562
+833 2025-12-12 18:44:48 [SQL] Stored batch of 1 measurements
+834 2025-12-12 18:44:48 [HUMID] Sensor 2 humidity normal (avg = 59.60%)
+835 2025-12-12 18:44:48 [CLIENT] Received data ID 3 type 3 value 112.00 from 127.0.0.1:59576
+836 2025-12-12 18:44:48 [SQL] Stored batch of 1 measurements
+837 2025-12-12 18:44:48 [LIGHT] Sensor 3 light normal (avg = 537.66 lux)
+838 2025-12-12 18:44:49 [CLIENT] Received data ID 2 type 2 value 67.30 from 127.0.0.1:59562
+839 2025-12-12 18:44:49 [SQL] Stored batch of 1 measurements
+840 2025-12-12 18:44:49 [HUMID] Sensor 2 humidity normal (avg = 59.68%)
+841 2025-12-12 18:44:49 [CLIENT] Received data ID 3 type 3 value 706.00 from 127.0.0.1:59576
+842 2025-12-12 18:44:49 [SQL] Stored batch of 1 measurements
+843 2025-12-12 18:44:49 [LIGHT] Sensor 3 light normal (avg = 539.55 lux)
+844 2025-12-12 18:44:49 [CLIENT] Received data ID 2 type 2 value 53.70 from 127.0.0.1:59562
+845 2025-12-12 18:44:49 [SQL] Stored batch of 1 measurements
+846 2025-12-12 18:44:49 [HUMID] Sensor 2 humidity normal (avg = 59.61%)
+847 2025-12-12 18:44:49 [CLIENT] Received data ID 3 type 3 value 317.00 from 127.0.0.1:59576
+848 2025-12-12 18:44:49 [SQL] Stored batch of 1 measurements
+849 2025-12-12 18:44:49 [LIGHT] Sensor 3 light normal (avg = 537.08 lux)
+850 2025-12-12 18:44:49 [CLIENT] Received data ID 2 type 2 value 76.40 from 127.0.0.1:59562
+851 2025-12-12 18:44:49 [SQL] Stored batch of 1 measurements
+852 2025-12-12 18:44:49 [HUMID] Sensor 2 humidity normal (avg = 59.79%)
+853 2025-12-12 18:44:49 [CLIENT] Received data ID 3 type 3 value 915.00 from 127.0.0.1:59576
+854 2025-12-12 18:44:49 [SQL] Stored batch of 1 measurements
+855 2025-12-12 18:44:49 [LIGHT] Sensor 3 light normal (avg = 541.23 lux)
+856 2025-12-12 18:44:49 [CLIENT] Received data ID 2 type 2 value 55.80 from 127.0.0.1:59562
+857 2025-12-12 18:44:49 [SQL] Stored batch of 1 measurements
+858 2025-12-12 18:44:49 [HUMID] Sensor 2 humidity normal (avg = 59.75%)
+859 2025-12-12 18:44:49 [CLIENT] Received data ID 3 type 3 value 725.00 from 127.0.0.1:59576
+860 2025-12-12 18:44:49 [SQL] Stored batch of 1 measurements
+861 2025-12-12 18:44:49 [LIGHT] Sensor 3 light normal (avg = 543.23 lux)
+862 2025-12-12 18:44:49 [CLIENT] Received data ID 2 type 2 value 74.80 from 127.0.0.1:59562
+863 2025-12-12 18:44:49 [SQL] Stored batch of 1 measurements
+864 2025-12-12 18:44:49 [HUMID] Sensor 2 humidity normal (avg = 59.90%)
+865 2025-12-12 18:44:49 [CLIENT] Received data ID 3 type 3 value 258.00 from 127.0.0.1:59576
+866 2025-12-12 18:44:49 [SQL] Stored batch of 1 measurements
+867 2025-12-12 18:44:49 [LIGHT] Sensor 3 light normal (avg = 540.16 lux)
+868 2025-12-12 18:44:50 [CLIENT] Received data ID 2 type 2 value 45.90 from 127.0.0.1:59562
+869 2025-12-12 18:44:50 [SQL] Stored batch of 1 measurements
+870 2025-12-12 18:44:50 [HUMID] Sensor 2 humidity normal (avg = 59.76%)
+871 2025-12-12 18:44:50 [CLIENT] Received data ID 3 type 3 value 582.00 from 127.0.0.1:59576
+872 2025-12-12 18:44:50 [SQL] Stored batch of 1 measurements
+873 2025-12-12 18:44:50 [LIGHT] Sensor 3 light normal (avg = 540.61 lux)
+874 2025-12-12 18:44:50 [CLIENT] Received data ID 2 type 2 value 75.40 from 127.0.0.1:59562
+875 2025-12-12 18:44:50 [SQL] Stored batch of 1 measurements
+876 2025-12-12 18:44:50 [HUMID] Sensor 2 humidity normal (avg = 59.92%)
+877 2025-12-12 18:44:50 [CLIENT] Received data ID 3 type 3 value 782.00 from 127.0.0.1:59576
+878 2025-12-12 18:44:50 [SQL] Stored batch of 1 measurements
+879 2025-12-12 18:44:50 [LIGHT] Sensor 3 light normal (avg = 543.15 lux)
+880 2025-12-12 18:44:50 [CLIENT] Sensor node ID 2 from 127.0.0.1:59562 closed connection (50 packets received)
+881 2025-12-12 18:44:50 [CLIENT] Received data ID 3 type 3 value 113.00 from 127.0.0.1:59576
+882 2025-12-12 18:44:50 [LIGHT] Sensor 3 light normal (avg = 538.67 lux)
+883 2025-12-12 18:44:50 [CLIENT] Received data ID 3 type 3 value 488.00 from 127.0.0.1:59576
+884 2025-12-12 18:44:50 [LIGHT] Sensor 3 light normal (avg = 538.14 lux)
+885 2025-12-12 18:44:50 [CLIENT] Received data ID 3 type 3 value 431.00 from 127.0.0.1:59576
+886 2025-12-12 18:44:50 [LIGHT] Sensor 3 light normal (avg = 537.05 lux)
+887 2025-12-12 18:44:51 [CLIENT] Received data ID 3 type 3 value 847.00 from 127.0.0.1:59576
+888 2025-12-12 18:44:51 [LIGHT] Sensor 3 light normal (avg = 540.18 lux)
+889 2025-12-12 18:44:51 [SQL] Stored batch of 4 measurements
+890 2025-12-12 18:44:51 [CLIENT] Received data ID 3 type 3 value 549.00 from 127.0.0.1:59576
+891 2025-12-12 18:44:51 [LIGHT] Sensor 3 light normal (avg = 540.27 lux)
+892 2025-12-12 18:44:51 [CLIENT] Sensor node ID 3 from 127.0.0.1:59576 closed connection (50 packets received)
+893 2025-12-12 18:44:52 [CLOUD] Uploaded sensor 3 (type=3, avg=540.27, count=100)
+894 2025-12-12 18:44:52 [CLOUD] Uploaded sensor 2 (type=2, avg=59.92, count=100)
+895 2025-12-12 18:44:52 [CLOUD] Uploaded sensor 1 (type=1, avg=24.90, count=100)
+896 2025-12-12 18:44:52 [CLOUD] Upload batch complete: 3 uploaded, 0 failed
+897 2025-12-12 18:44:52 [MQTT] Sensor 2 message published successfully (mid=6)
+898 2025-12-12 18:44:52 [MQTT] Sensor 3 message published successfully (mid=5)
+899 2025-12-12 18:44:52 [MQTT] Sensor 1 message published successfully (mid=10)
+900 2025-12-12 18:44:57 [CLOUD] Uploaded sensor 3 (type=3, avg=540.27, count=100)
+901 2025-12-12 18:44:57 [CLOUD] Uploaded sensor 2 (type=2, avg=59.92, count=100)
+902 2025-12-12 18:44:57 [CLOUD] Uploaded sensor 1 (type=1, avg=24.90, count=100)
+903 2025-12-12 18:44:57 [CLOUD] Upload batch complete: 3 uploaded, 0 failed
+904 2025-12-12 18:44:57 [MQTT] Sensor 2 message published successfully (mid=7)
+905 2025-12-12 18:44:57 [MQTT] Sensor 1 message published successfully (mid=11)
+906 2025-12-12 18:44:57 [MQTT] Sensor 3 message published successfully (mid=6)
+907 2025-12-12 18:45:00 shutdown
+908 2025-12-12 18:45:00 [SQL] Stored batch of 2 measurements
+909 2025-12-12 18:45:00 [SQL] Database connection closed
+910 2025-12-12 18:45:00 [STORAGE] Storage manager thread exiting. Stats: 300 inserted, 0 failed
+911 2025-12-12 18:45:00 [DATA] Data manager thread exiting. Total processed: 300 measurements
+912 2025-12-12 18:45:01 [CONNECTION] Connection manager thread exiting. Total connections: 6
+913 2025-12-12 18:45:02 [MQTT] Cleaning up cloud clients (NUM_CLIENTS=3)
+914 2025-12-12 18:45:02 [MQTT] Cleaning up client 0 (ID=1, connected=1)
+915 2025-12-12 18:45:02 [MQTT] mosquitto_loop_stop returned: 0
+916 2025-12-12 18:45:02 [MQTT] Sensor 1 disconnected
+917 2025-12-12 18:45:02 [MQTT] Sensor 1 cleaned up
+918 2025-12-12 18:45:02 [MQTT] Cleaning up client 1 (ID=2, connected=1)
+919 2025-12-12 18:45:02 [MQTT] mosquitto_loop_stop returned: 0
+920 2025-12-12 18:45:02 [MQTT] Sensor 2 disconnected
+921 2025-12-12 18:45:02 [MQTT] Sensor 2 cleaned up
+922 2025-12-12 18:45:02 [MQTT] Cleaning up client 2 (ID=3, connected=1)
+923 2025-12-12 18:45:02 [MQTT] mosquitto_loop_stop returned: 0
+924 2025-12-12 18:45:02 [MQTT] Sensor 3 disconnected
+925 2025-12-12 18:45:02 [MQTT] Sensor 3 cleaned up
+926 2025-12-12 18:45:02 [MQTT] Cloud clients cleanup complete
+927 2025-12-12 18:45:02 [CLOUD] Cloud uploader thread exiting. Total: 24 uploaded, 0 failed
+928 2025-12-12 18:45:02 [STATS] Freed 3 sensor statistics entries
+929 2025-12-12 18:45:02 [MAIN] Gateway shutdown complete

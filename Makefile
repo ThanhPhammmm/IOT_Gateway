@@ -1,34 +1,75 @@
-# === Compiler and flags ===
-CC       = gcc
-CFLAGS   = -Wall -Wextra -pthread -g
+# ==========================
+#        COMPILER
+# ==========================
+CC      = gcc
+CFLAGS  = -Wall -Wextra -pthread \
+          -I. -IClient -ICloud -ICommon -IDatabase -ILogger -IServer -IThreadManager
 
-# === Source files ===
-SRCS_MAIN   = main.c utilities.c connection_manager.c data_manager.c \
-              storage_manager.c cloud_manager.c cloud_uploader.c \
-              database.c logger.c client_thread.c sbuffer.c
+LDFLAGS_MAIN = -lsqlite3 -lmosquitto
 
-SRCS_CLIENT = client.c
+# ==========================
+#     OUTPUT DIRECTORY
+# ==========================
+BINDIR  = RunProgram
+$(shell mkdir -p $(BINDIR))
 
-# === Output binaries ===
-TARGET_MAIN = main_process
-TARGET_CLIENT = client
+# ==========================
+#     SOURCE COLLECTION
+# ==========================
 
-# === Default target ===
+# Main executable includes all modules (except client.c)
+SRCS_MAIN = \
+    $(wildcard Server/*.c) \
+    $(wildcard ThreadManager/*.c) \
+    $(wildcard Common/*.c) \
+    $(wildcard Logger/*.c) \
+    $(wildcard Database/*.c) \
+    $(wildcard Cloud/*.c)
+
+# Client executable
+SRCS_CLIENT = Client/client.c
+
+# Output binaries
+TARGET_MAIN   = $(BINDIR)/main_process
+TARGET_CLIENT = $(BINDIR)/client
+
+# ==========================
+#          BUILD
+# ==========================
 all: $(TARGET_MAIN) $(TARGET_CLIENT)
 
-# === Compile for x86 (local PC) ===
 $(TARGET_MAIN): $(SRCS_MAIN)
-	$(CC) $(CFLAGS) -o $@ $^ -lsqlite3 -lmosquitto
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS_MAIN)
 
 $(TARGET_CLIENT): $(SRCS_CLIENT)
 	$(CC) $(CFLAGS) -o $@ $^
 
-# === Clean up ===
+# ==========================
+#          CLEAN
+# ==========================
 clean:
-	rm -f *.o $(TARGET_MAIN) $(TARGET_CLIENT) $(TARGET_BBB)
+	rm -f $(TARGET_MAIN) $(TARGET_CLIENT)
+	rm -f */*.o *.o
 
-# === Rebuild everything ===
 re: clean all
 
-.PHONY: all clean re
+# ==========================
+#    BEAGLEBONE DEPLOY
+# ==========================
+BBB_USER = debian
+BBB_IP   = 192.168.7.2
+BBB_PATH = /home/debian/IOT_GATEWAY
+
+send:
+	@echo ">>> Copying source code to BBB..."
+	scp -r \
+		Client Cloud Common Database Logger Server ThreadManager \
+		*.c *.h *.md *.db MakefileBBB \
+		$(BBB_USER)@$(BBB_IP):$(BBB_PATH)
+	@echo ">>> Done!"
+
+deploy: all send
+	@echo ">>> Build + Deploy completed!"
+
+.PHONY: all clean re send deploy
 

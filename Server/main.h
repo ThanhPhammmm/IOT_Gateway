@@ -2,9 +2,9 @@
 #define MAIN_H
 
 #define _GNU_SOURCE 200809L
-#define FIFO_PATH "logFifo"
-#define LOG_FILE "gateway.log"
-#define DB_FILE "sensors.db"
+#define FIFO_PATH "../Logger/logFifo"
+#define LOG_FILE  "../Record/gateway.log"
+#define DB_FILE   "../Database/sensors.db"
 #define MAX_LINE 256
 
 #include <stdio.h>
