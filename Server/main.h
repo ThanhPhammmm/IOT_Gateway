@@ -32,7 +32,7 @@ typedef enum {
     SENSOR_TEMPERATURE = 1,
     SENSOR_HUMIDITY = 2,
     SENSOR_LIGHT = 3
-} sensor_type_t;
+}sensor_type_t;
 
 typedef struct {
     uint8_t id;
