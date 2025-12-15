@@ -2654,3 +2654,27 @@
 1330 2025-12-15 14:32:23 [CLOUD] Cycle 62: All 3 sensors skipped (no new data or too soon)
 1331 2025-12-15 14:32:28 [CLOUD] Cycle 63: All 3 sensors skipped (no new data or too soon)
 1332 2025-12-15 14:32:33 [CLOUD] Cycle 64: All 3 sensors skipped (no new data or too soon)
+1333 2025-12-15 14:32:38 [CLOUD] Cycle 65: All 3 sensors skipped (no new data or too soon)
+1334 2025-12-15 14:32:43 [CLOUD] Cycle 66: All 3 sensors skipped (no new data or too soon)
+1335 2025-12-15 14:32:44 shutdown
+1336 2025-12-15 14:32:45 [SQL] Database connection closed
+1337 2025-12-15 14:32:45 [STORAGE] Storage manager thread exiting. Stats: 600 inserted, 0 failed
+1338 2025-12-15 14:32:45 [CONNECTION] Connection manager thread exiting. Total connections: 6
+1339 2025-12-15 14:32:45 [DATA] Data manager thread exiting. Total processed: 600 measurements
+1340 2025-12-15 14:32:48 [MQTT] Cleaning up cloud clients (NUM_CLIENTS=3)
+1341 2025-12-15 14:32:48 [MQTT] Cleaning up client 0 (ID=1, connected=1)
+1342 2025-12-15 14:32:48 [MQTT] mosquitto_loop_stop returned: 0
+1343 2025-12-15 14:32:48 [MQTT] Sensor 1 disconnected
+1344 2025-12-15 14:32:48 [MQTT] Sensor 1 cleaned up
+1345 2025-12-15 14:32:48 [MQTT] Cleaning up client 1 (ID=2, connected=1)
+1346 2025-12-15 14:32:48 [MQTT] mosquitto_loop_stop returned: 0
+1347 2025-12-15 14:32:48 [MQTT] Sensor 2 disconnected
+1348 2025-12-15 14:32:48 [MQTT] Sensor 2 cleaned up
+1349 2025-12-15 14:32:48 [MQTT] Cleaning up client 2 (ID=3, connected=1)
+1350 2025-12-15 14:32:48 [MQTT] mosquitto_loop_stop returned: 0
+1351 2025-12-15 14:32:48 [MQTT] Sensor 3 disconnected
+1352 2025-12-15 14:32:48 [MQTT] Sensor 3 cleaned up
+1353 2025-12-15 14:32:48 [MQTT] Cloud clients cleanup complete
+1354 2025-12-15 14:32:48 [CLOUD] Cloud uploader thread exiting. Total: 18 uploaded, 0 failed
+1355 2025-12-15 14:32:48 [STATS] Freed 3 sensor statistics entries
+1356 2025-12-15 14:32:48 [MAIN] Gateway shutdown complete
