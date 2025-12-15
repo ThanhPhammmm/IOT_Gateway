@@ -39,7 +39,7 @@ typedef struct {
     uint8_t type;
     double value;
     //time_t ts;
-} sensor_packet_t;
+}sensor_packet_t;
 
 typedef struct sbuffer_node {
     sensor_packet_t pkt;
@@ -48,19 +48,19 @@ typedef struct sbuffer_node {
     uint8_t processed_by_storage;
     //uint8_t processed_by_cloud;
     struct sbuffer_node *next;
-} sbuffer_node_t;
+}sbuffer_node_t;
 
 typedef struct {
     sbuffer_node_t *head;
     sbuffer_node_t *tail;
     pthread_mutex_t mutex;
     pthread_cond_t cond;
-} sbuffer_t;
+}sbuffer_t;
 
 typedef struct {
     uint8_t client_fd;
     struct sockaddr_in addr;
-} client_info_t;
+}client_info_t;
 
 // --- per-sensor running average table (linked list) ---
 typedef struct sensor_stat {
@@ -69,13 +69,13 @@ typedef struct sensor_stat {
     double avg;
     unsigned long count;
     struct sensor_stat *next;
-} sensor_stat_t;
+}sensor_stat_t;
 
 typedef struct {
     uint8_t id;
     const char *token;
     struct mosquitto *mosq;
     uint8_t connected;
-} cloud_client_t;
+}cloud_client_t;
 
 #endif
