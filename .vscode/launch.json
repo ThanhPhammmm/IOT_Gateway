@@ -1,0 +1,49 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug 1: main_process (IOT Gateway Core)",
+            "type": "cppdbg",
+            "request": "launch",
+            // Debug file binary chính của Gateway
+            "program": "${workspaceFolder}/RunProgram/main_process", 
+            "args": [],
+            "stopAtEntry": true, // Nên đặt là true cho file chính để kiểm tra ngay từ đầu
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb", 
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            // Chạy task build chung
+            "preLaunchTask": "Build IOT_Gateway" 
+        },
+        {
+            "name": "Debug 2: client (Client Test Program)",
+            "type": "cppdbg",
+            "request": "launch",
+            // Debug file client
+            "program": "${workspaceFolder}/RunProgram/client", 
+            "args": [],
+            "stopAtEntry": false, 
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb", 
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            // Chạy task build chung
+            "preLaunchTask": "Build IOT_Gateway" 
+        }
+    ]
+}

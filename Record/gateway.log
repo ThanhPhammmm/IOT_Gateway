@@ -2678,3 +2678,134 @@
 1354 2025-12-15 14:32:48 [CLOUD] Cloud uploader thread exiting. Total: 18 uploaded, 0 failed
 1355 2025-12-15 14:32:48 [STATS] Freed 3 sensor statistics entries
 1356 2025-12-15 14:32:48 [MAIN] Gateway shutdown complete
+0 2025-12-15 16:27:25 [MAIN] Gateway system started on port 8080
+1 2025-12-15 16:27:25 [STORAGE] Storage manager thread started
+2 2025-12-15 16:27:25 [CONNECTION] Connection manager thread started
+3 2025-12-15 16:27:25 [CLOUD] Cloud uploader thread started
+4 2025-12-15 16:27:25 [DATA] Data manager thread started
+5 2025-12-15 16:27:25 [CONNECTION] Listening on port 8080
+6 2025-12-15 16:27:25 [MQTT] Initializing 3 cloud clients
+7 2025-12-15 16:27:25 [SQL] Connection to SQL server established
+8 2025-12-15 16:27:26 [MQTT] Sensor 1 initialization started
+9 2025-12-15 16:27:26 [MQTT] Sensor 1 connected to ThingsBoard broker
+10 2025-12-15 16:27:26 [MQTT] Sensor 2 initialization started
+11 2025-12-15 16:27:27 [MQTT] Sensor 3 initialization started
+12 2025-12-15 16:27:27 [MQTT] Cloud clients initialization complete: 3/3 successful
+13 2025-12-15 16:27:27 [CLOUD] No sensors registered yet (cycle 1)
+14 2025-12-15 16:27:27 [MQTT] Sensor 2 connected to ThingsBoard broker
+15 2025-12-15 16:27:27 shutdown
+16 2025-12-15 16:27:27 [SQL] Database connection closed
+17 2025-12-15 16:27:27 [STORAGE] Storage manager thread exiting. Stats: 0 inserted, 0 failed
+18 2025-12-15 16:27:27 [DATA] Data manager thread exiting. Total processed: 0 measurements
+19 2025-12-15 16:27:27 [MQTT] Sensor 3 connected to ThingsBoard broker
+20 2025-12-15 16:27:27 [CONNECTION] Connection manager thread exiting. Total connections: 0
+21 2025-12-15 16:27:32 [MQTT] Cleaning up cloud clients (NUM_CLIENTS=3)
+22 2025-12-15 16:27:32 [MQTT] Cleaning up client 0 (ID=1, connected=1)
+23 2025-12-15 16:27:32 [MQTT] mosquitto_loop_stop returned: 0
+24 2025-12-15 16:27:32 [MQTT] Sensor 1 disconnected
+25 2025-12-15 16:27:32 [MQTT] Sensor 1 cleaned up
+26 2025-12-15 16:27:32 [MQTT] Cleaning up client 1 (ID=2, connected=1)
+27 2025-12-15 16:27:32 [MQTT] mosquitto_loop_stop returned: 0
+28 2025-12-15 16:27:32 [MQTT] Sensor 2 disconnected
+29 2025-12-15 16:27:32 [MQTT] Sensor 2 cleaned up
+30 2025-12-15 16:27:32 [MQTT] Cleaning up client 2 (ID=3, connected=1)
+31 2025-12-15 16:27:32 [MQTT] mosquitto_loop_stop returned: 0
+32 2025-12-15 16:27:32 [MQTT] Sensor 3 disconnected
+33 2025-12-15 16:27:32 [MQTT] Sensor 3 cleaned up
+34 2025-12-15 16:27:32 [MQTT] Cloud clients cleanup complete
+35 2025-12-15 16:27:32 [CLOUD] Cloud uploader thread exiting. Total: 0 uploaded, 0 failed
+36 2025-12-15 16:27:32 [STATS] Freed 0 sensor statistics entries
+37 2025-12-15 16:27:32 [MAIN] Gateway shutdown complete
+0 2025-12-15 16:27:40 [MAIN] Gateway system started on port 8080
+1 2025-12-15 16:27:40 [STORAGE] Storage manager thread started
+2 2025-12-15 16:27:40 [DATA] Data manager thread started
+3 2025-12-15 16:27:40 [CLOUD] Cloud uploader thread started
+4 2025-12-15 16:27:40 [MQTT] Initializing 3 cloud clients
+5 2025-12-15 16:27:40 [CONNECTION] Connection manager thread started
+6 2025-12-15 16:27:41 [CONNECTION] Listening on port 8080
+7 2025-12-15 16:27:41 [SQL] Connection to SQL server established
+8 2025-12-15 16:27:41 [MQTT] Sensor 1 initialization started
+9 2025-12-15 16:27:41 [MQTT] Sensor 2 initialization started
+10 2025-12-15 16:27:41 [MQTT] Sensor 1 connected to ThingsBoard broker
+11 2025-12-15 16:27:42 [MQTT] Sensor 2 connected to ThingsBoard broker
+12 2025-12-15 16:27:42 [MQTT] Sensor 3 initialization started
+13 2025-12-15 16:27:42 [MQTT] Cloud clients initialization complete: 3/3 successful
+14 2025-12-15 16:27:42 [CLOUD] No sensors registered yet (cycle 1)
+15 2025-12-15 16:27:42 [MQTT] Sensor 3 connected to ThingsBoard broker
+16 2025-12-15 16:27:47 [CLOUD] No sensors registered yet (cycle 2)
+17 2025-12-15 16:27:52 [CLOUD] No sensors registered yet (cycle 3)
+18 2025-12-15 16:27:57 [CLOUD] No sensors registered yet (cycle 4)
+19 2025-12-15 16:28:02 [CLOUD] No sensors registered yet (cycle 5)
+20 2025-12-15 16:28:07 [CLOUD] No sensors registered yet (cycle 6)
+21 2025-12-15 16:28:12 [CLOUD] No sensors registered yet (cycle 7)
+22 2025-12-15 16:28:16 [CONNECTION] New client connected from 127.0.0.1:44162 (total: 1)
+23 2025-12-15 16:28:16 [CLIENT] Sensor node ID 1 from 127.0.0.1:44162 opened new connection
+24 2025-12-15 16:28:16 [CLIENT] Received data ID 1 type 1 value 17.93 from 127.0.0.1:44162
+25 2025-12-15 16:28:16 [TEMP] Sensor 1 temperature normal (avg = 17.93°C)
+26 2025-12-15 16:28:16 [CLIENT] Received data ID 1 type 1 value 25.08 from 127.0.0.1:44162
+27 2025-12-15 16:28:16 [TEMP] Sensor 1 temperature normal (avg = 21.50°C)
+28 2025-12-15 16:28:16 [CLIENT] Received data ID 1 type 1 value 34.81 from 127.0.0.1:44162
+29 2025-12-15 16:28:16 [TEMP] Sensor 1 reports it's too hot (avg = 25.94°C)
+30 2025-12-15 16:28:16 [CLIENT] Received data ID 1 type 1 value 27.03 from 127.0.0.1:44162
+31 2025-12-15 16:28:16 [TEMP] Sensor 1 reports it's too hot (avg = 26.21°C)
+32 2025-12-15 16:28:16 [CLIENT] Received data ID 1 type 1 value 26.17 from 127.0.0.1:44162
+33 2025-12-15 16:28:17 [TEMP] Sensor 1 reports it's too hot (avg = 26.20°C)
+34 2025-12-15 16:28:17 [CLOUD] Uploaded sensor 1 (type=1, avg=26.20, count=5)
+35 2025-12-15 16:28:17 [CLOUD] Cycle 8 complete: 1 uploaded, 0 failed, 0 skipped
+36 2025-12-15 16:28:17 [CLIENT] Received data ID 1 type 1 value 32.99 from 127.0.0.1:44162
+37 2025-12-15 16:28:17 [TEMP] Sensor 1 reports it's too hot (avg = 27.33°C)
+38 2025-12-15 16:28:17 [CLIENT] Received data ID 1 type 1 value 31.82 from 127.0.0.1:44162
+39 2025-12-15 16:28:17 [TEMP] Sensor 1 reports it's too hot (avg = 27.98°C)
+40 2025-12-15 16:28:17 [CLIENT] Received data ID 1 type 1 value 16.14 from 127.0.0.1:44162
+41 2025-12-15 16:28:17 [TEMP] Sensor 1 reports it's too hot (avg = 26.50°C)
+42 2025-12-15 16:28:17 [CLIENT] Received data ID 1 type 1 value 18.86 from 127.0.0.1:44162
+43 2025-12-15 16:28:17 [TEMP] Sensor 1 reports it's too hot (avg = 25.65°C)
+44 2025-12-15 16:28:17 [MQTT] Sensor 1 message published successfully (mid=1)
+45 2025-12-15 16:28:17 [CLIENT] Received data ID 1 type 1 value 17.17 from 127.0.0.1:44162
+46 2025-12-15 16:28:17 [TEMP] Sensor 1 temperature normal (avg = 24.80°C)
+47 2025-12-15 16:28:17 [CLIENT] Received data ID 1 type 1 value 22.23 from 127.0.0.1:44162
+48 2025-12-15 16:28:17 [TEMP] Sensor 1 temperature normal (avg = 24.57°C)
+49 2025-12-15 16:28:17 [CLIENT] Received data ID 1 type 1 value 30.33 from 127.0.0.1:44162
+50 2025-12-15 16:28:17 [TEMP] Sensor 1 temperature normal (avg = 25.05°C)
+51 2025-12-15 16:28:17 [CLIENT] Received data ID 1 type 1 value 15.59 from 127.0.0.1:44162
+52 2025-12-15 16:28:17 [TEMP] Sensor 1 temperature normal (avg = 24.32°C)
+53 2025-12-15 16:28:17 [CLIENT] Received data ID 1 type 1 value 23.63 from 127.0.0.1:44162
+54 2025-12-15 16:28:17 [TEMP] Sensor 1 temperature normal (avg = 24.27°C)
+55 2025-12-15 16:28:17 [CLIENT] Received data ID 1 type 1 value 23.80 from 127.0.0.1:44162
+56 2025-12-15 16:28:18 [TEMP] Sensor 1 temperature normal (avg = 24.24°C)
+57 2025-12-15 16:28:18 [CLIENT] Received data ID 1 type 1 value 17.33 from 127.0.0.1:44162
+58 2025-12-15 16:28:18 [TEMP] Sensor 1 temperature normal (avg = 23.81°C)
+59 2025-12-15 16:28:18 [CLIENT] Received data ID 1 type 1 value 19.87 from 127.0.0.1:44162
+60 2025-12-15 16:28:18 [TEMP] Sensor 1 temperature normal (avg = 23.58°C)
+61 2025-12-15 16:28:18 [CLIENT] Received data ID 1 type 1 value 28.35 from 127.0.0.1:44162
+62 2025-12-15 16:28:18 [TEMP] Sensor 1 temperature normal (avg = 23.84°C)
+63 2025-12-15 16:28:18 [CLIENT] Received data ID 1 type 1 value 23.80 from 127.0.0.1:44162
+64 2025-12-15 16:28:18 [TEMP] Sensor 1 temperature normal (avg = 23.84°C)
+65 2025-12-15 16:28:18 [CLIENT] Received data ID 1 type 1 value 31.09 from 127.0.0.1:44162
+66 2025-12-15 16:28:18 [TEMP] Sensor 1 temperature normal (avg = 24.20°C)
+67 2025-12-15 16:28:18 [CLIENT] Sensor node ID 1 from 127.0.0.1:44162 closed connection (20 packets received)
+68 2025-12-15 16:28:22 [CLOUD] Uploaded sensor 1 (type=1, avg=24.20, count=20)
+69 2025-12-15 16:28:22 [CLOUD] Cycle 9 complete: 1 uploaded, 0 failed, 0 skipped
+70 2025-12-15 16:28:22 shutdown
+71 2025-12-15 16:28:22 [SQL] Database connection closed
+72 2025-12-15 16:28:22 [STORAGE] Storage manager thread exiting. Stats: 20 inserted, 0 failed
+73 2025-12-15 16:28:22 [DATA] Data manager thread exiting. Total processed: 20 measurements
+74 2025-12-15 16:28:22 [MQTT] Sensor 1 message published successfully (mid=2)
+75 2025-12-15 16:28:22 [CONNECTION] Connection manager thread exiting. Total connections: 1
+76 2025-12-15 16:28:27 [MQTT] Cleaning up cloud clients (NUM_CLIENTS=3)
+77 2025-12-15 16:28:27 [MQTT] Cleaning up client 0 (ID=1, connected=1)
+78 2025-12-15 16:28:27 [MQTT] mosquitto_loop_stop returned: 0
+79 2025-12-15 16:28:27 [MQTT] Sensor 1 disconnected
+80 2025-12-15 16:28:27 [MQTT] Sensor 1 cleaned up
+81 2025-12-15 16:28:27 [MQTT] Cleaning up client 1 (ID=2, connected=1)
+82 2025-12-15 16:28:27 [MQTT] mosquitto_loop_stop returned: 0
+83 2025-12-15 16:28:27 [MQTT] Sensor 2 disconnected
+84 2025-12-15 16:28:27 [MQTT] Sensor 2 cleaned up
+85 2025-12-15 16:28:27 [MQTT] Cleaning up client 2 (ID=3, connected=1)
+86 2025-12-15 16:28:27 [MQTT] mosquitto_loop_stop returned: 0
+87 2025-12-15 16:28:27 [MQTT] Sensor 3 disconnected
+88 2025-12-15 16:28:27 [MQTT] Sensor 3 cleaned up
+89 2025-12-15 16:28:27 [MQTT] Cloud clients cleanup complete
+90 2025-12-15 16:28:27 [CLOUD] Cloud uploader thread exiting. Total: 2 uploaded, 0 failed
+91 2025-12-15 16:28:27 [STATS] Freed 1 sensor statistics entries
+92 2025-12-15 16:28:27 [MAIN] Gateway shutdown complete
