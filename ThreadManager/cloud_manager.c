@@ -64,6 +64,30 @@ static int upload_sensor_data(cloud_client_t *client, sensor_stat_t *stat){
 //     }
 // }
 
+// Helper: Check if sensor has new data since last upload
+static int has_new_data(sensor_stat_t *sensor){
+    // No data yet
+    if(sensor->count == 0){
+        return 0;
+    }
+    
+    // Never uploaded before - upload now
+    if(sensor->last_uploaded == 0){
+        return 1;
+    }
+    
+    // Has count increased since last upload?
+    if(sensor->count > sensor->last_uploaded_count){
+        // Check if enough time has passed
+        time_t now = time(NULL);
+        if((now - sensor->last_uploaded) >= UPLOAD_INTERVAL_SEC){
+            return 1;  // New data + enough time passed
+        }
+    }
+    
+    return 0;  // No new data or too soon
+}
+
 void *cloud_manager_thread(void *arg){
     (void)arg;
     
@@ -90,7 +114,7 @@ void *cloud_manager_thread(void *arg){
         }
         
         // Handle empty stats
-        if(sensor_count == 0) {
+        if(sensor_count == 0){
             pthread_mutex_unlock(&stats_mutex);
             log_event("[CLOUD] No sensors registered yet (cycle %zu)", upload_cycles);
             sleep(UPLOAD_INTERVAL_SEC);
@@ -126,31 +150,8 @@ void *cloud_manager_thread(void *arg){
         time_t now = time(NULL);
         
         for(size_t i = 0; i < sensor_count; i++){
-            // Check if this sensor needs uploading
-            int should_upload = 0;
-            
-            if(local_stats[i].count == 0) {
-                // No data yet - skip
-                batch_skipped++;
-                continue;
-            }
-            
-            // Handle first upload (last_uploaded == 0)
-            if(local_stats[i].last_uploaded == 0){
-                // Never uploaded before - upload now
-                should_upload = 1;
-            } 
-            else if((now - local_stats[i].last_uploaded) >= UPLOAD_INTERVAL_SEC){
-                // Enough time has passed since last upload
-                should_upload = 1;
-            } 
-            else{
-                // Too soon since last upload - skip
-                batch_skipped++;
-                continue;
-            }
-            
-            if(!should_upload){
+            // Check if this sensor has new data
+            if(!has_new_data(&local_stats[i])){
                 batch_skipped++;
                 continue;
             }
@@ -178,14 +179,14 @@ void *cloud_manager_thread(void *arg){
             
             // Attempt upload
             if(upload_sensor_data(client, &local_stats[i]) == 0){
-                // SUCCESS: Update last_uploaded timestamp in main stats
+                // Update both timestamp AND count
                 pthread_mutex_lock(&stats_mutex);
                 
                 sensor_stat_t *stat = stats_head;
-                while(stat) {
-                    if(stat->id == local_stats[i].id && 
-                    stat->type == local_stats[i].type) {
+                while(stat){
+                    if(stat->id == local_stats[i].id && stat->type == local_stats[i].type){
                         stat->last_uploaded = now;
+                        stat->last_uploaded_count = stat->count; 
                         break;
                     }
                     stat = stat->next;
@@ -195,7 +196,7 @@ void *cloud_manager_thread(void *arg){
                 
                 batch_uploaded++;
 
-                printf("Hi from Cloud Manager\n");
+                //printf("Hi from Cloud Manager\n");
             } 
             else{
                 batch_failed++;
@@ -209,15 +210,15 @@ void *cloud_manager_thread(void *arg){
         total_uploaded += batch_uploaded;
         total_failed += batch_failed;
         
-    if(batch_uploaded > 0 || batch_failed > 0) {
-        log_event("[CLOUD] Cycle %zu complete: %zu uploaded, %zu failed, %zu skipped", upload_cycles, batch_uploaded, batch_failed, batch_skipped);
-    } 
-    else if(batch_skipped > 0){
-        log_event("[CLOUD] Cycle %zu: All %zu sensors skipped (no new data or too soon)", upload_cycles, batch_skipped);
-    }
+        if(batch_uploaded > 0 || batch_failed > 0){
+            log_event("[CLOUD] Cycle %zu complete: %zu uploaded, %zu failed, %zu skipped", upload_cycles, batch_uploaded, batch_failed, batch_skipped);
+        } 
+        else if(batch_skipped > 0){
+            log_event("[CLOUD] Cycle %zu: All %zu sensors skipped (no new data or too soon)", upload_cycles, batch_skipped);
+        }
 
-        // Wait before next upload cycle
-        sleep(UPLOAD_INTERVAL_SEC);
+            // Wait before next upload cycle
+            sleep(UPLOAD_INTERVAL_SEC);
     }
     
     // Cleanup

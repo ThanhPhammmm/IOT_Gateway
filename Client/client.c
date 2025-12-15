@@ -96,7 +96,7 @@ int main(int argc, char **argv){
     struct sockaddr_in serv;
     serv.sin_family = AF_INET;
     serv.sin_port = htons(port);
-    serv.sin_addr = addr;  // ✅ Use validated address
+    serv.sin_addr = addr;  // Use validated address
     
     if(connect(sock, (struct sockaddr*)&serv, sizeof(serv)) < 0){
         perror("connect");

@@ -25,12 +25,19 @@ void sbuffer_free_all(sbuffer_t *b){
 // Helper: wait until buffer has data or stop_flag is set
 static inline int sbuffer_wait_until_data(sbuffer_t *b){
     while(b->head == NULL && !stop_flag){
-        pthread_cond_wait(&b->cond, &b->mutex);
+        struct timespec ts;
+        clock_gettime(CLOCK_REALTIME, &ts);
+        ts.tv_sec += 1;
+        //printf("HANGING for waiting\n");
+        pthread_cond_timedwait(&b->cond, &b->mutex, &ts);    
     }
     return stop_flag;
 }
 
+
 void sbuffer_insert(sbuffer_t *b, sensor_packet_t *pkt){
+    //printf("INSERT VALUE: %f\n", pkt->value);
+
     sbuffer_node_t *n = malloc(sizeof(*n));
     if(!n){
         log_event("[SBUFFER] malloc failed");
@@ -63,11 +70,12 @@ void sbuffer_insert(sbuffer_t *b, sensor_packet_t *pkt){
 
 static sbuffer_node_t *sbuffer_find_generic(sbuffer_t *b, int (*predicate)(sbuffer_node_t *)){
     pthread_mutex_lock(&b->mutex);
-
     // Wait until data arrives or stop_flag
-    sbuffer_wait_until_data(b);
-    
-    // Find data even stop_flag=1
+    if(sbuffer_wait_until_data(b)){
+        pthread_mutex_unlock(&b->mutex);
+        return NULL;
+    }
+
     sbuffer_node_t *result = NULL;
     for(sbuffer_node_t *cur = b->head; cur; cur = cur->next){
         if(predicate(cur)){
@@ -77,7 +85,7 @@ static sbuffer_node_t *sbuffer_find_generic(sbuffer_t *b, int (*predicate)(sbuff
     }
 
     pthread_mutex_unlock(&b->mutex);
-    return result;  // Return node ,else NULL if buffer empty
+    return result;
 }
 
 // Predicate functions
@@ -134,7 +142,7 @@ static void sbuffer_try_cleanup(sbuffer_t *b, sbuffer_node_t *node){
     }
     
     free(node);
-    printf("FREE\n");
+    //printf("FREE\n");
 }
 
 void sbuffer_mark_data_done(sbuffer_t *b, sbuffer_node_t *node){

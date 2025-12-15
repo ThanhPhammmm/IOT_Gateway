@@ -63,14 +63,14 @@ void *client_thread_func(void *arg){
                         
                         sbuffer_insert(&sbuffer, &packet);
                         packets_received++;
-                        
-                        log_event("[CLIENT] Received data ID %d type %d value %.2f from %s:%d", 
-                                sensor_id, sensor_type, sensor_value, client_ip, client_port);
+
+                        log_event("[CLIENT] Received data ID %d type %d value %.2f from %s:%d", sensor_id, sensor_type, sensor_value, client_ip, client_port);
                     }
                     
                     if(newline){
                         line_start = newline + 1;
-                    } else {
+                    } 
+                    else{
                         break;
                     }
                 }
@@ -80,7 +80,8 @@ void *client_thread_func(void *arg){
                 if(remainder_len > 0){
                     memmove(read_buffer, last_newline + 1, remainder_len);
                     buffer_len = remainder_len;
-                } else {
+                } 
+                else{
                     buffer_len = 0;
                 }
             } 
@@ -112,8 +113,7 @@ void *client_thread_func(void *arg){
             // Parse sensor data
             int sensor_id, sensor_type;
             double sensor_value;
-            int parsed = sscanf(line_start, "%d %d %lf", 
-                              &sensor_id, &sensor_type, &sensor_value);
+            int parsed = sscanf(line_start, "%d %d %lf", &sensor_id, &sensor_type, &sensor_value);
             
             if(parsed == 3){
                 if(first_sensor_id == -1){
@@ -131,11 +131,10 @@ void *client_thread_func(void *arg){
                 sbuffer_insert(&sbuffer, &packet);
                 packets_received++;
                 
-                log_event("[CLIENT] Received data ID %d type %d value %.2f from %s:%d", 
-                        sensor_id, sensor_type, sensor_value, client_ip, client_port);
-            } else {
-                log_event("[CLIENT] Invalid data format from %s:%d: '%s'", 
-                        client_ip, client_port, line_start);
+                log_event("[CLIENT] Received data ID %d type %d value %.2f from %s:%d", sensor_id, sensor_type, sensor_value, client_ip, client_port);
+            } 
+            else{
+                log_event("[CLIENT] Invalid data format from %s:%d: '%s'", client_ip, client_port, line_start);
             }
             
             line_start = newline + 1;
@@ -153,7 +152,7 @@ void *client_thread_func(void *arg){
     if(first_sensor_id != -1){
         log_event("[CLIENT] Sensor node ID %d from %s:%d closed connection (%zu packets received)", first_sensor_id, client_ip, client_port, packets_received);
     } 
-    else {
+    else{
         log_event("[CLIENT] Unknown sensor from %s:%d closed connection (no valid data)", client_ip, client_port);
     }
     
@@ -189,6 +188,7 @@ void update_running_avg(int id, int type, double val, double *out_avg){
         stat->avg = 0.0;
         stat->count = 0;
         stat->last_uploaded = 0; // for tracking uploading
+        stat->last_uploaded_count = 0;
         stat->next = stats_head;
         stats_head = stat;
     }

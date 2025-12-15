@@ -69,6 +69,7 @@ typedef struct sensor_stat {
     double avg;
     unsigned long count;
     time_t last_uploaded;  // for tracking uploading
+    unsigned long last_uploaded_count;
     struct sensor_stat *next;
 }sensor_stat_t;
 

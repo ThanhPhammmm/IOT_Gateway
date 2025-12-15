@@ -29,7 +29,6 @@ static sqlite3* storage_connect_db(int max_attempts){
     return NULL;
 }
 
-
 // Helper: batch insert with automatic reconnect
 static int storage_batch_insert_with_retry(sqlite3 **db, sensor_packet_t *batch, size_t count){
     int rc = db_insert_measures_batch(*db, batch, count);
@@ -69,32 +68,10 @@ static int storage_batch_insert_with_retry(sqlite3 **db, sensor_packet_t *batch,
         log_event("[SQL] Individual insert: %zu/%zu successful", success, count);
     }
     
-    return (success > 0) ? SQLITE_OK : SQLITE_ERROR;
-}
-
-// Helper: Flush batch to database
-static int flush_batch(sqlite3 **db, sensor_packet_t *batch, size_t *batch_count, 
-                       size_t *total_inserted, size_t *total_failed){
-    if(*batch_count == 0){
-        return 0; // Nothing to flush
+    if(success < count){
+        log_event("[SQL][ERROR] Lost %zu measurements", count - success);
     }
-    
-    int rc = storage_batch_insert_with_retry(db, batch, *batch_count);
-    
-    if(rc == SQLITE_OK){
-        log_event("[SQL] Stored batch of %zu measurements", *batch_count);
-        *total_inserted += *batch_count;
-    } 
-    else{
-        *total_failed += *batch_count;
-        if(!*db){
-            log_event("[SQL] Fatal database error during flush");
-            return -1; // Fatal error
-        }
-    }
-    
-    *batch_count = 0;
-    return 0;
+    return (success == count) ? SQLITE_OK : SQLITE_ERROR;
 }
 
 void *storage_manager_thread(void *arg){
@@ -121,67 +98,56 @@ void *storage_manager_thread(void *arg){
     size_t total_inserted = 0;
     size_t total_failed = 0;
     
-    // Main processing loop - TWO PHASE APPROACH
-    // PHASE 1: Normal operation (while !stop_flag)
-    while(!stop_flag) {
+    // Main processing loop
+    while(!stop_flag){
+        //Flush for the last packet
+        if(batch_count > 0){
+            // flush batch
+            if(storage_batch_insert_with_retry(&db, batch, batch_count) == SQLITE_OK){
+                total_inserted += batch_count;
+            }
+            batch_count = 0;
+        }
+
         sbuffer_node_t *node = sbuffer_find_for_storage(&sbuffer);
-        
-        if(!node) {
-            // No data available - flush remaining batch if any
-            if(batch_count > 0) {
-                if(flush_batch(&db, batch, &batch_count, &total_inserted, &total_failed) < 0){
-                    free(batch);
-                    exit(EXIT_FAILURE);
+
+        if(node){
+            // collect batch
+            batch[batch_count++] = node->pkt;
+            sbuffer_mark_storage_done(&sbuffer, node);
+
+            // Flush when batch is full
+            if(batch_count >= BATCH_SIZE){
+                if(storage_batch_insert_with_retry(&db, batch, batch_count) == SQLITE_OK){
+                    total_inserted += batch_count;
                 }
+                batch_count = 0;
             }
-            
-            // Small delay to avoid busy waiting
-            usleep(POLL_DELAY_MS * 1000);
-            continue;
         }
-        
-        // Add to batch
-        batch[batch_count++] = node->pkt;
-        sbuffer_mark_storage_done(&sbuffer, node);
-        
-        // Insert when batch is full
-        if(batch_count >= BATCH_SIZE){
-            if(flush_batch(&db, batch, &batch_count, &total_inserted, &total_failed) < 0){
-                free(batch);
-                exit(EXIT_FAILURE);
+        else{
+            if(batch_count > 0){
+                // flush batch
+                if(storage_batch_insert_with_retry(&db, batch, batch_count) == SQLITE_OK){
+                    total_inserted += batch_count;
+                }
+                batch_count = 0;
+            }
+            else{
+                // hanging
+                usleep(POLL_DELAY_MS * 1000);
             }
         }
     }
     
-    // PHASE 2: Shutdown - drain remaining data from sbuffer
-    log_event("[STORAGE] Stop flag detected, draining remaining data from buffer...");
-    
-    size_t drained_count = 0;
-    sbuffer_node_t *node;
-    
-    // Keep draining until no more data
-    // Note: sbuffer_find_for_storage returns NULL immediately when stop_flag=1 AND no data
-    while((node = sbuffer_find_for_storage(&sbuffer)) != NULL){
-        batch[batch_count++] = node->pkt;
-        sbuffer_mark_storage_done(&sbuffer, node);
-        drained_count++;
-        
-        // Flush if batch full
-        if(batch_count >= BATCH_SIZE) {
-            if(flush_batch(&db, batch, &batch_count, &total_inserted, &total_failed) < 0){
-                log_event("[STORAGE] Error during final flush, some data may be lost");
-                break;
-            }
-        }
-    }
-    
-    log_event("[STORAGE] Drained %zu additional measurements from buffer", drained_count);
-    
-    // PHASE 3: Final flush of remaining batch
+    // Final flush
     if(batch_count > 0){
         log_event("[STORAGE] Flushing final batch of %zu measurements", batch_count);
-        if(flush_batch(&db, batch, &batch_count, &total_inserted, &total_failed) < 0){
-            log_event("[STORAGE] Final flush failed");
+        int rc = storage_batch_insert_with_retry(&db, batch, batch_count);
+        if(rc == SQLITE_OK){
+            total_inserted += batch_count;
+        }
+        else{
+            total_failed += batch_count;
         }
     }
     
@@ -189,8 +155,6 @@ void *storage_manager_thread(void *arg){
     free(batch);
     
     if(db){
-        // Force synchronization before closing
-        sqlite3_exec(db, "PRAGMA wal_checkpoint(FULL);", NULL, NULL, NULL);
         sqlite3_close(db);
         log_event("[SQL] Database connection closed");
     }
