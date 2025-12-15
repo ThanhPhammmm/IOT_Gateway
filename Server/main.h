@@ -38,7 +38,7 @@ typedef struct {
     uint8_t id;
     uint8_t type;
     double value;
-    //time_t ts;
+    time_t ts;
 }sensor_packet_t;
 
 typedef struct sbuffer_node {
@@ -68,6 +68,7 @@ typedef struct sensor_stat {
     uint8_t type;
     double avg;
     unsigned long count;
+    time_t last_uploaded;  // for tracking uploading
     struct sensor_stat *next;
 }sensor_stat_t;
 

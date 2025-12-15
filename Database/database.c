@@ -48,7 +48,7 @@ int db_insert_measure(sqlite3 *db, sensor_packet_t *pkt){
     
     static const char *sql = 
         "INSERT INTO sensor_data(id, type, value, ts) "
-        "VALUES (?1, ?2, ?3, datetime('now'));";
+        "VALUES (?1, ?2, ?3, datetime(?4, 'unixepoch'));";
     
     sqlite3_stmt *stmt = NULL;
     int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
@@ -59,7 +59,8 @@ int db_insert_measure(sqlite3 *db, sensor_packet_t *pkt){
     sqlite3_bind_int(stmt, 1, pkt->id);
     sqlite3_bind_int(stmt, 2, pkt->type);
     sqlite3_bind_double(stmt, 3, pkt->value);
-    
+    sqlite3_bind_int64(stmt, 4, (sqlite3_int64)pkt->ts);
+
     rc = sqlite3_step(stmt);
     sqlite3_finalize(stmt);
     
@@ -81,7 +82,7 @@ int db_insert_measures_batch(sqlite3 *db, sensor_packet_t *packets, size_t count
     // Prepare statement once
     static const char *sql = 
         "INSERT INTO sensor_data(id, type, value, ts) "
-        "VALUES (?1, ?2, ?3, datetime('now'));";
+        "VALUES (?1, ?2, ?3, datetime(?4, 'unixepoch'));";
     
     sqlite3_stmt *stmt = NULL;
     rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
@@ -96,7 +97,8 @@ int db_insert_measures_batch(sqlite3 *db, sensor_packet_t *packets, size_t count
         sqlite3_bind_int(stmt, 1, packets[i].id);
         sqlite3_bind_int(stmt, 2, packets[i].type);
         sqlite3_bind_double(stmt, 3, packets[i].value);
-        
+        sqlite3_bind_int64(stmt, 4, (sqlite3_int64)packets[i].ts);
+
         rc = sqlite3_step(stmt);
         if(rc == SQLITE_DONE){
             success_count++;

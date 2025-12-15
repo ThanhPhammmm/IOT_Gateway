@@ -22,14 +22,79 @@ void *client_thread_func(void *arg){
         ssize_t bytes_read = read(client_fd, recv_buf, sizeof(recv_buf) - 1);
         
         if(bytes_read <= 0){
-            // Connection closed or error
             break;
         }
         
-        // Check buffer overflow
+        // Check buffer overflow BEFORE appending
         if(buffer_len + bytes_read >= sizeof(read_buffer)){
-            log_event("[CLIENT] Buffer overflow for client %s:%d, resetting buffer", client_ip, client_port);
-            buffer_len = 0;
+            // Try to salvage by processing up to last complete line
+            char *last_newline = memrchr(read_buffer, '\n', buffer_len);
+            
+            if(last_newline){
+                // Process complete lines first
+                *last_newline = '\0';
+                
+                char *line_start = read_buffer;
+                char *newline;
+                
+                while((newline = strchr(line_start, '\n')) || 
+                      (line_start < last_newline)){
+                    if(newline){
+                        *newline = '\0';
+                    }
+                    
+                    // Parse sensor data
+                    int sensor_id, sensor_type;
+                    double sensor_value;
+                    int parsed = sscanf(line_start, "%d %d %lf", &sensor_id, &sensor_type, &sensor_value);
+                    
+                    if(parsed == 3){
+                        if(first_sensor_id == -1){
+                            first_sensor_id = sensor_id;
+                            log_event("[CLIENT] Sensor node ID %d from %s:%d opened new connection", first_sensor_id, client_ip, client_port);
+                        }
+                        
+                        sensor_packet_t packet = {
+                            .id = sensor_id,
+                            .type = sensor_type,
+                            .value = sensor_value,
+                            .ts = time(NULL)
+                        };
+                        
+                        sbuffer_insert(&sbuffer, &packet);
+                        packets_received++;
+                        
+                        log_event("[CLIENT] Received data ID %d type %d value %.2f from %s:%d", 
+                                sensor_id, sensor_type, sensor_value, client_ip, client_port);
+                    }
+                    
+                    if(newline){
+                        line_start = newline + 1;
+                    } else {
+                        break;
+                    }
+                }
+                
+                // Keep remainder after last newline
+                size_t remainder_len = buffer_len - (last_newline - read_buffer + 1);
+                if(remainder_len > 0){
+                    memmove(read_buffer, last_newline + 1, remainder_len);
+                    buffer_len = remainder_len;
+                } else {
+                    buffer_len = 0;
+                }
+            } 
+            else{
+                // No newline found - truly a line too long
+                log_event("[CLIENT] Protocol violation: line exceeds buffer size from %s:%d", client_ip, client_port);
+                buffer_len = 0;
+            }
+            
+            // Check again after cleanup
+            if(buffer_len + bytes_read >= sizeof(read_buffer)){
+                log_event("[CLIENT] Still overflow after cleanup, dropping data from %s:%d", client_ip, client_port);
+                continue;  // Skip this chunk
+            }
         }
         
         // Append to read buffer
@@ -44,34 +109,33 @@ void *client_thread_func(void *arg){
         while((newline = memchr(line_start, '\n', (read_buffer + buffer_len) - line_start))){
             *newline = '\0';
             
-            // Parse sensor data: "id type value"
+            // Parse sensor data
             int sensor_id, sensor_type;
             double sensor_value;
-            int parsed = sscanf(line_start, "%d %d %lf", &sensor_id, &sensor_type, &sensor_value);
+            int parsed = sscanf(line_start, "%d %d %lf", 
+                              &sensor_id, &sensor_type, &sensor_value);
             
             if(parsed == 3){
-                // Log first connection
                 if(first_sensor_id == -1){
                     first_sensor_id = sensor_id;
                     log_event("[CLIENT] Sensor node ID %d from %s:%d opened new connection", first_sensor_id, client_ip, client_port);
                 }
                 
-                // Create packet
                 sensor_packet_t packet = {
                     .id = sensor_id,
                     .type = sensor_type,
                     .value = sensor_value,
-                    //.ts = time(NULL)
+                    .ts = time(NULL)
                 };
                 
-                // Insert into shared buffer
                 sbuffer_insert(&sbuffer, &packet);
                 packets_received++;
                 
-                log_event("[CLIENT] Received data ID %d type %d value %.2f from %s:%d", sensor_id, sensor_type, sensor_value, client_ip, client_port);
-            } 
-            else{
-                log_event("[CLIENT] Invalid data format from %s:%d: '%s'", client_ip, client_port, line_start);
+                log_event("[CLIENT] Received data ID %d type %d value %.2f from %s:%d", 
+                        sensor_id, sensor_type, sensor_value, client_ip, client_port);
+            } else {
+                log_event("[CLIENT] Invalid data format from %s:%d: '%s'", 
+                        client_ip, client_port, line_start);
             }
             
             line_start = newline + 1;
@@ -89,11 +153,10 @@ void *client_thread_func(void *arg){
     if(first_sensor_id != -1){
         log_event("[CLIENT] Sensor node ID %d from %s:%d closed connection (%zu packets received)", first_sensor_id, client_ip, client_port, packets_received);
     } 
-    else{
+    else {
         log_event("[CLIENT] Unknown sensor from %s:%d closed connection (no valid data)", client_ip, client_port);
     }
     
-    // Cleanup
     close(client_fd);
     free(client_info);
     
@@ -125,6 +188,7 @@ void update_running_avg(int id, int type, double val, double *out_avg){
         stat->type = type;
         stat->avg = 0.0;
         stat->count = 0;
+        stat->last_uploaded = 0; // for tracking uploading
         stat->next = stats_head;
         stats_head = stat;
     }

@@ -78,10 +78,48 @@ int main(int argc, char **argv){
     // Give logger time to flush
     usleep(100000); // 100ms
     
-    // Shutdown logger
+    // Graceful logger shutdown with timeout
     if(logger_pid > 0){
+        log_event("[MAIN] Shutting down logger process (PID %d)", logger_pid);
+        
+        // Send SIGTERM
         kill(logger_pid, SIGTERM);
-        waitpid(logger_pid, NULL, 0);
+        
+        // Wait with timeout
+        int status;
+        int timeout_count = 0;
+        const int MAX_TIMEOUT = 10; // 10 iterations = 1 second
+        
+        while(timeout_count < MAX_TIMEOUT){
+            pid_t result = waitpid(logger_pid, &status, WNOHANG);
+            
+            if(result > 0){
+                // Logger exited normally
+                if(WIFEXITED(status)){
+                    printf("[MAIN] Logger exited with status %d\n", WEXITSTATUS(status));
+                } 
+                else if(WIFSIGNALED(status)){
+                    printf("[MAIN] Logger killed by signal %d\n", WTERMSIG(status));
+                }
+                break;
+            } 
+            else if(result < 0){
+                // Error
+                perror("waitpid");
+                break;
+            }
+            
+            // Still running, wait more
+            usleep(100000); // 100ms
+            timeout_count++;
+        }
+        
+        // If still running after timeout, force kill
+        if(timeout_count >= MAX_TIMEOUT){
+            printf ("[MAIN] Logger not responding, sending SIGKILL\n");
+            kill(logger_pid, SIGKILL);
+            waitpid(logger_pid, NULL, 0); // Wait for force kill
+        }
     }
 
     return 0;

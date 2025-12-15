@@ -65,11 +65,9 @@ static sbuffer_node_t *sbuffer_find_generic(sbuffer_t *b, int (*predicate)(sbuff
     pthread_mutex_lock(&b->mutex);
 
     // Wait until data arrives or stop_flag
-    if(sbuffer_wait_until_data(b)){
-        pthread_mutex_unlock(&b->mutex);
-        return NULL;
-    }
-
+    sbuffer_wait_until_data(b);
+    
+    // Find data even stop_flag=1
     sbuffer_node_t *result = NULL;
     for(sbuffer_node_t *cur = b->head; cur; cur = cur->next){
         if(predicate(cur)){
@@ -79,7 +77,7 @@ static sbuffer_node_t *sbuffer_find_generic(sbuffer_t *b, int (*predicate)(sbuff
     }
 
     pthread_mutex_unlock(&b->mutex);
-    return result;
+    return result;  // Return node ,else NULL if buffer empty
 }
 
 // Predicate functions

@@ -24,8 +24,10 @@ static int upload_sensor_data(cloud_client_t *client, sensor_stat_t *stat){
     
     // Build JSON payload
     char payload[256];
-    int len = snprintf(payload, sizeof(payload), "{\"sensor_id\":%d,\"type\":%d,\"avg\":%.2f,\"count\":%lu,\"timestamp\":%ld}", stat->id, stat->type, stat->avg, stat->count, time(NULL));
-    
+    int len = snprintf(payload, sizeof(payload), 
+        "{\"sensor_id\":%d,\"type\":%d,\"avg\":%.2f,\"count\":%lu,\"timestamp\":%ld,\"last_upload\":%ld}", 
+        stat->id, stat->type, stat->avg, stat->count, time(NULL), stat->last_uploaded);
+
     if(len < 0 || len >= (int)sizeof(payload)){
         log_event("[CLOUD] Payload too large for sensor %d", stat->id);
         return -1;
@@ -67,69 +69,153 @@ void *cloud_manager_thread(void *arg){
     
     log_event("[CLOUD] Cloud uploader thread started");
     
-    // Initialize MQTT clients
     cloud_clients_init();
     
     size_t total_uploaded = 0;
     size_t total_failed = 0;
-    
+    size_t upload_cycles = 0;
+
     // Main upload loop
     while(!stop_flag){
-        // pthread_mutex_lock(&stats_mutex);
+        upload_cycles++;
+
+        pthread_mutex_lock(&stats_mutex);
         
+        // Count sensors numbers
+        size_t sensor_count = 0;
         sensor_stat_t *stat = stats_head;
+        while(stat){
+            sensor_count++;
+            stat = stat->next;
+        }
+        
+        // Handle empty stats
+        if(sensor_count == 0) {
+            pthread_mutex_unlock(&stats_mutex);
+            log_event("[CLOUD] No sensors registered yet (cycle %zu)", upload_cycles);
+            sleep(UPLOAD_INTERVAL_SEC);
+            continue;
+        }
+
+        // Allocate local buffer
+        sensor_stat_t *local_stats = malloc(sensor_count * sizeof(sensor_stat_t));
+        if(!local_stats){
+            pthread_mutex_unlock(&stats_mutex);
+            log_event("[CLOUD] Failed to allocate local buffer");
+            sleep(UPLOAD_INTERVAL_SEC);
+            continue;
+        }
+        
+        // Copy data
+        stat = stats_head;
+        size_t idx = 0;
+        while(stat && idx < sensor_count){
+            local_stats[idx] = *stat;  // Copy struct
+            stat = stat->next;
+            idx++;
+        }
+        
+        // Unlock
+        pthread_mutex_unlock(&stats_mutex);
+        
+        // Upload from local buffer
         size_t batch_uploaded = 0;
         size_t batch_failed = 0;
+        size_t batch_skipped = 0;
         
-        while(stat){
-            // Find corresponding cloud client
-            cloud_client_t *client = find_client_by_id(stat->id);
+        time_t now = time(NULL);
+        
+        for(size_t i = 0; i < sensor_count; i++){
+            // Check if this sensor needs uploading
+            int should_upload = 0;
+            
+            if(local_stats[i].count == 0) {
+                // No data yet - skip
+                batch_skipped++;
+                continue;
+            }
+            
+            // Handle first upload (last_uploaded == 0)
+            if(local_stats[i].last_uploaded == 0){
+                // Never uploaded before - upload now
+                should_upload = 1;
+            } 
+            else if((now - local_stats[i].last_uploaded) >= UPLOAD_INTERVAL_SEC){
+                // Enough time has passed since last upload
+                should_upload = 1;
+            } 
+            else{
+                // Too soon since last upload - skip
+                batch_skipped++;
+                continue;
+            }
+            
+            if(!should_upload){
+                batch_skipped++;
+                continue;
+            }
+            
+            // Find and validate client
+            cloud_client_t *client = find_client_by_id(local_stats[i].id);
             
             if(!client){
-                log_event("[CLOUD] No client found for sensor ID %d", stat->id);
-                stat = stat->next;
+                log_event("[CLOUD] No client found for sensor ID %d", local_stats[i].id);
+                batch_failed++;
                 continue;
             }
             
             if(!client->token){
-                log_event("[CLOUD] No token for sensor ID %d, skipping", stat->id);
-                stat = stat->next;
+                log_event("[CLOUD] No token for sensor ID %d", local_stats[i].id);
+                batch_failed++;
                 continue;
             }
             
             if(!client->connected){
-                log_event("[CLOUD] Sensor %d not connected yet, skipping", stat->id);
-                stat = stat->next;
+                log_event("[CLOUD] Sensor %d not connected yet", local_stats[i].id);
+                batch_failed++;
                 continue;
             }
             
-            // Upload sensor data continuously
-            if(upload_sensor_data(client, stat) == 0){
+            // Attempt upload
+            if(upload_sensor_data(client, &local_stats[i]) == 0){
+                // SUCCESS: Update last_uploaded timestamp in main stats
+                pthread_mutex_lock(&stats_mutex);
+                
+                sensor_stat_t *stat = stats_head;
+                while(stat) {
+                    if(stat->id == local_stats[i].id && 
+                    stat->type == local_stats[i].type) {
+                        stat->last_uploaded = now;
+                        break;
+                    }
+                    stat = stat->next;
+                }
+                
+                pthread_mutex_unlock(&stats_mutex);
+                
                 batch_uploaded++;
+
+                printf("Hi from Cloud Manager\n");
             } 
             else{
                 batch_failed++;
             }
-            
-            // // Process MQTT network loop
-            // process_mqtt_loop(client);
-            
-            stat = stat->next;
         }
         
-        // // Mark buffer nodes as processed
-        // mark_cloud_buffer_done();
-        
-        // pthread_mutex_unlock(&stats_mutex);
+        // Cleanup local buffer
+        free(local_stats);
         
         // Update statistics
         total_uploaded += batch_uploaded;
         total_failed += batch_failed;
         
-        if(batch_uploaded > 0 || batch_failed > 0){
-            log_event("[CLOUD] Upload batch complete: %zu uploaded, %zu failed", batch_uploaded, batch_failed);
-        }
-        
+    if(batch_uploaded > 0 || batch_failed > 0) {
+        log_event("[CLOUD] Cycle %zu complete: %zu uploaded, %zu failed, %zu skipped", upload_cycles, batch_uploaded, batch_failed, batch_skipped);
+    } 
+    else if(batch_skipped > 0){
+        log_event("[CLOUD] Cycle %zu: All %zu sensors skipped (no new data or too soon)", upload_cycles, batch_skipped);
+    }
+
         // Wait before next upload cycle
         sleep(UPLOAD_INTERVAL_SEC);
     }
