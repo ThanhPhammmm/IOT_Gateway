@@ -32,7 +32,7 @@ int main(int argc, char **argv){
     int port = atoi(argv[1]);
 
     signal(SIGINT, sigint_handler);
-    signal(SIGPIPE, SIG_IGN);  // <-- ADD THIS: Prevent SIGPIPE crashes
+    signal(SIGPIPE, SIG_IGN);  // Prevent SIGPIPE crashes
     
     ensure_fifo_exists();
 
@@ -46,7 +46,7 @@ int main(int argc, char **argv){
     
     if(logger_pid == 0){
         // Child: logger process
-        signal(SIGINT, SIG_IGN);  // <-- ADD THIS: Logger ignores SIGINT
+        signal(SIGINT, SIG_IGN);  // Logger ignores SIGINT
         run_logger_process();
         exit(0);
     }
