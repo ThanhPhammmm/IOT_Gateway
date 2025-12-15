@@ -25,6 +25,7 @@ void sbuffer_free_all(sbuffer_t *b){
 // Helper: wait until buffer has data or stop_flag is set
 static inline int sbuffer_wait_until_data(sbuffer_t *b){
     while(b->head == NULL && !stop_flag){
+        //avoid deadlock
         struct timespec ts;
         clock_gettime(CLOCK_REALTIME, &ts);
         ts.tv_sec += 1;
