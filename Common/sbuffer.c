@@ -23,15 +23,23 @@ void sbuffer_free_all(sbuffer_t *b){
 }
 
 // Helper: wait until buffer has data or stop_flag is set
-static inline int sbuffer_wait_until_data(sbuffer_t *b){
-    while(b->head == NULL && !stop_flag){
-        //avoid deadlock
-        struct timespec ts;
-        clock_gettime(CLOCK_REALTIME, &ts);
-        ts.tv_sec += 1;
-        //printf("HANGING for waiting\n");
-        pthread_cond_timedwait(&b->cond, &b->mutex, &ts);    
+static inline int sbuffer_wait_until_data(sbuffer_t *b) {
+    struct timespec ts;
+    // Take the present time
+    clock_gettime(CLOCK_REALTIME, &ts);
+    // Set time out for 5 giây
+    ts.tv_sec += 5;
+
+    while (b->head == NULL && !stop_flag) {
+        int rc = pthread_cond_timedwait(&b->cond, &b->mutex, &ts);
+        
+        if (rc == ETIMEDOUT) {
+            // if waiting time is over, no packet is arrived for 5s
+            //printf("Time out for hanging\n");
+            return -1; 
+        }
     }
+
     return stop_flag;
 }
 
@@ -61,6 +69,7 @@ void sbuffer_insert(sbuffer_t *b, sensor_packet_t *pkt){
         b->head = n;
     }
     b->tail = n;
+    //Sound out for other threads
     pthread_cond_broadcast(&b->cond);
     pthread_mutex_unlock(&b->mutex);
 }

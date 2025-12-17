@@ -100,42 +100,37 @@ void *storage_manager_thread(void *arg){
     
     // Main processing loop
     while(!stop_flag){
-        //Flush for the last packet
+        // //Flush for the last packet
+        // if(batch_count > 0){
+        //     // flush batch
+        //     if(storage_batch_insert_with_retry(&db, batch, batch_count) == SQLITE_OK){
+        //         total_inserted += batch_count;
+        //     }
+        //     batch_count = 0;
+        // }
+
+        sbuffer_node_t *node;
+        while((node = sbuffer_find_for_storage(&sbuffer)) != NULL){
+            // collect batch
+            if(batch_count < BATCH_SIZE){
+                batch[batch_count++] = node->pkt;
+            }
+            else{
+                // Buffer full, will process this node in next iteration
+                break;
+            }
+            sbuffer_mark_storage_done(&sbuffer, node);
+        }
+        // Flush when batch is full
         if(batch_count > 0){
-            // flush batch
             if(storage_batch_insert_with_retry(&db, batch, batch_count) == SQLITE_OK){
                 total_inserted += batch_count;
             }
             batch_count = 0;
         }
-
-        sbuffer_node_t *node = sbuffer_find_for_storage(&sbuffer);
-
-        if(node){
-            // collect batch
-            batch[batch_count++] = node->pkt;
-            sbuffer_mark_storage_done(&sbuffer, node);
-
-            // Flush when batch is full
-            if(batch_count >= BATCH_SIZE){
-                if(storage_batch_insert_with_retry(&db, batch, batch_count) == SQLITE_OK){
-                    total_inserted += batch_count;
-                }
-                batch_count = 0;
-            }
-        }
         else{
-            if(batch_count > 0){
-                // flush batch
-                if(storage_batch_insert_with_retry(&db, batch, batch_count) == SQLITE_OK){
-                    total_inserted += batch_count;
-                }
-                batch_count = 0;
-            }
-            else{
-                // hanging
-                usleep(POLL_DELAY_MS * 1000);
-            }
+            // No data available, sleep to avoid busy-waiting
+            usleep(POLL_DELAY_MS * 1000);
         }
     }
     

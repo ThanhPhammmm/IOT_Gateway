@@ -78,9 +78,9 @@ void *data_manager_thread(void *arg){
     
     sensor_packet_t local_buf[LOCAL_BUFFER_SIZE];
     size_t total_processed = 0;
-    
+    size_t local_count = 0;
+
     while(!stop_flag){
-        size_t local_count = 0;
         
         // Collect all unprocessed packets into local buffer
         sbuffer_node_t *node;
@@ -101,6 +101,7 @@ void *data_manager_thread(void *arg){
                 process_sensor_packet(&local_buf[i]);
             }
             total_processed += local_count;
+            local_count = 0;
         } 
         else{
             // No data available, sleep to avoid busy-waiting
