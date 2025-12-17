@@ -36,7 +36,8 @@ void *client_thread_func(void *arg){
             if(errno == EAGAIN || errno == EWOULDBLOCK){
                 // Timeout for 5s
                 log_event("[CLIENT] Connection timeout for %s:%d", client_ip, client_port);
-            } else {
+            } 
+            else{
                 // (Network error, etc)
                 log_event("[CLIENT] Read error for %s:%d: %s", client_ip, client_port, strerror(errno));
             }
