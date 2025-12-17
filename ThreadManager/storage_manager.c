@@ -111,7 +111,7 @@ void *storage_manager_thread(void *arg){
 
         sbuffer_node_t *node;
         while((node = sbuffer_find_for_storage(&sbuffer)) != NULL){
-            // collect batch
+            // Collect batch
             if(batch_count < BATCH_SIZE){
                 batch[batch_count++] = node->pkt;
             }

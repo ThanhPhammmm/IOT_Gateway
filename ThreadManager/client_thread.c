@@ -8,6 +8,16 @@
 void *client_thread_func(void *arg){
     client_info_t *client_info = (client_info_t*)arg;
     int client_fd = client_info->client_fd;
+
+    // Set timeout
+    struct timeval timeout = {.tv_sec = 5, .tv_usec = 0};
+    if(setsockopt(client_fd, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout)) < 0){
+        log_event("[CLIENT] Failed to set timeout: %s", strerror(errno));
+        close(client_fd);
+        free(client_info);
+        return NULL;
+    }
+
     char *client_ip = inet_ntoa(client_info->addr.sin_addr);
     int client_port = ntohs(client_info->addr.sin_port);
     
@@ -20,7 +30,23 @@ void *client_thread_func(void *arg){
     while(!stop_flag){
         char recv_buf[RECV_BUFFER_SIZE];
         ssize_t bytes_read = read(client_fd, recv_buf, sizeof(recv_buf) - 1);
-        
+
+        if(bytes_read < 0){
+            // Error happens
+            if(errno == EAGAIN || errno == EWOULDBLOCK){
+                // Timeout for 5s
+                log_event("[CLIENT] Connection timeout for %s:%d", client_ip, client_port);
+            } else {
+                // (Network error, etc)
+                log_event("[CLIENT] Read error for %s:%d: %s", client_ip, client_port, strerror(errno));
+            }
+            break;
+        }
+        else if(bytes_read == 0){
+            // Client disconnected
+            break;
+        }
+
         if(bytes_read <= 0){
             break;
         }
