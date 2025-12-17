@@ -34,7 +34,7 @@ void *client_thread_func(void *arg){
         if(bytes_read < 0){
             // Error happens
             if(errno == EAGAIN || errno == EWOULDBLOCK){
-                // Timeout for 5s
+                // Timeout for 5s, client connected to server but does not send any data
                 log_event("[CLIENT] Connection timeout for %s:%d", client_ip, client_port);
             } 
             else{
