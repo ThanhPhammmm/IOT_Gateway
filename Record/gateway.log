@@ -675,3 +675,21 @@
 674 2025-12-17 12:56:53 [CLOUD] Cloud uploader thread exiting. Total: 9 uploaded, 0 failed
 675 2025-12-17 12:56:53 [STATS] Freed 3 sensor statistics entries
 676 2025-12-17 12:56:53 [MAIN] Gateway shutdown complete
+0 2025-12-17 12:57:53 [MAIN] Gateway system started on port 8080
+1 2025-12-17 12:57:53 [CONNECTION] Connection manager thread started
+2 2025-12-17 12:57:53 [CONNECTION] Listening on port 8080
+3 2025-12-17 12:57:53 [CLOUD] Cloud uploader thread started
+4 2025-12-17 12:57:53 [MQTT] Initializing 3 cloud clients
+5 2025-12-17 12:57:53 [DATA] Data manager thread started
+6 2025-12-17 12:57:53 [STORAGE] Storage manager thread started
+7 2025-12-17 12:57:53 [SQL] Connection to SQL server established
+8 2025-12-17 12:57:53 [MQTT] Sensor 1 initialization started
+9 2025-12-17 12:57:53 [MQTT] Sensor 1 connected to ThingsBoard broker
+10 2025-12-17 12:57:53 [MQTT] Sensor 2 initialization started
+11 2025-12-17 12:57:54 [MQTT] Sensor 2 connected to ThingsBoard broker
+12 2025-12-17 12:57:54 [MQTT] Sensor 3 initialization started
+13 2025-12-17 12:57:54 [MQTT] Cloud clients initialization complete: 3/3 successful
+14 2025-12-17 12:57:54 [CLOUD] No sensors registered yet (cycle 1)
+15 2025-12-17 12:57:54 [MQTT] Sensor 3 connected to ThingsBoard broker
+16 2025-12-17 12:57:59 [CLOUD] No sensors registered yet (cycle 2)
+17 2025-12-17 12:58:04 [CLOUD] No sensors registered yet (cycle 3)
