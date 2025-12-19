@@ -2,8 +2,7 @@
 #include "client_thread.h"
 #include "logger.h"
 
-#define LISTEN_BACKLOG 16
-#define SELECT_TIMEOUT_SEC 1
+volatile sig_atomic_t active_clients = 0;
 
 void *connection_manager_thread(void *arg){
     int port = *(int*)arg;
@@ -87,15 +86,34 @@ void *connection_manager_thread(void *arg){
             close(client_fd);
             continue;
         }
-        
+
+        // Check connection limit
+        if(active_clients >= MAX_CONCURRENT_CLIENTS){
+            log_event("[CONNECTION] Max clients reached (%d), rejecting %s:%d", MAX_CONCURRENT_CLIENTS, inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
+            
+            // Send rejection message
+            const char *reject_msg = "ERROR: Server full\n";
+            write(client_fd, reject_msg, strlen(reject_msg));
+            
+            close(client_fd);
+            continue;  // Skip to next accept
+        }
+
         client_info->client_fd = client_fd;
         client_info->addr = client_addr;
         
+
+        __sync_fetch_and_add(&active_clients, 1);
+
         // Create client thread
         pthread_t client_tid;
         int rc = pthread_create(&client_tid, NULL, client_thread_func, client_info);
         if(rc != 0){
             log_event("[CONNECTION] pthread_create failed: %s", strerror(rc));
+
+            // Decrement on failure
+            __sync_fetch_and_sub(&active_clients, 1);
+
             free(client_info);
             close(client_fd);
             continue;

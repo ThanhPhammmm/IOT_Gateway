@@ -83,7 +83,12 @@ void run_logger_process(){
                 char *newline = strchr(start, '\n');
                 if(newline){
                     *newline = '\0';
-                    fprintf(logf, "%d %s %s%s\n", seq++, timestr, leftover, start);
+                    //fprintf(logf, "%d %s %s%s\n", seq++, timestr, leftover, start);
+
+                    // In run_logger_process(), modify fprintf:
+                    pid_t tid = syscall(SYS_gettid);  // Get current thread ID
+                    fprintf(logf, "%d %s [TID:%d] %s\n", seq++, timestr, tid, start);
+
                     start = newline + 1;
                     leftover_len = 0;
                 } 

@@ -121,3 +121,29 @@ int db_insert_measures_batch(sqlite3 *db, sensor_packet_t *packets, size_t count
     
     return SQLITE_OK;
 }
+int db_health_check(sqlite3 *db){
+    if(!db) return -1;
+    
+    // Test 1: Simple query
+    const char *sql = "SELECT COUNT(*) FROM sensor_data;";
+    sqlite3_stmt *stmt = NULL;
+    
+    int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+    if(rc != SQLITE_OK){
+        log_event("[SQL] Health check failed: prepare error %s", sqlite3_errstr(rc));
+        return -1;
+    }
+    
+    rc = sqlite3_step(stmt);
+    if(rc != SQLITE_ROW){
+        log_event("[SQL] Health check failed: step error %s", sqlite3_errstr(rc));
+        sqlite3_finalize(stmt);
+        return -1;
+    }
+    
+    int count = sqlite3_column_int(stmt, 0);
+    sqlite3_finalize(stmt);
+    
+    log_event("[SQL] Health check passed: %d records in database", count);
+    return 0;
+}

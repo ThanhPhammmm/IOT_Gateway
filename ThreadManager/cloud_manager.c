@@ -2,11 +2,11 @@
 #include "logger.h"
 #include "sbuffer.h"
 
-#define MQTT_TOPIC "v1/devices/me/telemetry"
-#define MQTT_QOS 1
-#define UPLOAD_INTERVAL_SEC 5
-#define LOOP_ITERATIONS 5
-#define LOOP_DELAY_MS 100
+cloud_client_t clients[] = {
+    {1, "bcVWopy6l9cfHxDQBXd4", NULL, 0},
+    {2, "H1KOvekgc0xEYacv3DyI", NULL, 0},
+    {3, "rIDas8QcUC7Oc1nAqfQw", NULL, 0},
+};
 
 // Helper: Find client by sensor ID
 cloud_client_t *find_client_by_id(int id){
@@ -42,6 +42,23 @@ static int upload_sensor_data(cloud_client_t *client, sensor_stat_t *stat){
     } 
     else{
         log_event("[CLOUD] Publish failed for sensor %d: %s", stat->id, mosquitto_strerror(rc));
+        return -1;
+    }
+}
+// Try to reconnect disconnected client
+static int try_reconnect_client(cloud_client_t *client){
+    if(!client || !client->mosq) return -1;
+    if(client->connected) return 0;  // Already connected
+    
+    log_event("[MQTT] Attempting reconnect for sensor %d", client->id);
+    
+    int rc = mosquitto_reconnect(client->mosq);
+    if(rc == MOSQ_ERR_SUCCESS){
+        // Don't set connected=1 yet, wait for on_connect callback
+        log_event("[MQTT] Reconnect initiated for sensor %d", client->id);
+        return 0;
+    } else {
+        log_event("[MQTT] Reconnect failed for sensor %d: %s", client->id, mosquitto_strerror(rc));
         return -1;
     }
 }
@@ -134,7 +151,16 @@ void *cloud_manager_thread(void *arg){
         stat = stats_head;
         size_t idx = 0;
         while(stat && idx < sensor_count){
-            local_stats[idx] = *stat;  // Copy struct
+            // Atomic snapshot of critical fields
+            local_stats[idx].id = stat->id;
+            local_stats[idx].type = stat->type;
+            local_stats[idx].avg = stat->avg;
+            
+            // Critical: snapshot count and last_uploaded atomically
+            local_stats[idx].count = stat->count;
+            local_stats[idx].last_uploaded = stat->last_uploaded;
+            local_stats[idx].last_uploaded_count = stat->last_uploaded_count;
+            
             stat = stat->next;
             idx++;
         }
@@ -172,9 +198,22 @@ void *cloud_manager_thread(void *arg){
             }
             
             if(!client->connected){
-                log_event("[CLOUD] Sensor %d not connected yet", local_stats[i].id);
-                batch_failed++;
-                continue;
+                // Try reconnect once before giving up
+                if(try_reconnect_client(client) == 0){
+                    // Wait briefly for connection
+                    usleep(100000);
+                    
+                    if(!client->connected){
+                        log_event("[CLOUD] Sensor %d not connected, reconnect in progress", local_stats[i].id);
+                        batch_failed++;
+                        continue;
+                    }
+                } 
+                else{
+                    log_event("[CLOUD] Sensor %d not connected and reconnect failed", local_stats[i].id);
+                    batch_failed++;
+                    continue;
+                }
             }
             
             // Attempt upload

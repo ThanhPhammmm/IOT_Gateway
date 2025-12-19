@@ -2,9 +2,6 @@
 #include "sbuffer.h"
 #include "logger.h"
 
-#define READ_BUFFER_SIZE 1024
-#define RECV_BUFFER_SIZE 512
-
 void *client_thread_func(void *arg){
     client_info_t *client_info = (client_info_t*)arg;
     int client_fd = client_info->client_fd;
@@ -34,7 +31,7 @@ void *client_thread_func(void *arg){
         if(bytes_read < 0){
             // Error happens
             if(errno == EAGAIN || errno == EWOULDBLOCK){
-                // Timeout for 5s, client connected to server but does not send any data
+                // Timeout for 5s, client connected to server but does not send any data    
                 log_event("[CLIENT] Connection timeout for %s:%d", client_ip, client_port);
             } 
             else{
@@ -185,47 +182,96 @@ void *client_thread_func(void *arg){
     
     close(client_fd);
     free(client_info);
-    
+
+    // Decrement counter on exit
+    __sync_fetch_and_sub(&active_clients, 1);
+
     return NULL;
 }
 
-void update_running_avg(int id, int type, double val, double *out_avg){
+// void update_running_avg(int id, int type, double val, double *out_avg){
+//     pthread_mutex_lock(&stats_mutex);
+    
+//     // Find existing stat entry
+//     sensor_stat_t *stat = stats_head;
+//     while(stat){
+//         if(stat->id == id && stat->type == type){
+//             break;
+//         }
+//         stat = stat->next;
+//     }
+    
+//     // Create new entry if not found
+//     if(!stat){
+//         stat = malloc(sizeof(sensor_stat_t));
+//         if(!stat){
+//             log_event("[STATS] Memory allocation failed for sensor %d type %d", id, type);
+//             pthread_mutex_unlock(&stats_mutex);
+//             return;
+//         }
+        
+//         stat->id = id;
+//         stat->type = type;
+//         stat->avg = 0.0;
+//         stat->count = 0;
+//         stat->last_uploaded = 0; // for tracking uploading
+//         stat->last_uploaded_count = 0;
+//         stat->next = stats_head;
+//         stats_head = stat;
+//     }
+    
+//     // Update running average
+//     stat->avg = (stat->avg * stat->count + val) / (stat->count + 1);
+//     stat->count++;
+    
+//     if(out_avg){
+//         *out_avg = stat->avg;
+//     }
+    
+//     pthread_mutex_unlock(&stats_mutex);
+// }
+
+void update_running_avg_batch(stat_update_t *updates, size_t count, double *out_avgs){
+    if(!updates || count == 0) return;
+    
     pthread_mutex_lock(&stats_mutex);
     
-    // Find existing stat entry
-    sensor_stat_t *stat = stats_head;
-    while(stat){
-        if(stat->id == id && stat->type == type){
-            break;
-        }
-        stat = stat->next;
-    }
-    
-    // Create new entry if not found
-    if(!stat){
-        stat = malloc(sizeof(sensor_stat_t));
-        if(!stat){
-            log_event("[STATS] Memory allocation failed for sensor %d type %d", id, type);
-            pthread_mutex_unlock(&stats_mutex);
-            return;
+    for(size_t i = 0; i < count; i++){
+        // Find existing stat entry
+        sensor_stat_t *stat = stats_head;
+        while(stat){
+            if(stat->id == updates[i].id && stat->type == updates[i].type){
+                break;
+            }
+            stat = stat->next;
         }
         
-        stat->id = id;
-        stat->type = type;
-        stat->avg = 0.0;
-        stat->count = 0;
-        stat->last_uploaded = 0; // for tracking uploading
-        stat->last_uploaded_count = 0;
-        stat->next = stats_head;
-        stats_head = stat;
-    }
-    
-    // Update running average
-    stat->avg = (stat->avg * stat->count + val) / (stat->count + 1);
-    stat->count++;
-    
-    if(out_avg){
-        *out_avg = stat->avg;
+        // Create new entry if not found
+        if(!stat){
+            stat = malloc(sizeof(sensor_stat_t));
+            if(!stat){
+                log_event("[STATS] Memory allocation failed for sensor %d type %d", updates[i].id, updates[i].type);
+                if(out_avgs) out_avgs[i] = 0.0;
+                continue;
+            }
+            
+            stat->id = updates[i].id;
+            stat->type = updates[i].type;
+            stat->avg = 0.0;
+            stat->count = 0;
+            stat->last_uploaded = 0;
+            stat->last_uploaded_count = 0;
+            stat->next = stats_head;
+            stats_head = stat;
+        }
+        
+        // Update running average
+        stat->avg = (stat->avg * stat->count + updates[i].value) / (stat->count + 1);
+        stat->count++;
+        
+        if(out_avgs){
+            out_avgs[i] = stat->avg;
+        }
     }
     
     pthread_mutex_unlock(&stats_mutex);

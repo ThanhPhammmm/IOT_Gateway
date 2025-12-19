@@ -16,6 +16,12 @@ extern volatile sig_atomic_t stop_flag;
 #define LIGHT_BRIGHT 800.0
 #define LIGHT_DIM 200.0
 
+typedef enum{
+    SENSOR_TEMPERATURE = 1,
+    SENSOR_HUMIDITY = 2,
+    SENSOR_LIGHT = 3
+} sensor_type_t;
+
 void *data_manager_thread(void *arg);
 
 #endif

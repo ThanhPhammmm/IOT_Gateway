@@ -15,13 +15,6 @@ sbuffer_t sbuffer;
 sensor_stat_t *stats_head = NULL;
 pid_t logger_pid = 0;
 pthread_mutex_t log_mutex = PTHREAD_MUTEX_INITIALIZER;
-
-cloud_client_t clients[] = {
-    {1, "bcVWopy6l9cfHxDQBXd4", NULL, 0},
-    {2, "H1KOvekgc0xEYacv3DyI", NULL, 0},
-    {3, "rIDas8QcUC7Oc1nAqfQw", NULL, 0},
-};
-
 struct mosquitto *mosq = NULL;
 
 int main(int argc, char **argv){

@@ -98,8 +98,7 @@ void cloud_clients_cleanup(void){
     
     for(size_t i = 0; i < NUM_CLIENTS; i++){
         if(clients[i].mosq){
-            log_event("[MQTT] Cleaning up client %zu (ID=%d, connected=%d)", 
-                      i, clients[i].id, clients[i].connected);
+            log_event("[MQTT] Cleaning up client %zu (ID=%d, connected=%d)", i, clients[i].id, clients[i].connected);
             
             // Stop the background loop thread
             int rc = mosquitto_loop_stop(clients[i].mosq, true);
@@ -116,7 +115,8 @@ void cloud_clients_cleanup(void){
             clients[i].connected = 0;
             
             log_event("[MQTT] Sensor %d cleaned up", clients[i].id);
-        } else {
+        } 
+        else{
             log_event("[MQTT] Client %zu was NULL, skipping", i);
         }
     }

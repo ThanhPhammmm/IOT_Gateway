@@ -3,11 +3,6 @@
 #include "logger.h"
 #include "database.h"
 
-#define MAX_RECONNECT_ATTEMPTS 3
-#define RECONNECT_DELAY_SEC 1
-#define BATCH_SIZE 100
-#define POLL_DELAY_MS 50
-
 // Helper: connect to database with retries
 static sqlite3* storage_connect_db(int max_attempts){
     sqlite3 *db = NULL;
@@ -79,6 +74,18 @@ void *storage_manager_thread(void *arg){
     
     log_event("[STORAGE] Storage manager thread started");
     
+    // Validate configuration
+    if(BATCH_SIZE > 1000){
+        log_event("[STORAGE] WARNING: BATCH_SIZE=%d exceeds recommended max (1000)", BATCH_SIZE);
+    }
+    if(BATCH_SIZE < 10){
+        log_event("[STORAGE] WARNING: BATCH_SIZE=%d too small, performance will suffer", BATCH_SIZE);
+    }
+    
+    // Calculate memory footprint
+    size_t batch_memory = BATCH_SIZE * sizeof(sensor_packet_t);
+    log_event("[STORAGE] Batch buffer size: %zu bytes (%zu packets)", batch_memory, (size_t)BATCH_SIZE);
+    
     // Initial connection
     sqlite3 *db = storage_connect_db(MAX_RECONNECT_ATTEMPTS);
     if(!db){
@@ -97,7 +104,8 @@ void *storage_manager_thread(void *arg){
     size_t batch_count = 0;
     size_t total_inserted = 0;
     size_t total_failed = 0;
-    
+    size_t health_check_counter = 0;  // ✅ THÊM DÒNG NÀY
+
     // Main processing loop
     while(!stop_flag){
         // //Flush for the last packet
@@ -125,6 +133,21 @@ void *storage_manager_thread(void *arg){
         if(batch_count > 0){
             if(storage_batch_insert_with_retry(&db, batch, batch_count) == SQLITE_OK){
                 total_inserted += batch_count;
+                
+                // Health check
+                health_check_counter += batch_count;
+                if(health_check_counter >= 1000){
+                    if(db_health_check(db) != 0){
+                        log_event("[STORAGE] Database health check failed, attempting reconnect");
+                        sqlite3_close(db);
+                        db = storage_connect_db(MAX_RECONNECT_ATTEMPTS);
+                        if(!db){
+                            log_event("[STORAGE] Fatal: unable to reconnect to database");
+                            break;
+                        }
+                    }
+                    health_check_counter = 0;
+                }
             }
             batch_count = 0;
         }
