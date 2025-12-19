@@ -3,7 +3,12 @@
 void sigint_handler(int sig){
     (void)sig;
     stop_flag = 1;
-    pthread_cond_broadcast(&sbuffer.cond);
+
+    // Broadcast many times
+    for(int i = 0; i < 5; i++){
+        pthread_cond_broadcast(&sbuffer.cond);
+        usleep(10000);
+    }
 
     int fd = open(fifo_path, O_WRONLY | O_NONBLOCK);
     if(fd >= 0){
