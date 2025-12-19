@@ -104,7 +104,7 @@ void *storage_manager_thread(void *arg){
     size_t batch_count = 0;
     size_t total_inserted = 0;
     size_t total_failed = 0;
-    size_t health_check_counter = 0;  // ✅ THÊM DÒNG NÀY
+    size_t health_check_counter = 0;
 
     // Main processing loop
     while(!stop_flag){
