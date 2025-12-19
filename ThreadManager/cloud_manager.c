@@ -151,16 +151,18 @@ void *cloud_manager_thread(void *arg){
         stat = stats_head;
         size_t idx = 0;
         while(stat && idx < sensor_count){
+            pthread_mutex_lock(&stats_mutex);
             // Atomic snapshot of critical fields
             local_stats[idx].id = stat->id;
             local_stats[idx].type = stat->type;
             local_stats[idx].avg = stat->avg;
             
-            // Critical: snapshot count and last_uploaded atomically
+            // Snapshot count and last_uploaded atomically
             local_stats[idx].count = stat->count;
             local_stats[idx].last_uploaded = stat->last_uploaded;
             local_stats[idx].last_uploaded_count = stat->last_uploaded_count;
-            
+            pthread_mutex_unlock(&stats_mutex);
+
             stat = stat->next;
             idx++;
         }

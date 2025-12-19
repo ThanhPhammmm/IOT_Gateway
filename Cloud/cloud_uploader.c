@@ -119,6 +119,10 @@ void cloud_clients_cleanup(void){
         else{
             log_event("[MQTT] Client %zu was NULL, skipping", i);
         }
+        
+        // Fix memory leak when interruption happends while initializing connection
+        clients[i].mosq = NULL;
+        clients[i].connected = 0;
     }
     
     // Cleanup library
