@@ -102,7 +102,6 @@ void *connection_manager_thread(void *arg){
         client_info->client_fd = client_fd;
         client_info->addr = client_addr;
         
-
         __sync_fetch_and_add(&active_clients, 1);
 
         // Create client thread
@@ -128,8 +127,7 @@ void *connection_manager_thread(void *arg){
     // Cleanup
     close(server_fd);
     
-    log_event("[CONNECTION] Connection manager thread exiting. Total connections: %zu", 
-              total_connections);
+    log_event("[CONNECTION] Connection manager thread exiting. Total connections: %zu", total_connections);
     
     return NULL;
 }

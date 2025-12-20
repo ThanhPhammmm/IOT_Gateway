@@ -20,7 +20,6 @@ static sqlite3* storage_connect_db(int max_attempts){
             sleep(RECONNECT_DELAY_SEC);
         }
     }
-    
     return NULL;
 }
 
@@ -52,6 +51,7 @@ static int storage_batch_insert_with_retry(sqlite3 **db, sensor_packet_t *batch,
     
     // Batch still failed - try individual inserts as fallback
     log_event("[SQL] Batch insert failed after reconnect. Inserting individually...");
+
     size_t success = 0;
     for(size_t i = 0; i < count; i++){
         if(db_insert_measure(*db, &batch[i]) == SQLITE_OK){
@@ -61,8 +61,7 @@ static int storage_batch_insert_with_retry(sqlite3 **db, sensor_packet_t *batch,
     
     if(success > 0){
         log_event("[SQL] Individual insert: %zu/%zu successful", success, count);
-    }
-    
+    } 
     if(success < count){
         log_event("[SQL][ERROR] Lost %zu measurements", count - success);
     }
@@ -148,8 +147,12 @@ void *storage_manager_thread(void *arg){
                     }
                     health_check_counter = 0;
                 }
+                batch_count = 0;
             }
-            batch_count = 0;
+            else{
+                total_failed += batch_count;
+                batch_count = 0;
+            }
         }
         else{
             // No data available, sleep to avoid busy-waiting
@@ -167,6 +170,7 @@ void *storage_manager_thread(void *arg){
         else{
             total_failed += batch_count;
         }
+        batch_count = 0;
     }
     
     // Cleanup

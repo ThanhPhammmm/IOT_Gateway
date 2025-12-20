@@ -57,7 +57,8 @@ static int try_reconnect_client(cloud_client_t *client){
         // Don't set connected=1 yet, wait for on_connect callback
         log_event("[MQTT] Reconnect initiated for sensor %d", client->id);
         return 0;
-    } else {
+    } 
+    else{
         log_event("[MQTT] Reconnect failed for sensor %d: %s", client->id, mosquitto_strerror(rc));
         return -1;
     }
@@ -101,7 +102,6 @@ static int has_new_data(sensor_stat_t *sensor){
             return 1;  // New data + enough time passed
         }
     }
-    
     return 0;  // No new data or too soon
 }
 

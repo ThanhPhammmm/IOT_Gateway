@@ -44,10 +44,6 @@ void *client_thread_func(void *arg){
             // Client disconnected
             break;
         }
-
-        if(bytes_read <= 0){
-            break;
-        }
         
         // Check buffer overflow BEFORE appending
         if(buffer_len + bytes_read >= sizeof(read_buffer)){
