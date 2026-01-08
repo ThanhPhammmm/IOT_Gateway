@@ -133,24 +133,29 @@ void run_logger_process(){
         }
     }
     
-    // Flush any remaining leftover when writer closes
-    if(leftover_len > 0){
-        time_t now = time(NULL);
-        struct tm tm;
-        localtime_r(&now, &tm);
-        char timestr[32];
-        strftime(timestr, sizeof(timestr), "%Y-%m-%d %H:%M:%S", &tm);
-        fprintf(logf, "%d %s %s\n", seq++, timestr, leftover);
-        leftover_len = 0;
+    /* read() exited */
+    if (r == 0){ // FIFO EOF
+        // Flush any remaining leftover when writer closes
+        if(leftover_len > 0){
+            time_t now = time(NULL);
+            struct tm tm;
+            localtime_r(&now, &tm);
+            char timestr[32];
+            strftime(timestr, sizeof(timestr), "%Y-%m-%d %H:%M:%S", &tm);
+            fprintf(logf, "%d %s %s\n", seq++, timestr, leftover);
+            leftover_len = 0;
+        }
+        printf("[LOGGER] Logger shutdowns completely\n");
     }
-    
+    else{
+        perror("read fifo");
+    }
+
     close(fd);
     // }
 
     fflush(logf);
     fclose(logf);
-
-    printf("[MAIN] Logger shutdowns completely\n");
 
     exit(0);
 }
@@ -158,8 +163,9 @@ void run_logger_process(){
 void close_logger_process(void){
     pthread_mutex_lock(&log_mutex);
     if(log_fd != -1){
-        close(log_fd);
+        close(log_fd); // EOF
         log_fd = -1;
+        printf("[LOGGER] Logger is shutdowning\n");
     }
     pthread_mutex_unlock(&log_mutex);
 }
