@@ -50,6 +50,8 @@ $(TARGET_CLIENT): $(SRCS_CLIENT)
 clean:
 	rm -f $(TARGET_MAIN) $(TARGET_CLIENT)
 	rm -f */*.o *.o
+	rm -f ./Record/gateway.log ./Database/sensors.db
+	rm -f ./Logger/logFifo
 
 re: clean all
 

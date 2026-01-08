@@ -14,5 +14,6 @@ extern volatile sig_atomic_t stop_flag;
 
 void log_event(const char *fmt, ...);
 void run_logger_process();
+void close_logger_process(void);
 
 #endif

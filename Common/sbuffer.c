@@ -27,7 +27,7 @@ static inline int sbuffer_wait_until_data(sbuffer_t *b) {
     struct timespec ts;
     // Take the present time
     clock_gettime(CLOCK_REALTIME, &ts);
-    // Set time out for 5 giây
+    // Set time out for 5s
     ts.tv_sec += 5;
 
     while (b->head == NULL && !stop_flag) {

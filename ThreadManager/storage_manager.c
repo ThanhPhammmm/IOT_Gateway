@@ -121,12 +121,13 @@ void *storage_manager_thread(void *arg){
             // Collect batch
             if(batch_count < BATCH_SIZE){
                 batch[batch_count++] = node->pkt;
+                sbuffer_mark_storage_done(&sbuffer, node);
             }
             else{
                 // Buffer full, will process this node in next iteration
+                // Don't mark this node
                 break;
             }
-            sbuffer_mark_storage_done(&sbuffer, node);
         }
         // Flush when batch is full
         if(batch_count > 0){

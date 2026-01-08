@@ -88,19 +88,20 @@ void *data_manager_thread(void *arg){
         while((node = sbuffer_find_for_data(&sbuffer)) != NULL){
             if(local_count < LOCAL_BUFFER_SIZE){
                 local_buf[local_count] = node->pkt;
-                
+                sbuffer_mark_data_done(&sbuffer, node);
+
                 // Prepare batch update
                 stat_updates[local_count].id = node->pkt.id;
                 stat_updates[local_count].type = node->pkt.type;
                 stat_updates[local_count].value = node->pkt.value;
                 
                 local_count++;            
-            } 
+            }
             else{
                 // Buffer full, will process this node in next iteration
+                // Don't mark this node
                 break;
             }
-            sbuffer_mark_data_done(&sbuffer, node);
         }
         
         // Process all collected packets
