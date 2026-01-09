@@ -8,13 +8,13 @@
 #include "storage_manager.h"
 #include "cloud_manager.h"
 
-pthread_mutex_t stats_mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t stats_mutex = PTHREAD_MUTEX_INITIALIZER; // For sensor_stats
+pthread_mutex_t log_mutex = PTHREAD_MUTEX_INITIALIZER; // For logger process
 const char *fifo_path = FIFO_PATH;
 volatile sig_atomic_t stop_flag = 0;
 sbuffer_t sbuffer;
 sensor_stat_t *stats_head = NULL;
 pid_t logger_pid = 0;
-pthread_mutex_t log_mutex = PTHREAD_MUTEX_INITIALIZER;
 struct mosquitto *mosq = NULL;
 
 int main(int argc, char **argv){

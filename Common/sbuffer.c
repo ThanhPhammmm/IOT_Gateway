@@ -30,7 +30,7 @@ static inline int sbuffer_wait_until_data(sbuffer_t *b) {
     // Set time out for 5s
     ts.tv_sec += 5;
 
-    while (b->head == NULL && !stop_flag) {
+    while(b->head == NULL && !stop_flag){
         int rc = pthread_cond_timedwait(&b->cond, &b->mutex, &ts);
         
         if (rc == ETIMEDOUT) {
