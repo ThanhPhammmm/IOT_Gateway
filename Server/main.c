@@ -50,17 +50,48 @@ int main(int argc, char **argv){
     sbuffer_init(&sbuffer);
     log_event("[MAIN] Gateway system started on port %d", port);
     
+    int temp;
     pthread_t connection_thread, data_thread, storage_thread, cloud_thread;
     
-    pthread_create(&connection_thread, NULL, connection_manager_thread, &port);
-    pthread_create(&data_thread, NULL, data_manager_thread, NULL);
-    pthread_create(&storage_thread, NULL, storage_manager_thread, NULL);
-    pthread_create(&cloud_thread, NULL, cloud_manager_thread, NULL);
+    temp = pthread_create(&connection_thread, NULL, connection_manager_thread, &port);
+    if(temp != 0){
+        perror("pthread_create error");
+    }
 
-    pthread_join(connection_thread, NULL);
-    pthread_join(data_thread, NULL);
-    pthread_join(storage_thread, NULL);
-    pthread_join(cloud_thread, NULL);
+    temp = pthread_create(&data_thread, NULL, data_manager_thread, NULL);
+    if(temp != 0){
+        perror("pthread_create error");
+    }
+
+    temp = pthread_create(&storage_thread, NULL, storage_manager_thread, NULL);
+    if(temp != 0){
+        perror("pthread_create error");
+    }
+
+    temp = pthread_create(&cloud_thread, NULL, cloud_manager_thread, NULL);
+    if(temp != 0){
+        perror("pthread_create error");
+    }
+
+    temp = pthread_join(connection_thread, NULL);
+    if(temp != 0){
+        perror("pthread_join error");
+    }
+
+    temp = pthread_join(data_thread, NULL);
+    if(temp != 0){
+        perror("pthread_join error");
+    }
+
+    temp = pthread_join(storage_thread, NULL);
+    if(temp != 0){
+        perror("pthread_join error");
+    }
+    
+    temp = pthread_join(cloud_thread, NULL);
+    if(temp != 0){
+        perror("pthread_join error");
+    }
     
     sbuffer_free_all(&sbuffer);
     stats_free_all();
