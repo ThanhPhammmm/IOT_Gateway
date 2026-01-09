@@ -56,41 +56,49 @@ int main(int argc, char **argv){
     temp = pthread_create(&connection_thread, NULL, connection_manager_thread, &port);
     if(temp != 0){
         perror("pthread_create error");
+        printf("ERROR\n");
     }
 
     temp = pthread_create(&data_thread, NULL, data_manager_thread, NULL);
     if(temp != 0){
         perror("pthread_create error");
+        printf("ERROR\n");
     }
 
     temp = pthread_create(&storage_thread, NULL, storage_manager_thread, NULL);
     if(temp != 0){
         perror("pthread_create error");
+        printf("ERROR\n");
     }
 
     temp = pthread_create(&cloud_thread, NULL, cloud_manager_thread, NULL);
     if(temp != 0){
         perror("pthread_create error");
+        printf("ERROR\n");
     }
 
     temp = pthread_join(connection_thread, NULL);
     if(temp != 0){
         perror("pthread_join error");
+        printf("ERROR\n");
     }
 
     temp = pthread_join(data_thread, NULL);
     if(temp != 0){
         perror("pthread_join error");
+        printf("ERROR\n");
     }
 
     temp = pthread_join(storage_thread, NULL);
     if(temp != 0){
         perror("pthread_join error");
+        printf("ERROR\n");
     }
-    
+
     temp = pthread_join(cloud_thread, NULL);
     if(temp != 0){
         perror("pthread_join error");
+        printf("ERROR\n");
     }
     
     sbuffer_free_all(&sbuffer);
