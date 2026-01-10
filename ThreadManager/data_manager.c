@@ -81,7 +81,14 @@ void *data_manager_thread(void *arg){
     size_t total_processed = 0;
     size_t local_count = 0;
 
-    while(!stop_flag){
+    while(1){
+        int rc = sbuffer_wait_until_data(&sbuffer);
+
+        // Shutdown clean
+        if(rc == 0) break;
+
+        // Timeout -> continue to loop 
+        if(rc == -1) continue;
         
         // Collect all unprocessed packets into local buffer
         sbuffer_node_t *node;
@@ -138,7 +145,7 @@ void *data_manager_thread(void *arg){
             usleep(POLL_DELAY_MS * 1000);
         }
     }
-    
+
     log_event("[DATA] Data manager thread exiting. Total processed: %zu measurements", total_processed);
     
     return NULL;

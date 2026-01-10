@@ -94,8 +94,9 @@ void *connection_manager_thread(void *arg){
             // Send rejection message
             const char *reject_msg = "ERROR: Server full\n";
             write(client_fd, reject_msg, strlen(reject_msg));
-            
             close(client_fd);
+            free(client_info);
+            
             continue;  // Skip to next accept
         }
 

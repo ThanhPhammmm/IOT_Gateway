@@ -43,129 +43,127 @@ int main(int argc, char **argv){
         run_logger_process();
         exit(0);
     }
-
-    // Parent: main process
-    usleep(50000); // Wait 50ms for logger to initialize
-    
-    sbuffer_init(&sbuffer);
-    log_event("[MAIN] Gateway system started on port %d", port);
-    
-    int temp;
-    pthread_t connection_thread, data_thread, storage_thread, cloud_thread;
-    
-    temp = pthread_create(&connection_thread, NULL, connection_manager_thread, &port);
-    if(temp != 0){
-        perror("pthread_create error");
-        printf("ERROR\n");
-    }
-
-    temp = pthread_create(&data_thread, NULL, data_manager_thread, NULL);
-    if(temp != 0){
-        perror("pthread_create error");
-        printf("ERROR\n");
-    }
-
-    temp = pthread_create(&storage_thread, NULL, storage_manager_thread, NULL);
-    if(temp != 0){
-        perror("pthread_create error");
-        printf("ERROR\n");
-    }
-
-    temp = pthread_create(&cloud_thread, NULL, cloud_manager_thread, NULL);
-    if(temp != 0){
-        perror("pthread_create error");
-        printf("ERROR\n");
-    }
-
-    temp = pthread_join(connection_thread, NULL);
-    if(temp != 0){
-        perror("pthread_join error");
-        printf("ERROR\n");
-    }
-
-    temp = pthread_join(data_thread, NULL);
-    if(temp != 0){
-        perror("pthread_join error");
-        printf("ERROR\n");
-    }
-
-    temp = pthread_join(storage_thread, NULL);
-    if(temp != 0){
-        perror("pthread_join error");
-        printf("ERROR\n");
-    }
-
-    temp = pthread_join(cloud_thread, NULL);
-    if(temp != 0){
-        perror("pthread_join error");
-        printf("ERROR\n");
-    }
-    
-    sbuffer_free_all(&sbuffer);
-    stats_free_all();
-
-    // Log BEFORE shutting down logger
-    // printf("[MAIN] Gateway shutdown complete");
-    // log_event("[MAIN] Gateway shutdown complete");
-    
-    // // Give logger time to flush
-    // usleep(100000); // 100ms
-    
-    // // Graceful logger shutdown with timeout
-    // if(logger_pid > 0){
-    //     log_event("[MAIN] Shutting down logger process (PID %d)", logger_pid);
-    //     printf("[MAIN] Shutting down logger process (PID %d)", logger_pid);
-
-    //     // Send SIGTERM
-    //     kill(logger_pid, SIGTERM);
+    else{
+        // Parent: main process
+        usleep(50000); // Wait 50ms for logger to initialize
         
-    //     // Wait with timeout
-    //     int status;
-    //     int timeout_count = 0;
-    //     const int MAX_TIMEOUT = 10; // 10 iterations = 1 second
+        sbuffer_init(&sbuffer);
+        log_event("[MAIN] Gateway system started on port %d", port);
         
-    //     while(timeout_count < MAX_TIMEOUT){
-    //         pid_t result = waitpid(logger_pid, &status, WNOHANG);
+        int temp;
+        pthread_t connection_thread, data_thread, storage_thread, cloud_thread;
+        
+        temp = pthread_create(&connection_thread, NULL, connection_manager_thread, &port);
+        if(temp != 0){
+            perror("pthread_create error");
+            printf("ERROR\n");
+        }
+
+        temp = pthread_create(&data_thread, NULL, data_manager_thread, NULL);
+        if(temp != 0){
+            perror("pthread_create error");
+            printf("ERROR\n");
+        }
+
+        temp = pthread_create(&storage_thread, NULL, storage_manager_thread, NULL);
+        if(temp != 0){
+            perror("pthread_create error");
+            printf("ERROR\n");
+        }
+
+        temp = pthread_create(&cloud_thread, NULL, cloud_manager_thread, NULL);
+        if(temp != 0){
+            perror("pthread_create error");
+            printf("ERROR\n");
+        }
+
+        temp = pthread_join(connection_thread, NULL);
+        if(temp != 0){
+            perror("pthread_join error");
+            printf("ERROR\n");
+        }
+
+        temp = pthread_join(data_thread, NULL);
+        if(temp != 0){
+            perror("pthread_join error");
+            printf("ERROR\n");
+        }
+
+        temp = pthread_join(storage_thread, NULL);
+        if(temp != 0){
+            perror("pthread_join error");
+            printf("ERROR\n");
+        }
+
+        temp = pthread_join(cloud_thread, NULL);
+        if(temp != 0){
+            perror("pthread_join error");
+            printf("ERROR\n");
+        }
+        
+        sbuffer_free_all(&sbuffer);
+        stats_free_all();
+
+        // Log BEFORE shutting down logger
+        // printf("[MAIN] Gateway shutdown complete");
+        // log_event("[MAIN] Gateway shutdown complete");
+        
+        // // Give logger time to flush
+        // usleep(100000); // 100ms
+        
+        // // Graceful logger shutdown with timeout
+        // if(logger_pid > 0){
+        //     log_event("[MAIN] Shutting down logger process (PID %d)", logger_pid);
+        //     printf("[MAIN] Shutting down logger process (PID %d)", logger_pid);
+
+        //     // Send SIGTERM
+        //     kill(logger_pid, SIGTERM);
             
-    //         if(result > 0){
-    //             // Logger exited normally
-    //             if(WIFEXITED(status)){
-    //                 printf("[MAIN] Logger exited with status %d\n", WEXITSTATUS(status));
-    //             } 
-    //             else if(WIFSIGNALED(status)){
-    //                 printf("[MAIN] Logger killed by signal %d\n", WTERMSIG(status));
-    //             }
-    //             break;
-    //         } 
-    //         else if(result < 0){
-    //             // Error
-    //             perror("waitpid");
-    //             break;
-    //         }
+        //     // Wait with timeout
+        //     int status;
+        //     int timeout_count = 0;
+        //     const int MAX_TIMEOUT = 10; // 10 iterations = 1 second
             
-    //         // Still running, wait more
-    //         usleep(100000); // 100ms
-    //         timeout_count++;
-    //     }
-        
-    //     // If still running after timeout, force kill
-    //     if(timeout_count >= MAX_TIMEOUT){
-    //         printf ("[MAIN] Logger not responding, sending SIGKILL\n");
-    //         kill(logger_pid, SIGKILL);
-    //         waitpid(logger_pid, NULL, 0); // Wait for force kill
-    //     }
-    // }
+        //     while(timeout_count < MAX_TIMEOUT){
+        //         pid_t result = waitpid(logger_pid, &status, WNOHANG);
+                
+        //         if(result > 0){
+        //             // Logger exited normally
+        //             if(WIFEXITED(status)){
+        //                 printf("[MAIN] Logger exited with status %d\n", WEXITSTATUS(status));
+        //             } 
+        //             else if(WIFSIGNALED(status)){
+        //                 printf("[MAIN] Logger killed by signal %d\n", WTERMSIG(status));
+        //             }
+        //             break;
+        //         } 
+        //         else if(result < 0){
+        //             // Error
+        //             perror("waitpid");
+        //             break;
+        //         }
+                
+        //         // Still running, wait more
+        //         usleep(100000); // 100ms
+        //         timeout_count++;
+        //     }
+            
+        //     // If still running after timeout, force kill
+        //     if(timeout_count >= MAX_TIMEOUT){
+        //         printf ("[MAIN] Logger not responding, sending SIGKILL\n");
+        //         kill(logger_pid, SIGKILL);
+        //         waitpid(logger_pid, NULL, 0); // Wait for force kill
+        //     }
+        // }
 
-    printf("[MAIN] Gateway shutdowns completely\n");
-    log_event("[MAIN] Gateway shutdowns completely");
+        printf("[MAIN] Gateway shutdowns completely\n");
+        log_event("[MAIN] Gateway shutdowns completely");
 
-    // Close FIFO writer → EOF
-    close_logger_process();
+        // Close FIFO writer → EOF
+        close_logger_process();
 
-    // Wait logger exit naturally
-    if(logger_pid > 0){
+        // Wait logger exit naturally
         waitpid(logger_pid, NULL, 0);
     }
-
     return 0;
 }

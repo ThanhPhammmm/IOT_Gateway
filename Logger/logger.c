@@ -134,7 +134,7 @@ void run_logger_process(){
     }
     
     /* read() exited */
-    if (r == 0){ // FIFO EOF
+    if(r == 0){ // FIFO EOF
         // Flush any remaining leftover when writer closes
         if(leftover_len > 0){
             time_t now = time(NULL);

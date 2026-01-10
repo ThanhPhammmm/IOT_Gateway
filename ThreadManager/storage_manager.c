@@ -106,16 +106,16 @@ void *storage_manager_thread(void *arg){
     size_t health_check_counter = 0;
 
     // Main processing loop
-    while(!stop_flag){
-        // //Flush for the last packet
-        // if(batch_count > 0){
-        //     // flush batch
-        //     if(storage_batch_insert_with_retry(&db, batch, batch_count) == SQLITE_OK){
-        //         total_inserted += batch_count;
-        //     }
-        //     batch_count = 0;
-        // }
+    while(1){
+        int rc = sbuffer_wait_until_data(&sbuffer);
 
+        // Shutdown clean
+        if(rc == 0) break;
+
+        // Timeout -> continue to loop 
+        if(rc == -1) continue;
+
+        // Collect all unprocessed packets into local buffer
         sbuffer_node_t *node;
         while((node = sbuffer_find_for_storage(&sbuffer)) != NULL){
             // Collect batch
@@ -129,6 +129,7 @@ void *storage_manager_thread(void *arg){
                 break;
             }
         }
+
         // Flush when batch is full
         if(batch_count > 0){
             if(storage_batch_insert_with_retry(&db, batch, batch_count) == SQLITE_OK){
@@ -181,7 +182,7 @@ void *storage_manager_thread(void *arg){
         sqlite3_close(db);
         log_event("[SQL] Database connection closed");
     }
-    
+
     log_event("[STORAGE] Storage manager thread exiting. Stats: %zu inserted, %zu failed", total_inserted, total_failed);
     
     return NULL;
