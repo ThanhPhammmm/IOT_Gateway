@@ -8,7 +8,6 @@ cloud_client_t clients[] = {
     {3, "rIDas8QcUC7Oc1nAqfQw", NULL, 0},
 };
 
-// Helper: Find client by sensor ID
 cloud_client_t *find_client_by_id(int id){
     for(size_t i = 0; i < NUM_CLIENTS; i++){
         if(clients[i].id == id){
@@ -18,7 +17,6 @@ cloud_client_t *find_client_by_id(int id){
     return NULL;
 }
 
-// Helper: Upload sensor data to cloud
 static int upload_sensor_data(cloud_client_t *client, sensor_stat_t *stat){
     if(!client || !stat) return -1;
     
@@ -45,10 +43,10 @@ static int upload_sensor_data(cloud_client_t *client, sensor_stat_t *stat){
         return -1;
     }
 }
-// Try to reconnect disconnected client
+// Reconnect disconnected client
 static int try_reconnect_client(cloud_client_t *client){
     if(!client || !client->mosq) return -1;
-    if(client->connected) return 0;  // Already connected
+    if(client->connected) return 0;
     
     log_event("[MQTT] Attempting reconnect for sensor %d", client->id);
     
@@ -64,7 +62,6 @@ static int try_reconnect_client(cloud_client_t *client){
     }
 }
 
-// // Helper: Process network loop for client
 // static void process_mqtt_loop(cloud_client_t *client){
 //     if(!client || !client->mosq) return;
     
@@ -74,7 +71,6 @@ static int try_reconnect_client(cloud_client_t *client){
 //     }
 // }
 
-// // Helper: Mark all cloud-ready buffer nodes as done
 // static void mark_cloud_buffer_done(void){
 //     sbuffer_node_t *node;
 //     while((node = sbuffer_find_for_cloud(&sbuffer)) != NULL){
@@ -82,7 +78,6 @@ static int try_reconnect_client(cloud_client_t *client){
 //     }
 // }
 
-// Helper: Check if sensor has new data since last upload
 static int has_new_data(sensor_stat_t *sensor){
     // No data yet
     if(sensor->count == 0){
@@ -94,15 +89,15 @@ static int has_new_data(sensor_stat_t *sensor){
         return 1;
     }
     
-    // Has count increased since last upload?
+    // New data + enough time passed
     if(sensor->count > sensor->last_uploaded_count){
         // Check if enough time has passed
         time_t now = time(NULL);
         if((now - sensor->last_uploaded) >= UPLOAD_INTERVAL_SEC){
-            return 1;  // New data + enough time passed
+            return 1;
         }
     }
-    return 0;  // No new data or too soon
+    return 0;
 }
 
 void *cloud_manager_thread(void *arg){
@@ -116,7 +111,6 @@ void *cloud_manager_thread(void *arg){
     size_t total_failed = 0;
     size_t upload_cycles = 0;
 
-    // Main upload loop
     while(!stop_flag){
         upload_cycles++;
 
@@ -165,10 +159,8 @@ void *cloud_manager_thread(void *arg){
             idx++;
         }
         
-        // Unlock
         pthread_mutex_unlock(&stats_mutex);
         
-        // Upload from local buffer
         size_t batch_uploaded = 0;
         size_t batch_failed = 0;
         size_t batch_skipped = 0;
@@ -176,13 +168,11 @@ void *cloud_manager_thread(void *arg){
         time_t now = time(NULL);
         
         for(size_t i = 0; i < sensor_count; i++){
-            // Check if this sensor has new data
             if(!has_new_data(&local_stats[i])){
                 batch_skipped++;
                 continue;
             }
             
-            // Find and validate client
             cloud_client_t *client = find_client_by_id(local_stats[i].id);
             
             if(!client){
@@ -200,9 +190,7 @@ void *cloud_manager_thread(void *arg){
             if(!client->connected){
                 // Try reconnect once before giving up
                 if(try_reconnect_client(client) == 0){
-                    // Wait briefly for connection
                     usleep(100000);
-                    
                     if(!client->connected){
                         log_event("[CLOUD] Sensor %d not connected, reconnect in progress", local_stats[i].id);
                         batch_failed++;
@@ -218,12 +206,12 @@ void *cloud_manager_thread(void *arg){
             
             // Attempt upload
             if(upload_sensor_data(client, &local_stats[i]) == 0){
-                // Update both timestamp AND count
                 pthread_mutex_lock(&stats_mutex);
                 
                 sensor_stat_t *stat = stats_head;
                 while(stat){
                     if(stat->id == local_stats[i].id && stat->type == local_stats[i].type){
+                        // Update both timestamp AND count
                         stat->last_uploaded = now;
                         stat->last_uploaded_count = stat->count; 
                         break;
@@ -242,7 +230,6 @@ void *cloud_manager_thread(void *arg){
             }
         }
         
-        // Cleanup local buffer
         free(local_stats);
         
         // Update statistics
@@ -256,11 +243,9 @@ void *cloud_manager_thread(void *arg){
             log_event("[CLOUD] Cycle %zu: All %zu sensors skipped (no new data or too soon)", upload_cycles, batch_skipped);
         }
 
-        // Wait before next upload cycle
         sleep(UPLOAD_INTERVAL_SEC);
     }
     
-    // Cleanup
     cloud_clients_cleanup();
     
     log_event("[CLOUD] Cloud uploader thread exiting. Total: %zu uploaded, %zu failed", total_uploaded, total_failed);

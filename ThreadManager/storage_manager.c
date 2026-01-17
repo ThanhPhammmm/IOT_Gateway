@@ -3,7 +3,6 @@
 #include "logger.h"
 #include "database.h"
 
-// Helper: connect to database with retries
 static sqlite3* storage_connect_db(int max_attempts){
     sqlite3 *db = NULL;
     
@@ -23,7 +22,6 @@ static sqlite3* storage_connect_db(int max_attempts){
     return NULL;
 }
 
-// Helper: batch insert with automatic reconnect
 static int storage_batch_insert_with_retry(sqlite3 **db, sensor_packet_t *batch, size_t count){
     int rc = db_insert_measures_batch(*db, batch, count);
     
@@ -73,7 +71,6 @@ void *storage_manager_thread(void *arg){
     
     log_event("[STORAGE] Storage manager thread started");
     
-    // Validate configuration
     if(BATCH_SIZE > 1000){
         log_event("[STORAGE] WARNING: BATCH_SIZE=%d exceeds recommended max (1000)", BATCH_SIZE);
     }
@@ -105,20 +102,18 @@ void *storage_manager_thread(void *arg){
     size_t total_failed = 0;
     size_t health_check_counter = 0;
 
-    // Main processing loop
-    while(!stop_flag){
-        // //Flush for the last packet
-        // if(batch_count > 0){
-        //     // flush batch
-        //     if(storage_batch_insert_with_retry(&db, batch, batch_count) == SQLITE_OK){
-        //         total_inserted += batch_count;
-        //     }
-        //     batch_count = 0;
-        // }
+    while(1){
+        int rc = sbuffer_wait_until_data(&sbuffer);
 
+        // Shutdown clean
+        if(rc == 0) break;
+
+        // Timeout -> continue to loop 
+        if(rc == -1) continue;
+
+        // Collect all unprocessed packets into local buffer
         sbuffer_node_t *node;
         while((node = sbuffer_find_for_storage(&sbuffer)) != NULL){
-            // Collect batch
             if(batch_count < BATCH_SIZE){
                 batch[batch_count++] = node->pkt;
                 sbuffer_mark_storage_done(&sbuffer, node);
@@ -129,6 +124,7 @@ void *storage_manager_thread(void *arg){
                 break;
             }
         }
+
         // Flush when batch is full
         if(batch_count > 0){
             if(storage_batch_insert_with_retry(&db, batch, batch_count) == SQLITE_OK){
@@ -156,7 +152,6 @@ void *storage_manager_thread(void *arg){
             }
         }
         else{
-            // No data available, sleep to avoid busy-waiting
             usleep(POLL_DELAY_MS * 1000);
         }
     }
@@ -174,14 +169,13 @@ void *storage_manager_thread(void *arg){
         batch_count = 0;
     }
     
-    // Cleanup
     free(batch);
     
     if(db){
         sqlite3_close(db);
         log_event("[SQL] Database connection closed");
     }
-    
+
     log_event("[STORAGE] Storage manager thread exiting. Stats: %zu inserted, %zu failed", total_inserted, total_failed);
     
     return NULL;

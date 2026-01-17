@@ -22,25 +22,37 @@ void sbuffer_free_all(sbuffer_t *b){
     pthread_cond_destroy(&b->cond);
 }
 
-// Helper: wait until buffer has data or stop_flag is set
-static inline int sbuffer_wait_until_data(sbuffer_t *b) {
+/* Return 
+1: Have data
+0: Shutdown and buffer is empty
+-1: Timeout
+*/
+int sbuffer_wait_until_data(sbuffer_t *b){
     struct timespec ts;
-    // Take the present time
     clock_gettime(CLOCK_REALTIME, &ts);
-    // Set time out for 5s
     ts.tv_sec += 5;
+
+    pthread_mutex_lock(&b->mutex);
 
     while(b->head == NULL && !stop_flag){
         int rc = pthread_cond_timedwait(&b->cond, &b->mutex, &ts);
-        
-        if (rc == ETIMEDOUT) {
+        if(rc == ETIMEDOUT){
             // if waiting time is over, no packet is arrived for 5s
             //printf("Time out for hanging\n");
+            pthread_mutex_unlock(&b->mutex);
             return -1; 
         }
     }
 
-    return stop_flag;
+    // Stop_flag is set and buffer is empty
+    if(stop_flag && b->head == NULL){
+        pthread_mutex_unlock(&b->mutex);
+        return 0;
+    }
+
+    // Data is arrived
+    pthread_mutex_unlock(&b->mutex);
+    return 1;
 }
 
 
@@ -69,22 +81,20 @@ void sbuffer_insert(sbuffer_t *b, sensor_packet_t *pkt){
         b->head = n;
     }
     b->tail = n;
+    
     //Sound out for other threads
     pthread_cond_broadcast(&b->cond);
     pthread_mutex_unlock(&b->mutex);
 }
 
-/* ===========================
- *   Find node functions
- * =========================== */
-
 static sbuffer_node_t *sbuffer_find_generic(sbuffer_t *b, int (*predicate)(sbuffer_node_t *)){
     pthread_mutex_lock(&b->mutex);
-    // Wait until data arrives or stop_flag
-    if(sbuffer_wait_until_data(b)){
-        pthread_mutex_unlock(&b->mutex);
-        return NULL;
-    }
+
+    // // Wait until data arrives or stop_flag
+    // if(sbuffer_wait_until_data(b)){
+    //     pthread_mutex_unlock(&b->mutex);
+    //     return NULL;
+    // }
 
     sbuffer_node_t *result = NULL;
     for(sbuffer_node_t *cur = b->head; cur; cur = cur->next){
@@ -124,14 +134,9 @@ sbuffer_node_t* sbuffer_find_for_storage(sbuffer_t *b){
 //     return sbuffer_find_generic(b, need_cloud);
 // }
 
-/* ===========================
- *   Mark functions
- * =========================== */
-
 static void sbuffer_try_cleanup(sbuffer_t *b, sbuffer_node_t *node){
     if(node->refcount > 0) return;
 
-    // Remove node from linked list
     if(b->head == node){
         b->head = node->next;
         if(b->tail == node){

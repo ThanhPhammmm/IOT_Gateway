@@ -13,7 +13,7 @@ void log_event(const char *fmt, ...){
 
     if(len <= 0) return;
     
-    // Ensure we have space for newline
+    // Ensure having enough space for newline
     if(len >= (int)sizeof(buf) - 1) len = sizeof(buf) - 2;
     buf[len++] = '\n';
 
@@ -76,7 +76,6 @@ void run_logger_process(){
     while((r = read(fd, buf, sizeof(buf) - 1)) > 0){
         buf[r] = '\0';
         
-        // Get timestamp once per read
         time_t now = time(NULL);
         struct tm tm;
         localtime_r(&now, &tm);
@@ -93,7 +92,7 @@ void run_logger_process(){
                 *newline = '\0';
                 //fprintf(logf, "%d %s %s%s\n", seq++, timestr, leftover, start);
 
-                // In run_logger_process(), modify fprintf:
+                // Modify fprintf:
                 pid_t tid = syscall(SYS_gettid);  // Get current thread ID
                 fprintf(logf, "%d %s [TID:%d] %s%s\n", seq++, timestr, tid, leftover, start);
 
@@ -134,7 +133,7 @@ void run_logger_process(){
     }
     
     /* read() exited */
-    if (r == 0){ // FIFO EOF
+    if(r == 0){ // FIFO EOF
         // Flush any remaining leftover when writer closes
         if(leftover_len > 0){
             time_t now = time(NULL);

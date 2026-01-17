@@ -3,7 +3,6 @@
 #include "logger.h"
 #include "client_thread.h"
 
-// Helper: process temperature sensor
 static void process_temperature(int sensor_id, double avg){
     if(avg >= TEMP_HOT){
         log_event("[TEMP] Sensor %d reports it's too hot (avg = %.2f°C)", sensor_id, avg);
@@ -16,7 +15,6 @@ static void process_temperature(int sensor_id, double avg){
     }
 }
 
-// Helper: process humidity sensor
 static void process_humidity(int sensor_id, double avg){
     if(avg >= HUMID_HIGH){
         log_event("[HUMID] Sensor %d reports high humidity (avg = %.2f%%)", sensor_id, avg);
@@ -29,7 +27,6 @@ static void process_humidity(int sensor_id, double avg){
     }
 }
 
-// Helper: process light sensor
 static void process_light(int sensor_id, double avg){
     if(avg >= LIGHT_BRIGHT){
         log_event("[LIGHT] Sensor %d reports bright light (avg = %.2f lux)", sensor_id, avg);
@@ -42,7 +39,6 @@ static void process_light(int sensor_id, double avg){
     }
 }
 
-// // Helper: process single sensor packet
 // static void process_sensor_packet(sensor_packet_t *pkt){
 //     double avg;
     
@@ -81,7 +77,14 @@ void *data_manager_thread(void *arg){
     size_t total_processed = 0;
     size_t local_count = 0;
 
-    while(!stop_flag){
+    while(1){
+        int rc = sbuffer_wait_until_data(&sbuffer);
+
+        // Shutdown clean
+        if(rc == 0) break;
+
+        // Timeout -> continue to loop 
+        if(rc == -1) continue;
         
         // Collect all unprocessed packets into local buffer
         sbuffer_node_t *node;
@@ -90,7 +93,6 @@ void *data_manager_thread(void *arg){
                 local_buf[local_count] = node->pkt;
                 sbuffer_mark_data_done(&sbuffer, node);
 
-                // Prepare batch update
                 stat_updates[local_count].id = node->pkt.id;
                 stat_updates[local_count].type = node->pkt.type;
                 stat_updates[local_count].value = node->pkt.value;
@@ -106,7 +108,7 @@ void *data_manager_thread(void *arg){
         
         // Process all collected packets
         if(local_count > 0){
-            // Single lock for entire batch
+            // Update entire batch
             update_running_avg_batch(stat_updates, local_count, stat_avgs);
             
             // Process with updated averages
@@ -138,7 +140,7 @@ void *data_manager_thread(void *arg){
             usleep(POLL_DELAY_MS * 1000);
         }
     }
-    
+
     log_event("[DATA] Data manager thread exiting. Total processed: %zu measurements", total_processed);
     
     return NULL;

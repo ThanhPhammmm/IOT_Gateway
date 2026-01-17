@@ -33,7 +33,6 @@ int db_init_and_open(sqlite3 **out_db){
         return rc;
     }
     
-    // Optimize for continuous writes
     sqlite3_exec(db, "PRAGMA journal_mode=WAL;", NULL, NULL, NULL);
     sqlite3_exec(db, "PRAGMA synchronous=NORMAL;", NULL, NULL, NULL);
     sqlite3_exec(db, "PRAGMA cache_size=-64000;", NULL, NULL, NULL);

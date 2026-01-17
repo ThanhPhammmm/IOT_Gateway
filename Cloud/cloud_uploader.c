@@ -45,7 +45,6 @@ void cloud_clients_init(void){
     size_t success_count = 0;
     
     for(size_t i = 0; i < NUM_CLIENTS; i++){
-        // Create mosquitto client
         clients[i].mosq = mosquitto_new(NULL, true, &clients[i]);
         if(!clients[i].mosq){
             log_event("[MQTT] Failed to create client for sensor %d", clients[i].id);
@@ -109,7 +108,7 @@ void cloud_clients_cleanup(void){
                 mosquitto_disconnect(clients[i].mosq);
             }
             
-            // Destroy client
+            // Destroy clients
             mosquitto_destroy(clients[i].mosq);
             clients[i].mosq = NULL;
             clients[i].connected = 0;
@@ -125,7 +124,6 @@ void cloud_clients_cleanup(void){
         clients[i].connected = 0;
     }
     
-    // Cleanup library
     mosquitto_lib_cleanup();
     
     log_event("[MQTT] Cloud clients cleanup complete");

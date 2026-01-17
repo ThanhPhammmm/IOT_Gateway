@@ -48,7 +48,6 @@ void *connection_manager_thread(void *arg){
     
     size_t total_connections = 0;
     
-    // Main accept loop
     while(!stop_flag){
         fd_set read_fds;
         FD_ZERO(&read_fds);
@@ -94,8 +93,9 @@ void *connection_manager_thread(void *arg){
             // Send rejection message
             const char *reject_msg = "ERROR: Server full\n";
             write(client_fd, reject_msg, strlen(reject_msg));
-            
             close(client_fd);
+            free(client_info);
+            
             continue;  // Skip to next accept
         }
 
@@ -124,7 +124,6 @@ void *connection_manager_thread(void *arg){
         log_event("[CONNECTION] New client connected from %s:%d (total: %zu)", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port),total_connections);
     }
     
-    // Cleanup
     close(server_fd);
     
     log_event("[CONNECTION] Connection manager thread exiting. Total connections: %zu", total_connections);

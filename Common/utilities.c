@@ -4,7 +4,6 @@ void sigint_handler(int sig){
     (void)sig;
     stop_flag = 1;
 
-    // Broadcast many times
     for(int i = 0; i < 5; i++){
         pthread_cond_broadcast(&sbuffer.cond);
         usleep(10000);
@@ -17,7 +16,6 @@ void sigint_handler(int sig){
         close(fd);
     }
 
-    // Use write() instead of fprintf in signal handler (async-signal-safe)
     static const char shutdown_msg[] = "\n[MAIN] SIGINT received — shutting down gracefully...\n";
     write(STDERR_FILENO, shutdown_msg, sizeof(shutdown_msg) - 1);
 }
@@ -26,6 +24,7 @@ void ensure_fifo_exists(void){
     struct stat st;
 
     if(stat(fifo_path, &st) == 0){
+        
         // File exists - check if it's a FIFO
         if(!S_ISFIFO(st.st_mode)){
             static const char warn[] = "Warning: FIFO path exists but is not a FIFO\n";
