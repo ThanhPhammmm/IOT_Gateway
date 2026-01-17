@@ -108,7 +108,6 @@ static sbuffer_node_t *sbuffer_find_generic(sbuffer_t *b, int (*predicate)(sbuff
     return result;
 }
 
-// Predicate functions
 static int need_data(sbuffer_node_t *n){
     return !n->processed_by_data;
 }
