@@ -29,9 +29,7 @@ void sbuffer_free_all(sbuffer_t *b){
 */
 int sbuffer_wait_until_data(sbuffer_t *b){
     struct timespec ts;
-    // Take the present time
     clock_gettime(CLOCK_REALTIME, &ts);
-    // Set time out for 5s
     ts.tv_sec += 5;
 
     pthread_mutex_lock(&b->mutex);
@@ -46,7 +44,7 @@ int sbuffer_wait_until_data(sbuffer_t *b){
         }
     }
 
-    // stop_flag is set and buffer is empty
+    // Stop_flag is set and buffer is empty
     if(stop_flag && b->head == NULL){
         pthread_mutex_unlock(&b->mutex);
         return 0;
@@ -83,14 +81,11 @@ void sbuffer_insert(sbuffer_t *b, sensor_packet_t *pkt){
         b->head = n;
     }
     b->tail = n;
+    
     //Sound out for other threads
     pthread_cond_broadcast(&b->cond);
     pthread_mutex_unlock(&b->mutex);
 }
-
-/* ===========================
- *   Find node functions
- * =========================== */
 
 static sbuffer_node_t *sbuffer_find_generic(sbuffer_t *b, int (*predicate)(sbuffer_node_t *)){
     pthread_mutex_lock(&b->mutex);
@@ -139,14 +134,9 @@ sbuffer_node_t* sbuffer_find_for_storage(sbuffer_t *b){
 //     return sbuffer_find_generic(b, need_cloud);
 // }
 
-/* ===========================
- *   Mark functions
- * =========================== */
-
 static void sbuffer_try_cleanup(sbuffer_t *b, sbuffer_node_t *node){
     if(node->refcount > 0) return;
 
-    // Remove node from linked list
     if(b->head == node){
         b->head = node->next;
         if(b->tail == node){

@@ -7,7 +7,6 @@
 #include <limits.h>
 #include <errno.h>
 
-// Helper function: validate integer input
 static int parse_int(const char *str, int min, int max, const char *name){
     char *endptr;
     errno = 0;
@@ -46,33 +45,27 @@ int main(int argc, char **argv){
     
     const char *srv = argv[1];
     
-    // Validate port
     int port = parse_int(argv[2], 1, 65535, "port");
     if(port < 0) return 1;
     
-    // Validate sensor ID
     int id = parse_int(argv[3], 1, 255, "sensor_id");
     if(id < 0) return 1;
     
-    // Validate sensor type
     int type = parse_int(argv[4], 1, 3, "sensor_type");
     if(type < 0) return 1;
     
-    // Validate optional interval
     int interval = 2000;
     if(argc > 5){
         interval = parse_int(argv[5], 100, 60000, "interval_ms");
         if(interval < 0) return 1;
     }
     
-    // Validate optional count
     int count = 20;
     if(argc > 6){
         count = parse_int(argv[6], 1, 10000, "count");
         if(count < 0) return 1;
     }
     
-    // Validate IP address format
     struct in_addr addr;
     if(inet_pton(AF_INET, srv, &addr) != 1){
         fprintf(stderr, "Error: Invalid IP address format: %s\n", srv);
@@ -96,7 +89,7 @@ int main(int argc, char **argv){
     struct sockaddr_in serv;
     serv.sin_family = AF_INET;
     serv.sin_port = htons(port);
-    serv.sin_addr = addr;  // Use validated address
+    serv.sin_addr = addr;
     
     if(connect(sock, (struct sockaddr*)&serv, sizeof(serv)) < 0){
         perror("connect");
@@ -111,7 +104,6 @@ int main(int argc, char **argv){
     for(int i = 0; i < count; i++){
         double val = 0.0;
         
-        // Generate realistic sensor values
         if(type == 1) {
             // Temperature: 15-35°C
             val = 15.0 + (rand() % 2000) / 100.0;

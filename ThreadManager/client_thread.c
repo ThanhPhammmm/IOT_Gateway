@@ -23,19 +23,17 @@ void *client_thread_func(void *arg){
     size_t buffer_len = 0;
     size_t packets_received = 0;
     
-    // Main read loop
     while(!stop_flag){
         char recv_buf[RECV_BUFFER_SIZE];
         ssize_t bytes_read = read(client_fd, recv_buf, sizeof(recv_buf) - 1);
 
         if(bytes_read < 0){
-            // Error happens
             if(errno == EAGAIN || errno == EWOULDBLOCK){
                 // Timeout for 5s, client connected to server but does not send any data    
                 log_event("[CLIENT] Connection timeout for %s:%d", client_ip, client_port);
             } 
             else{
-                // (Network error, etc)
+                // Network error, etc
                 log_event("[CLIENT] Read error for %s:%d: %s", client_ip, client_port, strerror(errno));
             }
             break;
@@ -233,7 +231,6 @@ void update_running_avg_batch(stat_update_t *updates, size_t count, double *out_
     pthread_mutex_lock(&stats_mutex);
     
     for(size_t i = 0; i < count; i++){
-        // Find existing stat entry
         sensor_stat_t *stat = stats_head;
         while(stat){
             if(stat->id == updates[i].id && stat->type == updates[i].type){

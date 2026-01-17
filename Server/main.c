@@ -45,7 +45,7 @@ int main(int argc, char **argv){
     }
     else{
         // Parent: main process
-        usleep(50000); // Wait 50ms for logger to initialize
+        usleep(50000);
         
         sbuffer_init(&sbuffer);
         log_event("[MAIN] Gateway system started on port %d", port);
