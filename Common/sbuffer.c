@@ -121,7 +121,6 @@ static int need_storage(sbuffer_node_t *n){
 //     return n->processed_by_data && n->processed_by_storage && !n->processed_by_cloud;
 // }
 
-// Wrappers
 sbuffer_node_t* sbuffer_find_for_data(sbuffer_t *b){
     return sbuffer_find_generic(b, need_data);
 }
