@@ -35,13 +35,7 @@ int sbuffer_wait_until_data(sbuffer_t *b){
     pthread_mutex_lock(&b->mutex);
 
     while(b->head == NULL && !stop_flag){
-        int rc = pthread_cond_timedwait(&b->cond, &b->mutex, &ts);
-        if(rc == ETIMEDOUT){
-            // if waiting time is over, no packet is arrived for 5s
-            //printf("Time out for hanging\n");
-            pthread_mutex_unlock(&b->mutex);
-            return -1; 
-        }
+        pthread_cond_wait(&b->cond, &b->mutex);
     }
 
     // Stop_flag is set and buffer is empty

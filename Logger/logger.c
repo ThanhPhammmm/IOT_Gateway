@@ -7,8 +7,11 @@ void log_event(const char *fmt, ...){
     char buf[1024];
     va_list ap;
 
+    pid_t tid = syscall(SYS_gettid);
+    int len = snprintf(buf, sizeof(buf) - 1, "[TID:%d] ", tid);
+
     va_start(ap, fmt);
-    int len = vsnprintf(buf, sizeof(buf) - 1, fmt, ap);
+    len += vsnprintf(buf + len, sizeof(buf) - 1 - len, fmt, ap);
     va_end(ap);
 
     if(len <= 0) return;
@@ -21,7 +24,7 @@ void log_event(const char *fmt, ...){
 
     // Lazy open FIFO
     if(log_fd == -1){
-        log_fd = open(fifo_path, O_WRONLY);
+        log_fd = open(fifo_path, O_WRONLY | O_NONBLOCK);
         if(log_fd == -1){
             pthread_mutex_unlock(&log_mutex);
             write(STDERR_FILENO, "log fallback: ", 14);
@@ -90,11 +93,11 @@ void run_logger_process(){
             char *newline = memchr(start, '\n', end - start);
             if(newline){
                 *newline = '\0';
-                //fprintf(logf, "%d %s %s%s\n", seq++, timestr, leftover, start);
+                fprintf(logf, "%d %s %s%s\n", seq++, timestr, leftover, start);
 
                 // Modify fprintf:
-                pid_t tid = syscall(SYS_gettid);  // Get current thread ID
-                fprintf(logf, "%d %s [TID:%d] %s%s\n", seq++, timestr, tid, leftover, start);
+                // pid_t tid = syscall(SYS_gettid);  // Get current thread ID
+                // fprintf(logf, "%d %s [TID:%d] %s%s\n", seq++, timestr, tid, leftover, start);
 
                 start = newline + 1;
                 leftover_len = 0;
