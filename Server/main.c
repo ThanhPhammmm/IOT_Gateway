@@ -165,7 +165,7 @@ int main(int argc, char **argv){
         printf("[MAIN] Gateway shutdowns completely\n");
         log_event("[MAIN] Gateway shutdowns completely");
 
-        // Close FIFO writer → EOF
+        // Close FIFO writer -> EOF
         close_logger_process();
 
         // Wait logger exit naturally
