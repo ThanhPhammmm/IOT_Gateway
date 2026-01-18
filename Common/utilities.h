@@ -10,5 +10,6 @@ extern volatile sig_atomic_t stop_flag;
 
 void sigint_handler(int sig);
 void ensure_fifo_exists(void);
+void wakeup_threads(void);
 
 #endif

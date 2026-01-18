@@ -77,6 +77,12 @@ int main(int argc, char **argv){
             printf("ERROR\n");
         }
 
+        while(!stop_flag){
+            sleep(1);  // Check periodically
+        }
+        printf("[MAIN] Waking up threads for shutdown...\n");
+        wakeup_threads();
+        
         temp = pthread_join(connection_thread, NULL);
         if(temp != 0){
             perror("pthread_join error");
