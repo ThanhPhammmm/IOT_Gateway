@@ -109,7 +109,7 @@ void *storage_manager_thread(void *arg){
         if(rc == 0) break;
 
         // Timeout -> continue to loop 
-        //if(rc == -1) continue;
+        if(rc == -1) continue;
 
         // Collect all unprocessed packets into local buffer
         sbuffer_node_t *node;

@@ -10,14 +10,21 @@ void log_event(const char *fmt, ...){
     pid_t tid = syscall(SYS_gettid);
     int len = snprintf(buf, sizeof(buf) - 1, "[TID:%d] ", tid);
 
+    if(len < 0 || len >= (int)sizeof(buf)){
+        len = 0;  // Overflow, abort
+        return;
+    }
+
+    size_t remaining = sizeof(buf) - len - 1;
+
     va_start(ap, fmt);
-    len += vsnprintf(buf + len, sizeof(buf) - 1 - len, fmt, ap);
+    int msg_len = vsnprintf(buf + len, remaining, fmt, ap);
     va_end(ap);
 
-    if(len <= 0) return;
-    
+    if(msg_len < 0) return;
+
     // Ensure having enough space for newline
-    if(len >= (int)sizeof(buf) - 1) len = sizeof(buf) - 2;
+    len += (msg_len < (int)remaining) ? msg_len : (int)remaining - 1;
     buf[len++] = '\n';
 
     pthread_mutex_lock(&log_mutex);
